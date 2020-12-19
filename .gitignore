@@ -24,3 +24,7 @@ yarn-error.log*
 
 # Intellij
 /.idea
+
+# ESLINT
+.eslintcache
+
