@@ -1,7 +1,7 @@
 import React from 'react';
 import './App.scss';
 import NavBar from './components/NavBar';
-import {Button as ButtonBootStrap} from 'react-bootstrap';
+import {Button, Form} from 'react-bootstrap';
 import {Canvas} from "react-three-fiber";
 import Box from "./components/Box";
 
@@ -10,22 +10,26 @@ function App() {
         <div className="App">
             <NavBar/>
             <br/>
+            <Form style={{width: '300px', margin: 'auto'}}>
+                <Form.Group controlId="formBasicEmail">
+                    <Form.Label>Email address</Form.Label>
+                    <Form.Control type="email" placeholder="Enter email" />
+                    <Form.Text className="text-muted">
+                        We'll never share your email with anyone else.
+                    </Form.Text>
+                </Form.Group>
 
-            <div className="custom-control custom-switch">
-                <input type="checkbox" className="custom-control-input" id="customSwitch1"/>
-                <label className="custom-control-label" htmlFor="customSwitch1">Toggle this switch element</label>
-            </div>
-
-            <div className="custom-control custom-checkbox">
-                <input type="checkbox" className="custom-control-input" id="customCheck1"/>
-                <label className="custom-control-label" htmlFor="customCheck1">Check this custom checkbox</label>
-            </div>
-
-            <ButtonBootStrap>btn2</ButtonBootStrap>
-            <div className="form-outline">
-                <input type="text" id="form1" className="form-control"/>
-                <label className="form-label" htmlFor="form1">Example label</label>
-            </div>
+                <Form.Group controlId="formBasicPassword">
+                    <Form.Label>Password</Form.Label>
+                    <Form.Control type="password" placeholder="Password" />
+                </Form.Group>
+                <Form.Group controlId="formBasicCheckbox">
+                    <Form.Switch type="checkbox" label="Check me out" />
+                </Form.Group>
+                <Button variant="primary" type="submit">
+                    Submit
+                </Button>
+            </Form>
 
             <header className="App-header">
                 <Canvas>

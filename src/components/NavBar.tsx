@@ -1,4 +1,5 @@
 import React, {Component} from 'react';
+import { Navbar } from 'react-bootstrap';
 
 interface PropsType {
 
@@ -24,9 +25,14 @@ class NavBar extends Component<PropsType, State> {
     }
 
     render() {
-        return <div>
-            NavBar {this.state.time.toLocaleTimeString()}
-        </div>;
+        return <Navbar bg="primary" variant="light" sticky="top">
+            <Navbar.Brand>
+                NavBar
+            </Navbar.Brand>
+            <Navbar.Text>
+                {this.state.time.toLocaleTimeString()}
+            </Navbar.Text>
+        </Navbar>;
     }
 }
 
