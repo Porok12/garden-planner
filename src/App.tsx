@@ -2,6 +2,8 @@ import React from 'react';
 import './App.scss';
 import NavBar from './components/NavBar';
 import {Button as ButtonBootStrap} from 'react-bootstrap';
+import {Canvas} from "react-three-fiber";
+import Box from "./components/Box";
 
 function App() {
     return (
@@ -26,7 +28,12 @@ function App() {
             </div>
 
             <header className="App-header">
-                App header
+                <Canvas>
+                    <ambientLight />
+                    <pointLight position={[10, 10, 10]} />
+                    <Box position={[-1.2, 0, 0]} />
+                    <Box position={[1.2, 0, 0]} />
+                </Canvas>
             </header>
         </div>
     );
