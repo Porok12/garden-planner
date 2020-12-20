@@ -2,23 +2,18 @@ import React, {Component} from 'react';
 import {Button, Form} from "react-bootstrap";
 import {Canvas} from "react-three-fiber";
 import Box from "./Box";
+import { request, gql } from 'graphql-request';
 
 class HomePage extends Component<any, any> {
     graphql() {
-        const query = `query { users { username } }`;
-
-        fetch('/graphql', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-                'Accept': 'application/json',
-            },
-            body: JSON.stringify({
-                query
-            })
-        })
-            .then(r => r.json())
-            .then(data => console.log('data returned:', data));
+        const query2 = gql`
+            {
+                users {
+                    username
+                }
+            }
+        `;
+        request('/graphql', query2).then((data2) => console.log(data2));
     }
 
     render() {

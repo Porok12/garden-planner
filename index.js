@@ -3,12 +3,14 @@ const express = require('express');
 const morgan = require('morgan');
 const winston = require('winston');
 const split = require('split');
+const cors = require('cors');
 
 const logger = winston.createLogger(require('./src/config/winston.config')(winston));
 logger.info('test info');
 logger.debug('test debug');
 
 const app = express();
+app.use(cors());
 
 const winstonStream = split().on('data', function (line) {
     logger.http(line);
