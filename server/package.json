@@ -6,7 +6,7 @@
   "scripts": {
     "client": "cd .. && npm start",
     "server": "nodemon server.js",
-    "dev": "concurrently --kill-others-on-fail \"npm server\" \"npm client\""
+    "dev": "concurrently --kill-others-on-fail \"npm run server\" \"npm run client\""
   },
   "author": "Przemyslaw Papla",
   "license": "ISC",
@@ -15,6 +15,8 @@
     "body-parser": "^1.19.0",
     "cors": "^2.8.5",
     "express": "^4.17.1",
+    "express-graphql": "^0.12.0",
+    "graphql": "^15.4.0",
     "joi": "^17.3.0",
     "jsonwebtoken": "^8.5.1",
     "morgan": "^1.10.0",

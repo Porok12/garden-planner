@@ -4,6 +4,23 @@ import {Canvas} from "react-three-fiber";
 import Box from "./Box";
 
 class HomePage extends Component<any, any> {
+    graphql() {
+        const query = `query { users { username } }`;
+
+        fetch('/graphql', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Accept': 'application/json',
+            },
+            body: JSON.stringify({
+                query
+            })
+        })
+            .then(r => r.json())
+            .then(data => console.log('data returned:', data));
+    }
+
     render() {
         return <>
             <br/>
@@ -27,6 +44,8 @@ class HomePage extends Component<any, any> {
                     Submit
                 </Button>
             </Form>
+
+            <Button onClick={this.graphql}>GraphQL</Button>
 
             <header className="App-header">
                 <Canvas>

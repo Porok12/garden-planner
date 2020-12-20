@@ -10,12 +10,6 @@ logger.debug('test debug');
 
 const app = express();
 
-const stream = {
-    write: (text) => {
-        logger.http(text)
-    }
-}
-
 const winstonStream = split().on('data', function (line) {
     logger.http(line);
 });
@@ -34,9 +28,10 @@ app.get('/', (req, res) => {
 });
 
 // routes
-require('./src/routes/auth')(app);
+require('./src/routes/auth.routes')(app);
+require('./src/routes/graphql.routes')(app);
 
-const PORT = 8000;
+const PORT = process.env.PORT || 8081;
 app.listen(PORT, () => {
     console.log(`[server]: Server is running at https://localhost:${PORT}`);
 });
