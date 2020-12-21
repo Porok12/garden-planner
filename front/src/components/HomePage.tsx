@@ -2,8 +2,20 @@ import React, {Component} from 'react';
 import {Button, Form} from "react-bootstrap";
 import {Canvas} from "react-three-fiber";
 import Box from "./Box";
+import { request, gql } from 'graphql-request';
 
 class HomePage extends Component<any, any> {
+    graphql() {
+        const query2 = gql`
+            {
+                users {
+                    username
+                }
+            }
+        `;
+        request('/graphql', query2).then((data2) => console.log(data2));
+    }
+
     render() {
         return <>
             <br/>
@@ -27,6 +39,8 @@ class HomePage extends Component<any, any> {
                     Submit
                 </Button>
             </Form>
+
+            <Button onClick={this.graphql}>GraphQL</Button>
 
             <header className="App-header">
                 <Canvas>
