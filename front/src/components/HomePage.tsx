@@ -3,6 +3,8 @@ import {Button, Container} from "react-bootstrap";
 import {Canvas} from "react-three-fiber";
 import Box from "./Box";
 import { request, gql } from 'graphql-request';
+import Camera from "./Camera";
+import CameraControls from "./CameraControls";
 
 class HomePage extends Component<any, any> {
     graphql() {
@@ -23,6 +25,8 @@ class HomePage extends Component<any, any> {
                 <Button onClick={this.graphql}>GraphQL</Button>
 
                 <Canvas id="canvas">
+                    <Camera position={[0, 0, 3]}/>
+                    <CameraControls />
                     <ambientLight />
                     <pointLight position={[10, 10, 10]} />
                     <Box position={[-1.2, 0, 0]} />
