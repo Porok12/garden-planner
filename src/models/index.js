@@ -63,7 +63,7 @@ db.initial = function () {
             id: 1,
             username: 'agata',
             email: 'aga@best.pl',
-            password: '123'
+            password: 'A665A45920422F9D417E4867EFDC4FB8A04A1F3FFF1FA07E998E86F7F7A27AE3'.toLowerCase()
         }).then(user => {
             user.addRole(1);
         });

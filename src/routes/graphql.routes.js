@@ -1,5 +1,20 @@
+const { authJwt } = require("../middleware");
 const graphql = require('../controllers/grapql');
 
 module.exports = function (app) {
-    app.use('/graphql', graphql.controller);
+    // app.use(function(req, res, next) {
+    //     res.header(
+    //         "Access-Control-Allow-Headers",
+    //         "x-access-token, Origin, Content-Type, Accept"
+    //     );
+    //     next();
+    // });
+
+    app.post(
+        '/graphql',
+        [
+            authJwt.readToken
+        ],
+        graphql.controller
+    );
 }

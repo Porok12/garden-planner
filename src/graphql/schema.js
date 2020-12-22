@@ -16,6 +16,13 @@ const schema = new GraphQLSchema({
         fields: () => ({
             users: {
                 type: GraphQLNonNull(GraphQLList(GraphQLNonNull(UserType))),
+                // resolve: (root, args, context, info) => {
+                //     // console.log(parentValue, args, request);
+                //     console.log(context.user.roles);
+                //     return new Promise((resolve, reject) => {
+                //         resolve([{username: "Agatka"}]);
+                //     });
+                // }
             },
             user: {
                 args: {
