@@ -86,7 +86,7 @@ db.initial = function () {
         });
 
         db.plant.create({
-            commonName: 'swiss Pine',
+            commonName: 'swiss pine',
             binomialName: 'pinus cembra',
             kingdom: 'plantae',
             family: 'pinaceae',
