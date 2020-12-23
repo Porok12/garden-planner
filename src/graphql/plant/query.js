@@ -1,7 +1,7 @@
 const graphql = require('graphql');
 const { GraphQLObjectType, GraphQLString, GraphQLList, GraphQLNonNull, GraphQLID, GraphQLInputObjectType, coerceInputValue } = graphql;
-const { PlantInput, PlantType } = require('./type');
-const { PaginationInput, PaginationWrapper } = require('../type');
+const { PlantInput, PlantType, PaginationUnion } = require('./type');
+const { PaginationInput, PaginationWrapper, PaginationType } = require('../type');
 
 module.exports = {
     plants: {
@@ -14,8 +14,8 @@ module.exports = {
                 defaultValue: coerceInputValue({}, PaginationInput)
             }
         },
-        type: GraphQLNonNull(GraphQLList(GraphQLNonNull(PlantType))),
-        // type: GraphQLNonNull(PaginationWrapper),
+        // type: GraphQLNonNull(GraphQLList(GraphQLNonNull(PlantType))),
+        type: GraphQLNonNull(GraphQLList(GraphQLNonNull(PaginationUnion))),
     },
     plant: {
         args: {

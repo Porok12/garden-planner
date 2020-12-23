@@ -3,7 +3,7 @@ const { GraphQLObjectType, GraphQLString, GraphQLInt, GraphQLNonNull, GraphQLID,
 const { PaginationInterface, PaginationType } = require('../type');
 
 const PlantType = new GraphQLObjectType({
-    name: 'Plant',
+    name: 'PlantType',
     fields: {
         id: { type: GraphQLID },
         commonName: { type: GraphQLString },
@@ -41,13 +41,12 @@ const PlantInputMutation = new GraphQLInputObjectType({
 });
 
 const PaginationUnion = new GraphQLUnionType({
-    name: 'Pet',
+    name: 'PlantPaginationUnion',
     types: [ PlantType, PaginationType ],
     resolveType(value) {
         if (value.hasOwnProperty('total')) {
             return PaginationType;
         }
-        
         return PlantType;
     }
 });
@@ -55,5 +54,6 @@ const PaginationUnion = new GraphQLUnionType({
 module.exports = {
     PlantType,
     PlantInput,
-    PlantInputMutation
+    PlantInputMutation,
+    PaginationUnion
 }

@@ -1,6 +1,6 @@
 const graphql = require('graphql');
 const { GraphQLObjectType, GraphQLString, GraphQLList, GraphQLNonNull, GraphQLID, coerceInputValue } = graphql;
-const { UserType, UserInput } = require('./type');
+const { UserType, UserInput, PaginationUnion } = require('./type');
 const { PaginationInput } = require('../type');
 
 module.exports = {
@@ -14,7 +14,8 @@ module.exports = {
                 defaultValue: coerceInputValue({}, PaginationInput)
             }
         },
-        type: GraphQLNonNull(GraphQLList(GraphQLNonNull(UserType))),
+        // type: GraphQLNonNull(GraphQLList(GraphQLNonNull(UserType))),
+        type: GraphQLNonNull(GraphQLList(GraphQLNonNull(PaginationUnion))),
     },
     user: {
         args: {

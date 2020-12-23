@@ -8,14 +8,13 @@ module.exports = {
             where: { ...args.input },
             offset: (page - 1) * slice,
             limit: slice
+        }).then(plants => {
+            return Plant.count({ where: { ...args.input } })
+                .then(count => {
+                    plants.push({total: count});
+                    return plants;
+            });
         });
-        // .then(plants => {
-        //     return Plant.count({ where: { ...args.input } })
-        //         .then(count => {
-        //             console.log(Object.assign(plants, {total: count}));
-        //             return Object.assign(plants.get({plain: true}), {total: count});
-        //     });
-        // });
     },
     plant: (args) => {
         return Plant.findOne({where: { ...args.input }});
