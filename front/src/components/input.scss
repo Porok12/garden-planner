@@ -1,0 +1,163 @@
+$primary: #ce6222;
+$secondary: #c34d0d;
+$white: #ffffff;
+$gray: #9b9b9b;
+$black: #000000;
+
+.form-control {
+  border-radius: 0;
+
+  &:focus {
+    box-shadow: none;
+  }
+}
+
+.form-group {
+  position: relative;
+  padding: 15px 0 0;
+  //margin-top: 10px;
+}
+
+.form-control {
+  font-family: inherit;
+  width: 100%;
+  border: 0;
+  border-bottom: 2px solid $gray;
+  outline: 0;
+  font-size: 1.3rem;
+  color: $black;
+  padding: 7px 0;
+  background: transparent;
+  transition: border-color 0.2s;
+
+  &::placeholder {
+    color: transparent;
+  }
+
+  &:placeholder-shown ~ .form-label {
+    font-size: 1.3rem;
+    cursor: text;
+    top: 20px;
+  }
+}
+
+.form-label {
+  position: absolute;
+  top: 0;
+  display: block;
+  transition: 0.2s;
+  font-size: 1rem;
+  color: $gray;
+}
+
+.form-control:focus {
+  ~ .form-label {
+    position: absolute;
+    top: 0;
+    display: block;
+    transition: 0.2s;
+    font-size: 1rem;
+    color: $primary;
+    font-weight: 700;
+  }
+
+  padding-bottom: 6px;
+  font-weight: 700;
+  border-width: 3px;
+  border-image: linear-gradient(to right, $primary, $secondary);
+  border-image-slice: 1;
+}
+
+/* reset input */
+.form-control {
+  &:required, &:invalid {
+    box-shadow: none;
+  }
+}
+
+input:-webkit-autofill,
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus,
+input:-webkit-autofill:active {
+  -webkit-box-shadow: 0 0 0px 1000px white inset !important;
+}
+
+input {
+  filter: none;
+}
+
+:-moz-autofill, :-moz-autofill-preview {
+  filter: grayscale(21%) brightness(88%) contrast(161%) invert(10%) sepia(40%) saturate(206%);
+}
+
+.btn {
+  border-radius: 0;
+  text-transform: uppercase;
+  border-width: 2px;
+}
+
+.form {
+  box-shadow: 0 0 14px #ddd;
+  padding: 30px 50px;
+  margin: 10px;
+
+  .btn {
+    margin-top: 32px;
+  }
+}
+
+.custom-control {
+  text-align: left;
+}
+
+.btn:focus, .btn:active {
+  outline: none !important;
+  box-shadow: none
+}
+
+.custom-switch {
+  .custom-control-label {
+    &::before {
+      border-radius: 0.5em !important;
+    }
+
+    &::after {
+      border-radius: 0.5em !important;
+    }
+  }
+}
+
+//.custom-control-input {
+//  outline: none !important;
+//  box-shadow: none !important;;
+//
+//  background-color: black;
+//  border-radius: 0;
+//
+//  &::after, &::before {
+//    outline: none !important;
+//    box-shadow: none !important;;
+//  }
+//}
+
+.custom-control-input {
+  &:checked ~ .custom-control-label::before {
+    box-shadow: none !important;
+  }
+
+  &:focus ~ .custom-control-label::before {
+    box-shadow: none !important;
+  }
+}
+
+/* Chrome, Safari, Edge, Opera */
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* Firefox */
+input[type=number] {
+  -moz-appearance: textfield;
+}

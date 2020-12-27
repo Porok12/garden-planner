@@ -1,0 +1,99 @@
+$primary: rgb(231, 91, 15);
+
+.form-group {
+  .form-check {
+    padding-left: 20px;
+
+    .form-check-input {
+      opacity: 0;
+      z-index: 1;
+
+      &:hover {
+        cursor: pointer;
+      }
+
+      &:focus + .form-check-label::before {
+        //outline: thin dotted;
+        //outline: 5px auto -webkit-focus-ring-color;
+        //outline-offset: -2px;
+        outline: none;
+      }
+
+      //+ .form-check-label::after {
+      //  font-family: "FontAwesome";
+      //  content: "\f00d";
+      //}
+      //
+      //+ .form-check-label::before {
+      //  transition: background-color 0.15s ease-out;
+      //  background-color: #ecdede;
+      //}
+
+      &:checked + .form-check-label::after {
+        font-family: "FontAwesome";
+        content: "\f00c";
+      }
+
+      &:disabled + .form-check-label {
+        opacity: 0.65;
+      }
+
+      &:disabled + .form-check-label::before {
+        background-color: #eeeeee;
+        cursor: not-allowed;
+      }
+    }
+
+    .form-check-label {
+      display: inline-block;
+      vertical-align: middle;
+      position: relative;
+      padding-left: 5px;
+      //margin-top: -1px;
+      //cursor: pointer;
+
+      &::before {
+        content: "";
+        display: inline-block;
+        position: absolute;
+        width: 17px;
+        height: 17px;
+        left: 0;
+        margin-left: -20px;
+        margin-top: 1px;
+        border: 1px solid #cccccc;
+        border-radius: 3px;
+        background-color: #fff;
+        -webkit-transition: border 0.15s ease-in-out, color 0.15s ease-in-out;
+        -o-transition: border 0.15s ease-in-out, color 0.15s ease-in-out;
+        transition: border 0.15s ease-in-out, color 0.15s ease-in-out;
+      }
+
+      &::after {
+        display: inline-block;
+        position: absolute;
+        width: 16px;
+        height: 16px;
+        left: 0;
+        top: 0;
+        margin-left: -20px;
+        padding-left: 3px;
+        padding-top: 1px;
+        font-size: 11px;
+        color: #555555;
+      }
+    }
+
+    &.primary {
+      .form-check-input:checked + .form-check-label::before {
+        transition: background-color 0.15s ease-out;
+        background-color: $primary;
+        border-color: $primary;
+      }
+      .form-check-input:checked + .form-check-label::after {
+        color: #fff;
+      }
+    }
+  }
+}
+
