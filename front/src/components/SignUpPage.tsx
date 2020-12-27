@@ -34,35 +34,38 @@ class SignUpPage extends Component {
         const submit = this.submit.bind(this);
 
         return <>
-            <Form style={{width: '400px', margin: 'auto'}} onSubmit={submit}>
-                <Form.Group controlId="formBasicEmail">
-                    <Form.Label>Login</Form.Label>
-                    <Form.Control type="text" placeholder="Enter login" name="login" value={login} onChange={change} />
+            <Form className="form" style={{width: '450px', margin: 'auto'}} onSubmit={submit}>
+                <Form.Group controlId="formLogin">
+                    <Form.Control type="text" placeholder="" name="login" value={login} onChange={change} />
+                    <Form.Label className="form-label">Login</Form.Label>
                 </Form.Group>
-                <Form.Group controlId="formBasicEmail">
-                    <Form.Label>Email address</Form.Label>
-                    <Form.Control type="email" placeholder="Enter email" name="email" value={email} onChange={change} />
+                <Form.Group controlId="formEmail">
+                    <Form.Control type="email" placeholder="" name="email" value={email} onChange={change} />
+                    <Form.Label className="form-label">Email address</Form.Label>
                     <Form.Text className="text-muted">
                         We'll never share your email with anyone else.
                     </Form.Text>
                 </Form.Group>
 
                 <Form.Row>
-                    <Form.Group as={Col} controlId="formBasicPassword">
-                        <Form.Label>Password</Form.Label>
-                        <Form.Control type="password" placeholder="Password" name="password" value={password} onChange={change} />
+                    <Form.Group as={Col} controlId="formPassword">
+                        <Form.Control type="password" placeholder="" name="password" value={password} onChange={change} />
+                        <Form.Label className="form-label">Password</Form.Label>
                     </Form.Group>
-                    <Form.Group as={Col} controlId="formBasicPassword">
-                        <Form.Label>Password</Form.Label>
-                        <Form.Control type="password" placeholder="Password" name="repeated" value={repeated} onChange={change} />
+                    <Form.Group as={Col} controlId="formRepeatPassword">
+                        <Form.Control type="password" placeholder="" name="repeated" value={repeated} onChange={change} />
+                        <Form.Label className="form-label">Repeat password</Form.Label>
                     </Form.Group>
                 </Form.Row>
 
-                <Form.Group controlId="formBasicCheckbox">
-                    <Form.Switch type="checkbox" label="Check me out" />
+                {/*<Form.Group controlId="formBasicCheckbox">*/}
+                {/*    <Form.Switch type="checkbox" label="I agree to the terms of service" />*/}
+                {/*</Form.Group>*/}
+                <Form.Group controlId="formCheckbox" className="text-left">
+                    <Form.Check type="checkbox" label="I agree to the terms of service" className="primary" />
                 </Form.Group>
 
-                <Button variant="primary" type="submit" block>
+                <Button variant="outline-primary" type="submit" block>
                     Submit
                 </Button>
             </Form>
