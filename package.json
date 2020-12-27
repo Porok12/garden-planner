@@ -16,6 +16,7 @@
     "crypto-js": "^4.0.0",
     "express": "^4.17.1",
     "express-graphql": "^0.12.0",
+    "font-awesome": "^4.7.0",
     "graphql": "^15.4.0",
     "http-status-codes": "^2.1.4",
     "joi": "^17.3.0",
