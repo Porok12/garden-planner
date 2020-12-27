@@ -1,6 +1,6 @@
 const { graphqlHTTP } = require('express-graphql');
 const graphqlSchema = require('../graphql/schema');
-const graphqlResolver = require('../graphql/resolves');
+const graphqlResolver = require('../graphql/resolvers');
 
 module.exports.controller = graphqlHTTP({
     schema: graphqlSchema,
@@ -8,8 +8,8 @@ module.exports.controller = graphqlHTTP({
     graphiql: true, //process.env.NODE_ENV === 'development'
     customFormatErrorFn: (error) => ({
         message: error.message,
-        locations: error.locations,
-        stack: error.stack ? error.stack.split('\n') : [],
-        path: error.path,
+        // locations: error.locations,
+        // stack: error.stack ? error.stack.split('\n') : [],
+        // path: error.path,
     })
 });

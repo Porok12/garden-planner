@@ -1,5 +1,6 @@
 import React, {Component} from 'react';
-import { Navbar } from 'react-bootstrap';
+import {Nav, Navbar} from 'react-bootstrap';
+import {LinkContainer} from 'react-router-bootstrap';
 
 interface PropsType {
 
@@ -26,12 +27,23 @@ class NavBar extends Component<PropsType, State> {
 
     render() {
         return <Navbar bg="primary" variant="light" sticky="top">
-            <Navbar.Brand>
-                NavBar
-            </Navbar.Brand>
+            <LinkContainer to="/">
+                <Navbar.Brand>
+                    NavBar
+                </Navbar.Brand>
+            </LinkContainer>
+
             <Navbar.Text>
                 {this.state.time.toLocaleTimeString()}
             </Navbar.Text>
+            <Nav className="ml-auto">
+                <LinkContainer to="/signin">
+                    <Nav.Link>Signin</Nav.Link>
+                </LinkContainer>
+                <LinkContainer to="/signup">
+                    <Nav.Link>Signup</Nav.Link>
+                </LinkContainer>
+            </Nav>
         </Navbar>;
     }
 }

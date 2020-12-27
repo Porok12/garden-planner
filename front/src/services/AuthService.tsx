@@ -1,6 +1,6 @@
 import axios, {AxiosResponse} from 'axios';
 
-const API_URL = '/api/auth/';
+const API_URL = '/auth/';
 
 class AuthService {
     login(username: string, password: string): Promise<AxiosResponse> {
@@ -11,7 +11,7 @@ class AuthService {
             })
             .then((response: any) => {
                 if (response.data.accessToken) {
-                    // localStorage.setItem("user", JSON.stringify(response.data));
+                    localStorage.setItem("user", JSON.stringify(response.data));
                 }
 
                 return response.data;
@@ -19,7 +19,7 @@ class AuthService {
     }
 
     logout(): void {
-        // localStorage.removeItem("user");
+        localStorage.removeItem("user");
     }
 
     register(username: string, email: string, password: string): Promise<AxiosResponse> {
@@ -31,7 +31,7 @@ class AuthService {
     }
 
     getCurrentUser(): void {
-        // return JSON.parse(localStorage.getItem('user'));
+        return JSON.parse(localStorage.getItem('user') || '');
     }
 }
 
