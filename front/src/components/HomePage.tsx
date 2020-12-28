@@ -24,7 +24,6 @@ import {
 import {MapControls} from "three/examples/jsm/controls/OrbitControls";
 import {useCanvas} from 'react-three-fiber';
 import MySky from "./MySky";
-import Sidebar from './Sidebar';
 // import { WaterPass } from 'three/examples/jsm/postprocessing/'
 import { Effects } from '@react-three/drei/Effects'
 import { EffectComposer } from 'three/examples/jsm/postprocessing/EffectComposer'
