@@ -1,7 +1,10 @@
 {
   "name": "garden-planner",
-  "version": "0.1.0",
+  "version": "0.0.0",
+  "description": "",
+  "author": "Przemyslaw Papla",
   "private": true,
+  "license": "UNLICENSED",
   "proxy": "http://localhost:8081",
   "dependencies": {
     "@react-three/drei": "^2.2.12",

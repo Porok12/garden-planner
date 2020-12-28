@@ -1,7 +1,10 @@
 {
   "name": "server",
-  "version": "1.0.0",
+  "version": "0.0.0",
   "description": "",
+  "author": "Przemyslaw Papla",
+  "private": true,
+  "license": "UNLICENSED",
   "main": "index.js",
   "scripts": {
     "test": "jest",
@@ -9,8 +12,6 @@
     "server": "nodemon index.js",
     "dev": "concurrently --kill-others-on-fail \"npm run server\" \"npm run client\""
   },
-  "author": "Przemyslaw Papla",
-  "license": "ISC",
   "dependencies": {
     "body-parser": "^1.19.0",
     "cors": "^2.8.5",
