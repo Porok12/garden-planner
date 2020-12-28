@@ -4,6 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
+    "test": "jest",
     "client": "cd front && npm start",
     "server": "nodemon index.js",
     "dev": "concurrently --kill-others-on-fail \"npm run server\" \"npm run client\""
@@ -30,6 +31,12 @@
     "winston-daily-rotate-file": "^4.5.0"
   },
   "devDependencies": {
-    "concurrently": "^4.0.1"
+    "concurrently": "^4.0.1",
+    "jest": "^26.6.0"
+  },
+  "jest": {
+    "modulePathIgnorePatterns": [
+      "<rootDir>/front/"
+    ]
   }
 }
