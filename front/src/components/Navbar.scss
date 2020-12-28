@@ -1,0 +1,30 @@
+#navProfile {
+
+  &::after {
+    content: none;
+  }
+
+  +.dropdown-menu {
+    border-radius: 0;
+    margin-top: 8px !important;
+    //max-height: 0;
+    //transition: max-height 1s ease-in;
+    background-color: #2053a0;
+    -webkit-transition: all 1s linear;
+    -moz-transition: all 1s linear;
+    -o-transition: all 1s linear;
+    transition: all 1s linear;
+
+    &.show {
+      background-color: #20a0a0;
+      left: 50px;
+    }
+  }
+
+  //.show {
+  //  max-height: 200px;
+  //  transition: max-height 1s ease-in;
+  //  background-color: black;
+  //  transition: background-color 5s ease-in;
+  //}
+}

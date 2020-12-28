@@ -30,7 +30,7 @@ class AuthService {
         });
     }
 
-    getCurrentUser(): void {
+    getCurrentUser(): object {
         return JSON.parse(localStorage.getItem('user') || '');
     }
 }
