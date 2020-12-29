@@ -8,15 +8,19 @@ $primary: theme-color("primary");
       opacity: 0;
       z-index: 1;
 
-      &:hover {
-        cursor: pointer;
-      }
-
       &:focus + .form-check-label::before {
         //outline: thin dotted;
         //outline: 5px auto -webkit-focus-ring-color;
         //outline-offset: -2px;
         outline: none;
+      }
+      
+      &:hover + .form-check-label::before{
+        cursor: pointer;
+      }
+
+      &:hover:not(:checked) + .form-check-label::before {
+        box-shadow: inset 0 0 4px 0 lighten($primary, 30%);
       }
 
       //+ .form-check-label::after {
