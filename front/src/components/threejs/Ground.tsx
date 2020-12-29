@@ -190,9 +190,9 @@ let i = 0;
 let time = 0;
 
 type GroundProps = {
-    testScene: React.RefObject<Scene>,
+    testScene: React.MutableRefObject<Scene | undefined>,
     wireframe: boolean,
-    sceneRef: React.RefObject<Scene>
+    sceneRef: React.MutableRefObject<Scene | undefined>
 }
 
 function Ground(props: MeshProps & GroundProps) {
