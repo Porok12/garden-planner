@@ -173,29 +173,6 @@ function MySprite(props: SpriteProps) {
 }
 
 class HomePage extends Component<any, any> {
-    graphql() {
-        const query2 = gql`
-            {
-                users {
-                    username
-                }
-            }
-        `;
-        const client = new GraphQLClient('graphql');
-
-        const header = AuthHeader();
-        client.setHeader('x-access-token', header['x-access-token'] || '');
-        client.request(query2).then((data2) => console.log(data2));
-        // request('/graphql', query2).then((data2) => console.log(data2));
-
-
-        axios
-            .post("/auth/test", {}, {headers: AuthHeader()})
-            .then((response: any) => {
-                console.log(response.data);
-            }).catch(err => console.log(err.response));
-    }
-
     testScene: React.RefObject<Scene> = createRef<Scene>();
     sceneRef: React.RefObject<Scene> = createRef<Scene>();
     state = {
@@ -255,7 +232,6 @@ class HomePage extends Component<any, any> {
             <Container id="container" fluid>
                 {modalBox}
                 <br/>
-                <Button onClick={this.graphql}>GraphQL</Button>
                 <OverlayTrigger
                     trigger='click'
                     key='bottom'

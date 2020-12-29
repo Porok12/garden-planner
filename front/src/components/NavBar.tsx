@@ -60,9 +60,14 @@ class NavBar extends Component<PropsType, State> {
                 {this.state.time.toLocaleTimeString()}
             </Navbar.Text>
             <Nav className="ml-auto">
+                <LinkContainer to="/browse">
+                    <Nav.Link>Browse</Nav.Link>
+                </LinkContainer>
+
                 <LinkContainer to="/signin">
                     <Nav.Link>Signin</Nav.Link>
                 </LinkContainer>
+
                 <LinkContainer to="/signup">
                     <Nav.Link>Signup</Nav.Link>
                 </LinkContainer>
