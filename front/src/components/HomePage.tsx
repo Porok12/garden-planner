@@ -3,7 +3,6 @@ import {Button, ButtonGroup, Container, Modal, Nav, Overlay, OverlayTrigger, Row
     from "react-bootstrap";
 import {Canvas, extend, Renderer, useFrame, useThree} from "react-three-fiber";
 import { Html, OrbitControls } from '@react-three/drei';
-import Box from "./Box";
 import { request, gql, GraphQLClient } from 'graphql-request';
 import Camera from "./Camera";
 import CameraControls from "./CameraControls";
