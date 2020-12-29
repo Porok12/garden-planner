@@ -1,8 +1,7 @@
-import React, {Component, useEffect, useRef} from 'react';
+import React, { useEffect, useRef} from 'react';
 import {extend, useFrame, useThree} from 'react-three-fiber';
 import {OrbitControls, MapControls} from "three/examples/jsm/controls/OrbitControls";
-import { Lensflare, LensflareElement } from 'three/examples/jsm/objects/Lensflare.js';
-// Extend will make OrbitControls available as a JSX element called orbitControls for us to use.
+
 extend({ OrbitControls });
 extend({ MapControls });
 

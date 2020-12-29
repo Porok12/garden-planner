@@ -1,119 +1,21 @@
-import React, {Component, createRef, useEffect, useRef} from 'react';
-import {Button, ButtonGroup, Container, Modal, Nav, Overlay, OverlayTrigger, Row, Col, Form}
+import React, { Component, createRef, useRef } from 'react';
+import { Button, ButtonGroup, Container, Modal, Nav, OverlayTrigger, Form}
     from "react-bootstrap";
-import {Canvas, extend, Renderer, useFrame, useThree} from "react-three-fiber";
-import { Html, OrbitControls } from '@react-three/drei';
-import { request, gql, GraphQLClient } from 'graphql-request';
-import Camera from "./Camera";
-import CameraControls from "./CameraControls";
-import axios from "axios";
-import AuthHeader from "../services/AuthHeader";
-import Ground from "./Ground";
+import { Canvas, useFrame } from "react-three-fiber";
+import { Html } from '@react-three/drei';
+import Camera from "./threejs/Camera";
+import CameraControls from "./threejs/CameraControls";
+import Ground from "./threejs/Ground";
 import {
-    Color,
     Mesh,
-    MeshPhongMaterial,
     OrthographicCamera,
     Scene,
     SpriteMaterial,
-    Texture, Vector2,
+    Vector2,
     Vector3,
     WebGLRenderTarget
 } from "three";
-import {MapControls} from "three/examples/jsm/controls/OrbitControls";
-import {useCanvas} from 'react-three-fiber';
-import MySky from "./MySky";
-// import { WaterPass } from 'three/examples/jsm/postprocessing/'
-import { Effects } from '@react-three/drei/Effects'
-import { EffectComposer } from 'three/examples/jsm/postprocessing/EffectComposer'
-import { RenderPass } from 'three/examples/jsm/postprocessing/RenderPass'
-import { GlitchPass } from 'three/examples/jsm/postprocessing/GlitchPass'
-extend({  EffectComposer, RenderPass, GlitchPass })
-
-
-
-// function Test({camera}) {
-//     const scene = useRef();
-//     const {gl} = useThree();
-//
-//     gl.autoClear = false;
-//     gl.render(scene.current, camera);
-//
-//     // useFrame();
-//
-//     return <scene ref={scene} renderOrder={}/>
-// }
-
-// function Content({ camera }) {
-//     const scene = useRef();
-//     const {gl} = useThree();
-//
-//     // useRender(({ gl }) => void ((gl.autoClear = true), gl.render(scene.current, camera)), true)
-//     return <scene ref={scene}>{/* ... */}</scene>
-// }
-
-// function HeadsUpDisplay({ camera }) {
-//     const scene = useRef();
-//     useRender(({ gl }) => void ((gl.autoClear = false), gl.clearDepth(), gl.render(scene.current, camera)))
-//     return <scene ref={scene}>{/* ... */}</scene>
-// }
-
-// const drawing = new Texture();
-
-// function MyTexture() {
-//
-//     const { gl } = useThree();
-//     // const {  } = use();
-//
-//     // gl.render();
-//
-//     return null;
-// };
-
-// function Gui(params) {
-//     return (
-//         <Html scaleFactor={15} class="main">
-//             <div class="content">{`Score: ${100}`}</div>
-//         </Html>
-//     )
-// }
-
-// const renderTarget = new WebGLRenderTarget(800, 800);
-//
-//
-// const material = new MeshPhongMaterial({
-//     map: renderTarget.texture,
-// });
-//
-// function Foo() {
-//     const { gl } = useThree();
-//     gl.setRenderTarget(renderTarget);
-//     gl.render(scene, camera);
-//     gl.setRenderTarget(null);
-//     return undefined;
-// }
-
-const Comp = () => {
-    const { gl, scene, camera, size } = useThree();
-    const composer = useRef<EffectComposer>();
-    const factor = 2;
-
-    useEffect(() => {
-        if (composer.current) { // @ts-ignore
-                composer.current.obj.setSize(size.width, size.height)
-        }}, [size]);
-    // This takes over as the main render-loop (when 2nd arg is set to true)
-    // useRender(() => composer.current.obj.render(), true)
-
-    return <>
-        <effectComposer ref={composer} args={[gl]}>
-            {/* @ts-ignore */}
-            <renderPass name="passes" args={[scene, camera]} />
-            {/* @ts-ignore */}
-            <glitchPass name="passes" factor={factor} renderToScreen />
-        </effectComposer>
-    </>
-}
+import MySky from ".//threejs/MySky";
 
 const renderTarget = new WebGLRenderTarget(800, 800);
 const spriteMaterial = new SpriteMaterial({map: renderTarget.texture});
@@ -151,10 +53,6 @@ function MySprite(props: SpriteProps) {
         cam.current.lookAt(new Vector3(0, 0, 0), 0.1, 100);
     }
 
-    // const { setDefaultCamera } = useThree();
-    // if (cam.current)
-    //     setDefaultCamera(cam.current);
-
     return <>
         <orthographicCamera ref={cam} args={[-1, 1, 1, -1]} position={[0, 3, 0]}
                             onClick={(e) => {
@@ -181,24 +79,6 @@ class HomePage extends Component<any, any> {
     }
 
     render() {
-        const Animator = () => {
-            const {invalidate} = useThree();
-
-            setInterval(invalidate, 25);
-
-            return <ambientLight></ambientLight>;
-        }
-
-        // const Invalidate = () => {
-        //     useThree().invalidate();
-        //     return
-        // };
-
-        // const Sky = () => {
-        //     return <></>;
-        // }
-
-        // spriteMaterial.needsUpdate = true;
         let modalBox;
         if (this.state.modal) {
             modalBox = <Modal.Dialog>
@@ -225,7 +105,6 @@ class HomePage extends Component<any, any> {
             </Modal.Dialog>
         }
 
-        // @ts-ignore
         // @ts-ignore
         return <>
             <Container id="container" fluid>
@@ -289,12 +168,6 @@ class HomePage extends Component<any, any> {
                             </ButtonGroup>
                         </div>
                     </Html>
-                    {/*<scene ref={this.testScene}>*/}
-                    {/*    <mesh>*/}
-                    {/*        <boxGeometry />*/}
-                    {/*        <meshBasicMaterial />*/}
-                    {/*    </mesh>*/}
-                    {/*</scene>*/}
                 </Canvas>
             </Container>
         </>;

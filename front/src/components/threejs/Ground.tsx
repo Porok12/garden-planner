@@ -1,67 +1,19 @@
-import React, {Component, useEffect, useRef} from "react";
-import {Canvas, MeshProps, useFrame, useThree} from "react-three-fiber";
+import React, { useRef } from "react";
+import { MeshProps, useFrame, useThree } from "react-three-fiber";
 import {
-    BoxBufferGeometry,
     Geometry,
     Mesh,
-    MeshStandardMaterial,
-    SphereGeometry,
     Vector3,
     Face3,
     PlaneGeometry,
-    Triangle,
     Raycaster,
     Vector2,
-    WebGLRenderTarget,
-    MeshPhongMaterial,
-    MeshBasicMaterial,
     PerspectiveCamera,
-    Sprite,
-    SpriteMaterial, OrthographicCamera, Scene, Color
+    OrthographicCamera,
+    Scene
 } from "three";
-import {Face} from "three/examples/jsm/math/ConvexHull";
 import { TessellateModifier } from 'three/examples/jsm/modifiers/TessellateModifier.js';
 import { SubdivisionModifier } from 'three/examples/jsm/modifiers/SubdivisionModifier.js';
-import {Effects} from "@react-three/drei/Effects";
-
-// class Ground extends Component<MeshProps, any> {
-//     mesh: React.RefObject<Mesh>;
-//     geo: BoxBufferGeometry;
-//     mat: MeshStandardMaterial;
-//
-//     constructor(props: any) {
-//         super(props);
-//
-//         this.geo = new BoxBufferGeometry(2,2,2);
-//         this.mat = new MeshStandardMaterial({color: 0x1fbeca});
-//         this.mesh = React.createRef();
-//     }
-//
-//     render() {
-//         const props = this.props;
-//
-//         // This reference will give us direct access to the mesh
-//         // const mesh = useRef<Mesh>()
-//         const mesh = this.mesh;
-//
-//         // Rotate mesh every frame, this is outside of React without overhead
-//         // useFrame(() => {
-//         //     if (mesh.current) mesh.current.rotation.x = mesh.current.rotation.y += 0.01
-//         // })
-//
-//         return (
-//             <mesh //onAfterRender={event => console.log(event)}
-//                 {...props}
-//                 ref={mesh}
-//                 rotation={[Math.PI / 2, 0, 0]}
-//                 scale={[1, 1, 1]} >
-//                 <boxBufferGeometry args={[1, 1, 1]} />
-//                 <meshStandardMaterial color={'#4c3009'} />
-//             </mesh>
-//         )
-//     }
-// }
-
 
 
 let geometry = new Geometry();
@@ -228,58 +180,10 @@ sidesGeom.merge(frontGeom);
 sidesGeom.merge(backGeom);
 sidesGeom.merge(bottomGeom);
 
-const renderTarget = new WebGLRenderTarget(800, 800);
 // let gCam = new PerspectiveCamera();
 let gCam: any = new OrthographicCamera(-1, 1, 1, -1, 0.1, 100);
 gCam.position.set(0, 2, 0);
 gCam.lookAt(0, 0, 0);
-console.log(gCam);
-
-// let sprite;
-type SpriteProps = {
-    sceneRef: React.RefObject<Scene>
-}
-
-function MySprite(props: SpriteProps) {
-    // const spriteMaterial = new SpriteMaterial({color: '#ffffff'});
-    const spriteMaterial = new SpriteMaterial({map: renderTarget.texture});
-    // scale={new Vector3(800, 800, 1)}
-    // position={[800, 800, 1]}
-    const sceneRef = useRef<Scene>();
-    const cam = useRef<OrthographicCamera>();
-
-    // useFrame(({ gl, scene, camera }) => {
-    //     // gl.render(scene, camera);
-    // }, 1);
-
-    useFrame(({ gl, scene, camera }, dt) => {
-       if (sceneRef.current) {
-           gl.setRenderTarget(renderTarget)
-           gl.render(sceneRef.current, camera);
-           gl.setRenderTarget(null);
-       }
-
-        if (props.sceneRef.current) {
-            gl.clear(true, true, false);
-            gl.render(props.sceneRef.current, camera);
-        }
-    }, 1);
-
-    if (cam.current) {
-        cam.current.lookAt(new Vector3(0, -1, 0), 0.1, 100);
-    }
-
-    return <>
-        <scene ref={sceneRef}>
-            <orthographicCamera ref={cam} position={[0, 3, 0]}/>
-            <mesh>
-                <sphereGeometry />
-                <meshBasicMaterial color={new Color(0)} />
-            </mesh>
-        </scene>
-        <sprite name="sprite" material={spriteMaterial} center={new Vector2(-1, -.1)} scale={[1.2, 1.2, 1]} />
-    </>;
-}
 
 let objects: Array<any> = [];
 let i = 0;
@@ -291,74 +195,26 @@ type GroundProps = {
     sceneRef: React.RefObject<Scene>
 }
 
-let tScene: Scene = new Scene();
-
 function Ground(props: MeshProps & GroundProps) {
     const pointer = useRef<Mesh>();
     const groundMesh = useRef<Mesh>();
     const wireframe: boolean = props.wireframe;
 
-    // if (!tScene.children.length) {
-    //     if (groundMesh.current) {
-    //         tScene.add(groundMesh.current);
-    //     }
-    // }
-
     const {camera, scene, mouse, invalidate} = useThree();
-
-    // const material = new MeshBasicMaterial({
-    //     map: renderTarget.texture
-    // });
-
-    // useFrame(({gl, scene}) => {
-    //     gl.setRenderTarget(renderTarget);
-    //     gl.render(scene, gCam);
-    //     gl.setRenderTarget(null);
-    //     gl.clear(true, true, false);
-    // });
-
-    // useEffect(() => invalidate(), [mouse]);
 
     useFrame(({mouse, camera, invalidate}) => {
         raycaster.setFromCamera( mouse, camera );
-        // const ground = scene.children[3];
-        // console.log(scene.children.map(ch => ch.name));
+
         if (props.sceneRef.current)
             objects = raycaster.intersectObjects(props.sceneRef.current.children.filter(ch => ch.name === 'groundMesh'));
-        // console.log(mouse);
-        // console.log(camera);
-        // console.log(scene.children);
-        // console.log(objects.length);
-        // console.log(objects);
-        // if (objects.length > 1) console.log(objects.map(o => o.distance));
+
         if (objects.length > 0) {
-            // for (let i in objects) {
-
-                // var iFace = objects[i].face;
-                // var iPoint = objects[i].point;
-                // var ab = iFace.a.distanceTo(iFace.b);
-                // var ac = iFace.a.distanceTo(iFace.c);
-                // var bc = iFace.b.distanceTo(iFace.c);
-                // var lambda = Math.min(ab, ac, bc) - 0.1;
-                // if(iFace.a.distanceTo(iPoint) <= lambda){
-                //     return iFace.a;
-                // }
-                // if(iFace.b.distanceTo(iPoint) <= lambda){
-                //     return iFace.b;
-                // }
-                // if(iFace.c.distanceTo(iPoint) <= lambda){
-                //     return iFace.c;
-                // }
-
-                // console.log(objects[ i ].point);
                 if (pointer.current) {
                     pointer.current.position.setX(objects[ i ].point.x);
                     pointer.current.position.setY(objects[ i ].point.y);
                     pointer.current.position.setZ(objects[ i ].point.z);
                     invalidate();
                 }
-                // objects[ i ].object.material.color.set( 0xff0000 );
-            // }
         }
 
         objects = raycaster.intersectObjects(scene.children.filter(ch => ch.name === 'sprite'));
@@ -382,18 +238,6 @@ function Ground(props: MeshProps & GroundProps) {
         }
     });
 
-    // <group ref={ref => console.log('we have access to the instance')}>
-    // <line>
-    //     <geometry
-    //         name="geometry"
-    //         vertices={vertices.map((v: Array<number>) => new Vector3(...v))}
-    //         onUpdate={self => (self.verticesNeedUpdate = true)}
-    //     />
-    //     <lineBasicMaterial name="material" color="black" />
-    // </line>
-
-
-
     return (
             <>
                 <mesh
@@ -410,11 +254,6 @@ function Ground(props: MeshProps & GroundProps) {
                         gCam.position.set(0, 2, 0);
                         gCam.lookAt(0, 0, 0);
                     }}
-                    // geometry={geometry}
-                    // geometry={new SphereGeometry(0.8, 8, 8)}
-                    // onClick={(e: any) => console.log('click')}
-                    // onHover={(e: any) => console.log('hover')}
-                    // onUnhover={(e: any) => console.log('unhover')}
                 >
                     {/*<octahedronGeometry name="geometry" />*/}
                     <geometry vertices={geometry.vertices} faces={geometry.faces} />

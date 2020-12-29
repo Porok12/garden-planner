@@ -1,5 +1,5 @@
-import React, {Component, createRef, useRef} from 'react';
-import {Canvas, extend, Renderer, useCanvas, useFrame, useThree} from "react-three-fiber";
+import React, {useRef} from 'react';
+import { extend, useFrame, useThree} from "react-three-fiber";
 import { Sky } from 'three/examples/jsm/objects/Sky.js';
 import {Vector3} from "three";
 
@@ -19,7 +19,7 @@ const effectController = {
 const sun = new Vector3();
 
 function MySky() {
-    const sky = useRef();
+    const sky = useRef<Sky>();
     const {gl} = useThree();
 
     useFrame(() => {
@@ -47,6 +47,7 @@ function MySky() {
 
     });
 
+    // @ts-ignore
     return <sky ref={sky} scale={[45000, 45000, 45000]} />
 }
 
