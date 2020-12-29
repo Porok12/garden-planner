@@ -1,0 +1,10 @@
+.btn {
+  border-radius: 0;
+  text-transform: uppercase;
+  border-width: 2px;
+}
+
+.btn:focus, .btn:active {
+  outline: none !important;
+  box-shadow: none
+}

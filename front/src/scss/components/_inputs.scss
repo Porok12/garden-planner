@@ -1,5 +1,5 @@
-$primary: #ce6222;
-$secondary: #c34d0d;
+$primary: theme-color("primary");
+$secondary: lighten($primary, 30%);
 $white: #ffffff;
 $gray: #9b9b9b;
 $black: #000000;
@@ -90,29 +90,8 @@ input {
   filter: grayscale(21%) brightness(88%) contrast(161%) invert(10%) sepia(40%) saturate(206%);
 }
 
-.btn {
-  border-radius: 0;
-  text-transform: uppercase;
-  border-width: 2px;
-}
-
-.form {
-  box-shadow: 0 0 14px #ddd;
-  padding: 30px 50px;
-  margin: 10px;
-
-  .btn {
-    margin-top: 32px;
-  }
-}
-
 .custom-control {
   text-align: left;
-}
-
-.btn:focus, .btn:active {
-  outline: none !important;
-  box-shadow: none
 }
 
 .custom-switch {

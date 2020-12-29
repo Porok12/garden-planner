@@ -1,5 +1,4 @@
 import React from 'react';
-import './App.scss';
 import Routing from "./Routing";
 import NavBar from "./components/NavBar";
 

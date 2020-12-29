@@ -3,8 +3,6 @@ import {Button, Form} from "react-bootstrap";
 import AuthService from "../services/AuthService";
 import axios from "axios";
 import AuthHeader from "../services/AuthHeader";
-import './input.scss';
-import './Checkbox.scss';
 
 class SignInPage extends Component {
     state = {

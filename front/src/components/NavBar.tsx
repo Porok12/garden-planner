@@ -2,7 +2,6 @@ import React, {Component} from 'react';
 import {Button, Nav, Navbar, NavDropdown} from 'react-bootstrap';
 import {LinkContainer} from 'react-router-bootstrap';
 import AuthService from "../services/AuthService";
-import './Navbar.scss';
 
 interface PropsType {
 
