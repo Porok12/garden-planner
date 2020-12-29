@@ -14,8 +14,7 @@ module.exports = {
                 defaultValue: coerceInputValue({}, PaginationInput)
             }
         },
-        // type: GraphQLNonNull(GraphQLList(GraphQLNonNull(PlantType))),
-        type: GraphQLNonNull(GraphQLList(GraphQLNonNull(PaginationUnion))),
+        type: GraphQLNonNull(GraphQLList(GraphQLNonNull(PlantType)))
     },
     plant: {
         args: {
@@ -24,5 +23,13 @@ module.exports = {
             }
         },
         type: PlantType
-    }
+    },
+    countPlants: {
+        args: {
+            input: {
+                type: PlantInput
+            }
+        },
+        type: GraphQLNonNull(PaginationType)
+    },
 }

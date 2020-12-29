@@ -11,15 +11,20 @@ module.exports = {
             where: { ...args.input },
             offset: (page - 1) * slice,
             limit: slice
-        }).then(users => {
-            return User.count({ where: { ...args.input } })
-                .then(count => {
-                    users.push({total: count});
-                    return users;
-                });
         });
     },
     user: (args) => {
         return User.findOne({where: { username: args.username}});
-    }
+    },
+    countUsers: (args, request) => {
+        requireUserRole(request.user);
+
+        return User.count({
+            where: { ...args.input }
+        }).then(count => {
+            return {
+                total: count
+            }
+        });
+    },
 }

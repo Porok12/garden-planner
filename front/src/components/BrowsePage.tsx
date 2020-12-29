@@ -19,13 +19,11 @@ class BrowsePage extends Component<BrowsePageProps, BrowsePageState>{
         const query = gql`
             {
                 plants {
-                    ... on PlantType {
-                        commonName
-                        binomialName
-                        kingdom
-                        family
-                        genus
-                    }
+                    commonName
+                    binomialName
+                    kingdom
+                    family
+                    genus
                 }
             }
         `;

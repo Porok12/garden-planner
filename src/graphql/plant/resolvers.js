@@ -8,12 +8,6 @@ module.exports = {
             where: { ...args.input },
             offset: (page - 1) * slice,
             limit: slice
-        }).then(plants => {
-            return Plant.count({ where: { ...args.input } })
-                .then(count => {
-                    plants.push({total: count});
-                    return plants;
-            });
         });
     },
     plant: (args) => {
@@ -23,5 +17,14 @@ module.exports = {
         return Plant.create(args.input)
             .then(plant => "success")
             .catch(err => "fail");
-    }
+    },
+    countPlants: (args, request) => {
+        return Plant.count({
+            where: { ...args.input }
+        }).then(count => {
+            return {
+                total: count
+            }
+        });
+    },
 }
