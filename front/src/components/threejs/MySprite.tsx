@@ -1,17 +1,31 @@
 import React, {useRef} from "react";
-import {Mesh, OrthographicCamera, RenderTarget, Scene, SpriteMaterial, Vector3, WebGLRenderTarget} from "three";
-import {useFrame} from "react-three-fiber";
+import {Mesh, OrthographicCamera, RenderTarget, Scene, Sprite, SpriteMaterial, Vector3, WebGLRenderTarget} from "three";
+import {useFrame, useThree} from "react-three-fiber";
 
 type SpriteProps = {
     sceneRef: React.MutableRefObject<Scene | undefined>
     scene: React.MutableRefObject<Scene | undefined>
+    hud: React.MutableRefObject<Scene | undefined>
+    sprite: React.MutableRefObject<Sprite | undefined>
     target: any
 }
+
+let orto = new OrthographicCamera(-1, 1, 1, -1, -10, 10);
 
 function MySprite(props: SpriteProps) {
     // const sceneRef = useRef<Scene>();
     const cam = useRef<OrthographicCamera>();
     const meshRef = useRef<Mesh>();
+
+    const { viewport } = useThree();
+
+    console.log(viewport.width, viewport.height);
+    orto = new OrthographicCamera(
+        viewport.width / -2,
+        viewport.width / 2,
+        viewport.height / 2,
+        viewport.height / -2,
+        -10, 10);
 
     useFrame(({ gl, scene, camera }, dt) => {
         if (props.scene.current && cam.current) {
@@ -22,8 +36,14 @@ function MySprite(props: SpriteProps) {
         }
 
         if (props.sceneRef.current) {
+            gl.autoClear = false;
             gl.clear(true, true, false);
             gl.render(props.sceneRef.current, camera);
+        }
+
+        if (props.hud.current) {
+            gl.render(props.hud.current, orto);
+            gl.autoClear = true;
         }
 
         if (meshRef.current) {

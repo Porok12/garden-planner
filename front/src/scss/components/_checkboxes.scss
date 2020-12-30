@@ -14,7 +14,7 @@ $primary: theme-color("primary");
         //outline-offset: -2px;
         outline: none;
       }
-      
+
       &:hover + .form-check-label::before{
         cursor: pointer;
       }
