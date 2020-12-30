@@ -1,5 +1,5 @@
 import React, { Component, createRef, useRef } from 'react';
-import { Button, ButtonGroup, Container, Modal, Nav, OverlayTrigger, Form}
+import {Button, ButtonGroup, Container, Modal, Nav, OverlayTrigger, Form, Row}
     from "react-bootstrap";
 import MainCanvas from "./threejs/MainCanvas";
 
@@ -37,37 +37,34 @@ class HomePage extends Component<any, any> {
 
         // @ts-ignore
         return <>
-            <Container id="container" fluid>
-                {modalBox}
-                <br/>
-                <OverlayTrigger
-                    trigger='click'
-                    key='bottom'
-                    placement='bottom'
-                    overlay={
-                        <div id={`tooltip-bottom`} style={{height: '80%', width: '80%', margin: '5px',backgroundColor: '#eee'}}>
-                            <Nav variant="tabs">
-                                <Nav.Item>
-                                    <Nav.Link>Option 1</Nav.Link>
-                                </Nav.Item>
-                                <Nav.Item>
-                                    <Nav.Link>Option 2</Nav.Link>
-                                </Nav.Item>
-                                <Nav.Item>
-                                    <Nav.Link>Option 3</Nav.Link>
-                                </Nav.Item>
-                            </Nav>
-                        </div>
-                    }
-                >
-                    <Button variant="secondary">Tooltip on {'top'}</Button>
-                </OverlayTrigger>
-                <Button onClick={()=>{this.setState({modal: !this.state.modal})}}>
-                    Create project
-                </Button>
+            {modalBox}
+            <OverlayTrigger
+                trigger='click'
+                key='bottom'
+                placement='bottom'
+                overlay={
+                    <div id={`tooltip-bottom`} style={{height: '80%', width: '80%', margin: '5px',backgroundColor: '#eee'}}>
+                        <Nav variant="tabs">
+                            <Nav.Item>
+                                <Nav.Link>Option 1</Nav.Link>
+                            </Nav.Item>
+                            <Nav.Item>
+                                <Nav.Link>Option 2</Nav.Link>
+                            </Nav.Item>
+                            <Nav.Item>
+                                <Nav.Link>Option 3</Nav.Link>
+                            </Nav.Item>
+                        </Nav>
+                    </div>
+                }
+            >
+                <Button variant="secondary">Tooltip</Button>
+            </OverlayTrigger>
+            <Button onClick={()=>{this.setState({modal: !this.state.modal})}}>
+                Create project
+            </Button>
 
                 <MainCanvas />
-            </Container>
         </>;
     }
 }

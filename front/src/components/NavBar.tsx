@@ -49,7 +49,7 @@ class NavBar extends Component<PropsType, State> {
             </div>;
         }
 
-        return <Navbar bg="primary" variant="light" sticky="top">
+        return <Navbar bg="primary" variant="light">
             <LinkContainer to="/">
                 <Navbar.Brand>
                     NavBar
