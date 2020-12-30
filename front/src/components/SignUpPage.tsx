@@ -1,6 +1,7 @@
-import React, {Component} from "react";
+import React, {Component, createRef} from "react";
 import {Button, Col, Form} from "react-bootstrap";
 import AuthService from "../services/AuthService";
+import {config, Spring} from "react-spring/renderprops";
 
 class SignUpPage extends Component {
     state = {
@@ -33,43 +34,55 @@ class SignUpPage extends Component {
         const change = this.change.bind(this);
         const submit = this.submit.bind(this);
 
-        return <>
-            <Form className="form" style={{width: '450px', margin: 'auto'}} onSubmit={submit}>
-                <Form.Group controlId="formLogin">
-                    <Form.Control type="text" placeholder="" name="login" value={login} onChange={change} />
-                    <Form.Label className="form-label">Login</Form.Label>
-                </Form.Group>
-                <Form.Group controlId="formEmail">
-                    <Form.Control type="email" placeholder="" name="email" value={email} onChange={change} />
-                    <Form.Label className="form-label">Email address</Form.Label>
-                    <Form.Text className="text-muted">
-                        We'll never share your email with anyone else.
-                    </Form.Text>
-                </Form.Group>
+        const spring = createRef<any>();
 
-                <Form.Row>
-                    <Form.Group as={Col} controlId="formPassword">
-                        <Form.Control type="password" placeholder="" name="password" value={password} onChange={change} />
-                        <Form.Label className="form-label">Password</Form.Label>
-                    </Form.Group>
-                    <Form.Group as={Col} controlId="formRepeatPassword">
-                        <Form.Control type="password" placeholder="" name="repeated" value={repeated} onChange={change} />
-                        <Form.Label className="form-label">Repeat password</Form.Label>
-                    </Form.Group>
-                </Form.Row>
+        return <Spring ref={spring}
+                       from={{opacity: 0, margin: -50}}
+                       to={{opacity: 1, margin: 50}}
+                       config={config.gentle}
+                       delay={100}
+        >
+            {
+                ({opacity, margin}) => (
+                    <Form className="form"
+                          style={{opacity: opacity, marginTop: margin, width: '450px', margin: 'auto'}} onSubmit={submit}>
+                        <Form.Group controlId="formLogin">
+                            <Form.Control type="text" placeholder="" name="login" value={login} onChange={change} />
+                            <Form.Label className="form-label">Login</Form.Label>
+                        </Form.Group>
+                        <Form.Group controlId="formEmail">
+                            <Form.Control type="email" placeholder="" name="email" value={email} onChange={change} />
+                            <Form.Label className="form-label">Email address</Form.Label>
+                            <Form.Text className="text-muted">
+                                We'll never share your email with anyone else.
+                            </Form.Text>
+                        </Form.Group>
 
-                {/*<Form.Group controlId="formBasicCheckbox">*/}
-                {/*    <Form.Switch type="checkbox" label="I agree to the terms of service" />*/}
-                {/*</Form.Group>*/}
-                <Form.Group controlId="formCheckbox" className="text-left">
-                    <Form.Check type="checkbox" label="I agree to the terms of service" className="primary" />
-                </Form.Group>
+                        <Form.Row>
+                            <Form.Group as={Col} controlId="formPassword">
+                                <Form.Control type="password" placeholder="" name="password" value={password} onChange={change} />
+                                <Form.Label className="form-label">Password</Form.Label>
+                            </Form.Group>
+                            <Form.Group as={Col} controlId="formRepeatPassword">
+                                <Form.Control type="password" placeholder="" name="repeated" value={repeated} onChange={change} />
+                                <Form.Label className="form-label">Repeat password</Form.Label>
+                            </Form.Group>
+                        </Form.Row>
 
-                <Button variant="outline-primary" type="submit" block>
-                    Submit
-                </Button>
-            </Form>
-        </>;
+                        {/*<Form.Group controlId="formBasicCheckbox">*/}
+                        {/*    <Form.Switch type="checkbox" label="I agree to the terms of service" />*/}
+                        {/*</Form.Group>*/}
+                        <Form.Group controlId="formCheckbox" className="text-left">
+                            <Form.Check type="checkbox" label="I agree to the terms of service" className="primary" />
+                        </Form.Group>
+
+                        <Button variant="outline-primary" type="submit" block>
+                            Submit
+                        </Button>
+                    </Form>
+                )
+            }
+        </Spring>
     }
 }
 

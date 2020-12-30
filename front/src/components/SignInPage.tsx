@@ -1,8 +1,29 @@
-import React, {Component} from "react";
+import React, {Component, createRef} from "react";
 import {Button, Form} from "react-bootstrap";
 import AuthService from "../services/AuthService";
+import {useSpring, animated} from "react-spring";
+import { Spring, config, interpolate } from "react-spring/renderprops";
 import axios from "axios";
 import AuthHeader from "../services/AuthHeader";
+
+function Test() {
+    const [props, set] = useSpring(() => ({
+        transform: `scale(1)`,
+        from: { transform: `scale(0.5)`},
+        config: {
+            tension: 400,
+            mass: 5,
+            velocity: 8
+        }
+    }));
+
+    return <animated.div style={props}
+                         onMouseOver={() => set({transform: 'scale(0.5)'})}
+                         onMouseLeave={() => set({transform: 'scale(1.0)'})}
+    >
+        <h1>Test</h1>
+    </animated.div>
+}
 
 class SignInPage extends Component {
     state = {
@@ -31,41 +52,39 @@ class SignInPage extends Component {
         const change = this.change.bind(this);
         const submit = this.submit.bind(this);
 
-        return <>
-            <Form className="form" style={{width: '350px', margin: 'auto'}} onSubmit={submit}>
-                <Form.Group controlId="formLogin">
-                    <Form.Control type="text" placeholder="" name="login"
-                                  value={login} onChange={change} />
-                    <Form.Label className="form__label">Login</Form.Label>
-                </Form.Group>
+        const spring = createRef<any>();
 
-                <Form.Group controlId="formPassword">
-                    <Form.Control type="password" placeholder="" name="password"
-                                  value={password} onChange={change} />
-                    <Form.Label className="form-label">Password</Form.Label>
-                </Form.Group>
+        return <Spring ref={spring}
+            from={{opacity: 0, margin: -50}}
+            to={{opacity: 1, margin: 50}}
+            config={config.gentle}
+            delay={100}
+        >
+            {({opacity, margin}) => (
+                <Form className="form"
+                      style={{opacity: opacity, marginTop: margin, width: '350px', margin: 'auto'}}
+                      onSubmit={submit}>
+                    <Form.Group controlId="formLogin">
+                        <Form.Control type="text" placeholder="" name="login"
+                                      value={login} onChange={change} />
+                        <Form.Label className="form__label">Login</Form.Label>
+                    </Form.Group>
 
-                {/*<Form.Group controlId="formBasicEmail">*/}
-                {/*    <Form.Label>Login</Form.Label>*/}
-                {/*    <Form.Control type="text" placeholder="Enter login" name="login" value={login} onChange={change} />*/}
-                {/*</Form.Group>*/}
+                    <Form.Group controlId="formPassword">
+                        <Form.Control type="password" placeholder="" name="password"
+                                      value={password} onChange={change} />
+                        <Form.Label className="form-label">Password</Form.Label>
+                    </Form.Group>
 
-                {/*<Form.Group controlId="formBasicPassword">*/}
-                {/*    <Form.Label>Password</Form.Label>*/}
-                {/*    <Form.Control type="password" placeholder="Password" name="password" value={password} onChange={change} />*/}
-                {/*</Form.Group>*/}
-
-                {/*<Form.Group controlId="formBasicCheckbox">*/}
-                {/*    <Form.Switch type="checkbox" label="Remember me" />*/}
-                {/*</Form.Group>*/}
-                <Form.Group controlId="formCheckbox" className="text-left">
-                    <Form.Check type="checkbox" label="Remember me" className="primary" />
-                </Form.Group>
-                <Button variant="outline-primary" type="submit" block>
-                    Submit
-                </Button>
-            </Form>
-        </>;
+                    <Form.Group controlId="formCheckbox" className="text-left">
+                        <Form.Check type="checkbox" label="Remember me" className="primary" />
+                    </Form.Group>
+                    <Button variant="outline-primary" type="submit" block>
+                        Submit
+                    </Button>
+                </Form>
+                )}
+        </Spring>;
     }
 }
 
