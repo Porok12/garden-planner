@@ -3,27 +3,6 @@ import {Button, Form} from "react-bootstrap";
 import AuthService from "../services/AuthService";
 import {useSpring, animated} from "react-spring";
 import { Spring, config, interpolate } from "react-spring/renderprops";
-import axios from "axios";
-import AuthHeader from "../services/AuthHeader";
-
-function Test() {
-    const [props, set] = useSpring(() => ({
-        transform: `scale(1)`,
-        from: { transform: `scale(0.5)`},
-        config: {
-            tension: 400,
-            mass: 5,
-            velocity: 8
-        }
-    }));
-
-    return <animated.div style={props}
-                         onMouseOver={() => set({transform: 'scale(0.5)'})}
-                         onMouseLeave={() => set({transform: 'scale(1.0)'})}
-    >
-        <h1>Test</h1>
-    </animated.div>
-}
 
 class SignInPage extends Component {
     state = {
@@ -38,7 +17,6 @@ class SignInPage extends Component {
         AuthService.login(login, password)
             .then(response => {
                 console.log(response);
-
             })
             .catch(err => console.log(err.response));
     }
