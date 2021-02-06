@@ -32,4 +32,12 @@ module.exports = {
         },
         type: GraphQLNonNull(PaginationType)
     },
+    trefle: {
+        args: {
+            input: {
+                type: PlantInput
+            }
+        },
+        type: GraphQLNonNull(GraphQLList(GraphQLNonNull(PlantType)))
+    },
 }

@@ -1,0 +1,134 @@
+.search-box {
+  padding: 20px 10px;
+  margin-bottom: 20px;
+  background-color: #f6f6f6;
+  box-shadow: 0 0 4px #9b9b9b;
+  position: relative;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: stretch;
+  width: 100%;
+
+  .form-control {
+    background-color: transparent;
+  }
+
+  .form-group {
+    position: relative; // For focus state's z-index
+    flex: 1 1 auto;
+    width: 1%;
+    min-width: 0; // https://stackoverflow.com/questions/36247140/why-dont-flex-items-shrink-past-content-size
+    margin-bottom: 0;
+  }
+
+  .input-group-append {
+    margin-left: 16px;
+  }
+
+  .input-group-prepend {
+    margin-right: 16px;
+
+    span {
+      background-color: transparent;
+      border: none;
+    }
+  }
+}
+
+.advanced-search {
+  box-shadow: 0 0 4px rgba(0, 0, 0, 0.5);
+  margin: 20px 0;
+}
+
+///*main side bar*/
+//.msb {
+//  width: 200px;
+//  background-color: #F5F7F9;
+//  position: fixed;
+//  left: 0;
+//  top: 0;
+//  right: auto;
+//  min-height: 100%;
+//  overflow-y: auto;
+//  white-space: nowrap;
+//  height: 100%;
+//  z-index: 1;
+//  border-right: 1px solid #ddd;
+//  .navbar {
+//    border: none;
+//    margin-left: 0;
+//    background-color: inherit;
+//  }
+//  .navbar-header {
+//    width: 100%;
+//    border-bottom: 1px solid #e7e7e7;
+//    margin-bottom: 20px;
+//    background: #fff;
+//  }
+//  .navbar-nav {
+//    .panel {
+//      border: 0 none;
+//      box-shadow: none;
+//      margin: 0;
+//      background: inherit;
+//    }
+//    li {
+//      display: block;
+//      width: 100%;
+//      a {
+//        padding: 15px;
+//        color: #5f5f5f;
+//        .glyphicon, .fa {
+//          margin-right: 8px;
+//        }
+//      }
+//    }
+//  }
+//  .nb {
+//    padding-top: 5px;
+//    padding-left: 10px;
+//    margin-bottom: 30px;
+//    overflow: hidden;
+//
+//  }
+//}
+//ul.nv,
+//ul.ns {
+//  position: relative;
+//  padding: 0;
+//  list-style: none;
+//}
+//.nv {
+//  li {
+//    display: block;
+//    position: relative;
+//
+//    &::before {
+//      clear: both;
+//      content: "";
+//      display: table;
+//    }
+//    a {
+//      color: #444;
+//      padding: 10px 25px;
+//      display: block;
+//      vertical-align: middle;
+//
+//      .ic {
+//        font-size: 16px;
+//        margin-right: 5px;
+//        font-weight: 300;
+//        display: inline-block;
+//      }
+//    }
+//  }
+//  /*ns: nav-sub*/
+//  .ns {
+//    li {
+//      a {
+//        padding: 10px 50px;
+//      }
+//    }
+//
+//  }
+//}

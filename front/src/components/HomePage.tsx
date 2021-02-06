@@ -1,7 +1,7 @@
 import React, { Component, createRef, useRef } from 'react';
 import {Button, ButtonGroup, Container, Modal, Nav, OverlayTrigger, Form, Row}
     from "react-bootstrap";
-import MainCanvas from "./threejs/MainCanvas";
+import SecCanvas from "./threejs/SecCanvas";
 
 class HomePage extends Component<any, any> {
     state = {
@@ -64,7 +64,7 @@ class HomePage extends Component<any, any> {
                 Create project
             </Button>
 
-                <MainCanvas />
+            <SecCanvas />
         </>;
     }
 }

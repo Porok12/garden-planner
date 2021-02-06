@@ -1,7 +1,9 @@
 import React, {Component} from 'react';
-import {Button, Nav, Navbar, NavDropdown} from 'react-bootstrap';
+import {Button, ButtonGroup, Nav, Navbar, NavDropdown} from 'react-bootstrap';
 import {LinkContainer} from 'react-router-bootstrap';
 import AuthService from "../services/AuthService";
+import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
+import {faBell, faComment, faConciergeBell} from '@fortawesome/free-solid-svg-icons';
 
 interface PropsType {
 
@@ -60,6 +62,14 @@ class NavBar extends Component<PropsType, State> {
                 {this.state.time.toLocaleTimeString()}
             </Navbar.Text>
             <Nav className="ml-auto">
+                <Nav.Link>
+                    <FontAwesomeIcon icon={faBell} size="2x" color="#fff"/>
+                </Nav.Link>
+
+                <Nav.Link>
+                    <FontAwesomeIcon icon={faComment} size="2x" color="#fff"/>
+                </Nav.Link>
+
                 <LinkContainer to="/browse">
                     <Nav.Link>Browse</Nav.Link>
                 </LinkContainer>
