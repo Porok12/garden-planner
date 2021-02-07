@@ -4,8 +4,12 @@ $primary: theme-color("primary");
   position: absolute;
   bottom: 0;
   width: 100%;
-  height: 41px;
-
+  height: 215px;
   background-color: $primary;
   padding: 4px 8px;
+
+  h4 {
+    font-size: 1.2em;
+    font-weight: bold;
+  }
 }
