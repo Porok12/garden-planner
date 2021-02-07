@@ -3,9 +3,25 @@ import {Button, Form} from "react-bootstrap";
 import AuthService from "../services/AuthService";
 import {useSpring, animated} from "react-spring";
 import { Spring, config, interpolate } from "react-spring/renderprops";
+import {Redirect, RouteComponentProps,} from "react-router-dom";
+import {withRouter}from "react-router";
 
-class SignInPage extends Component {
-    state = {
+type LocationState = {
+    from: string;
+};
+
+interface PropsType extends RouteComponentProps<any, any, LocationState | undefined>, React.Props<any> {
+
+}
+
+type StateType = {
+    login: string;
+    password: string;
+    redirect?: string;
+}
+
+class SignInPage extends Component<PropsType, StateType> {
+    state: StateType = {
         login: '',
         password: ''
     }
@@ -17,20 +33,30 @@ class SignInPage extends Component {
         AuthService.login(login, password)
             .then(response => {
                 console.log(response);
+                this.setState({redirect: "/"});
             })
             .catch(err => console.log(err.response));
     }
 
     change(e: any) {
-        this.setState({[e.target.name]: e.target.value});
+        this.setState({[e.target.name]: e.target.value} as StateType);
     }
 
     render() {
-        const {login, password} = this.state;
+        const {login, password, redirect} = this.state;
         const change = this.change.bind(this);
         const submit = this.submit.bind(this);
 
         const spring = createRef<any>();
+
+        if (redirect) {
+            let path = null;
+            if (this.props.location.state) {
+                path = this.props.location.state.from;
+                this.props.location.state = undefined;
+            }
+            return <Redirect to={path || redirect} />;
+        }
 
         return <Spring ref={spring}
             from={{opacity: 0, margin: -50}}
@@ -66,4 +92,4 @@ class SignInPage extends Component {
     }
 }
 
-export default SignInPage;
+export default withRouter(SignInPage);
