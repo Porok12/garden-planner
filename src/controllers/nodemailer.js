@@ -33,3 +33,24 @@ module.exports.sendActivationCode = (sendToEmail) => {
         console.log('Message sent: %s', info.messageId);
     });
 }
+
+module.exports.sendResetPassword = (sendToEmail) => {
+    const token = Date.now().toString(36);
+    const link = 'http://locolhost:3000/reset2/' + token;
+
+    const mailOptions = {
+        from: '"Garden Planner" <garden.planner@yandex.com>',
+        to: sendToEmail,
+        subject: 'Reset your password',
+        text: 'Please open "' + link + '" to reset your password.',
+        html: 'Please open <a href="' + link + '"> link </a> to reset your password.',
+    };
+
+    transport.sendMail(mailOptions, (error, info) => {
+        if (error) {
+            return console.log(error, mailOptions);
+        }
+
+        console.log('Message sent: %s', info.messageId);
+    });
+}

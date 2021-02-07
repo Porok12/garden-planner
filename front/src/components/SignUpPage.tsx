@@ -52,6 +52,7 @@ class SignUpPage extends Component<any, StateType> {
         const change = this.change.bind(this);
         const checkboxChange = this.checkboxChange.bind(this);
         const submit = this.submit.bind(this);
+        const enableBtn = login != "" && email != "" && password != "" && repeated != "" && agreed;
 
         const spring = createRef<any>();
 
@@ -106,9 +107,9 @@ class SignUpPage extends Component<any, StateType> {
                             />
                         </Form.Group>
 
-                        <Button variant={`outline-${agreed ? "primary" : "secondary"}`}
+                        <Button variant={`outline-${enableBtn ? "primary" : "secondary"}`}
                                 type="submit"
-                                disabled={!agreed}
+                                disabled={!enableBtn}
                                 block>
                             Submit
                         </Button>

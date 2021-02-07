@@ -31,6 +31,7 @@ app.get('/', (req, res) => {
 
 // routes
 require('./src/routes/auth.routes')(app);
+require('./src/routes/account.routes')(app);
 require('./src/routes/graphql.routes')(app);
 
 const PORT = process.env.PORT || 8081;

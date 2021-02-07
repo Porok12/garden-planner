@@ -46,6 +46,7 @@ class SignInPage extends Component<PropsType, StateType> {
         const {login, password, redirect} = this.state;
         const change = this.change.bind(this);
         const submit = this.submit.bind(this);
+        const enableBtn = login != "" && password != "";
 
         const spring = createRef<any>();
 
@@ -83,7 +84,15 @@ class SignInPage extends Component<PropsType, StateType> {
                     <Form.Group controlId="formCheckbox" className="text-left">
                         <Form.Check type="checkbox" label="Remember me" className="primary" />
                     </Form.Group>
-                    <Button variant="outline-primary" type="submit" block>
+
+                    <Form.Text as="a" className="text-left" style={{cursor: 'pointer'}} onClick={()=>{this.setState({redirect: "/reset"})}}>
+                        Forgot your password?
+                    </Form.Text>
+
+                    <Button variant={`outline-${enableBtn ? "primary" : "secondary"}`}
+                            type="submit"
+                            disabled={!enableBtn}
+                            block>
                         Submit
                     </Button>
                 </Form>

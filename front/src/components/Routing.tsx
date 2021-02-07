@@ -9,6 +9,8 @@ import AuthorizationRoute from "./AuthorizationRoute";
 import UsersPanel from "./UsersPanel";
 import ProfilePage from "./ProfilePage";
 import AccountCreated from "./AccountCreated";
+import ResetPasswordPage from "./ResetPasswordPage";
+import ResetPasswordPage2 from './ResetPasswordPage2';
 
 const loginProps: RouteProps = {
     path: "/signin", component: SignInPage
@@ -32,6 +34,8 @@ class Routing extends Component<any, any> {
                     <AnyoneRoute path="/signup" component={SignUpPage} />
                     <AnyoneRoute path="/browse" component={BrowsePage} />
                     <AnyoneRoute path="/account" component={AccountCreated} />
+                    <AnyoneRoute path="/reset" component={ResetPasswordPage} />
+                    <AnyoneRoute path="/reset2" component={ResetPasswordPage2} />
                     <AnyoneRoute render={() => (<h1>Path not matched!</h1>)} />
                 </Switch>
             </Container>
