@@ -3,22 +3,33 @@ import {Button, ButtonGroup, Nav, Navbar, NavDropdown} from 'react-bootstrap';
 import {LinkContainer} from 'react-router-bootstrap';
 import AuthService from "../services/AuthService";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
-import {faBell, faComment, faConciergeBell} from '@fortawesome/free-solid-svg-icons';
+import {faBell, faComment, faConciergeBell, faUser, faEnvelope, faCog, faSignOutAlt, faCaretDown, faFolder} from '@fortawesome/free-solid-svg-icons';
+import {Redirect, RouteComponentProps, withRouter} from "react-router-dom";
+import IdleTimer from 'react-idle-timer';
+import { IdleTimerProps } from 'react-idle-timer';
+import leaf from "../assets/leaf.svg";
 
-interface PropsType {
+interface PropsType extends RouteComponentProps<any>, React.Props<any> {
 
 }
 
 type State = {
-    time: Date,
-    logged: boolean
+    time: Date;
+    redirect?: string;
 }
 
 class NavBar extends Component<PropsType, State> {
+    constructor(props: any) {
+        super(props);
+        this.state = {
+            time: new Date()
+        };
+    }
+
     tick() {
         this.setState({
             time: new Date()
-        })
+        });
     }
 
     componentWillMount() {
@@ -27,53 +38,44 @@ class NavBar extends Component<PropsType, State> {
 
     componentDidMount() {
         setInterval(() => this.tick(), 1000);
-
-        // const user: object = AuthService.getCurrentUser();
-        // this.setState({
-        //    logged: user != null
-        // });
     }
 
     render() {
-        let userPanel;
-        if (this.state.logged) {
+        const {redirect, time} = this.state;
+        const user: object = AuthService.getCurrentUser();
+
+        let userPanel, guestOptions;
+        if (user) {
             userPanel = <div>
-                <NavDropdown id="navProfile" title={<b>Profile</b>} alignRight
+                <NavDropdown id="navProfile" title={<b>
+                    Profile
+                    <FontAwesomeIcon icon={faCaretDown} color="#000"/>
+                </b>} alignRight
                              // show
                              // onMouseOver={() => console.log('1')}
                              // onMouseLeave={() => console.log('2')}
                 >
-                    <NavDropdown.Item>Item 1</NavDropdown.Item>
-                    <NavDropdown.Item>Item 2</NavDropdown.Item>
+                    <NavDropdown.Item>
+                        Projects
+                        <FontAwesomeIcon icon={faFolder} color="#000" className="float-right" />
+                    </NavDropdown.Item>
+                    <NavDropdown.Item>
+                        Account Settings
+                        <FontAwesomeIcon icon={faCog} color="#000" className="float-right" />
+                    </NavDropdown.Item>
                     <NavDropdown.Divider />
-                    <NavDropdown.Item as={Button}>Logout</NavDropdown.Item>
+                    <NavDropdown.Item as={Button} onClick={() => {
+                            AuthService.logout();
+                            this.props.history.push("/");
+                            // this.setState({redirect: "/"});
+                        }}>
+                        Logout
+                        <FontAwesomeIcon icon={faSignOutAlt} size="1x" color="#000" className="float-right" />
+                    </NavDropdown.Item>
                 </NavDropdown>
             </div>;
-        }
-
-        return <Navbar bg="primary" variant="light">
-            <LinkContainer to="/">
-                <Navbar.Brand>
-                    NavBar
-                </Navbar.Brand>
-            </LinkContainer>
-
-            <Navbar.Text>
-                {this.state.time.toLocaleTimeString()}
-            </Navbar.Text>
-            <Nav className="ml-auto">
-                <Nav.Link>
-                    <FontAwesomeIcon icon={faBell} size="2x" color="#fff"/>
-                </Nav.Link>
-
-                <Nav.Link>
-                    <FontAwesomeIcon icon={faComment} size="2x" color="#fff"/>
-                </Nav.Link>
-
-                <LinkContainer to="/browse">
-                    <Nav.Link>Browse</Nav.Link>
-                </LinkContainer>
-
+        } else {
+            guestOptions = <>
                 <LinkContainer to="/signin">
                     <Nav.Link>Signin</Nav.Link>
                 </LinkContainer>
@@ -81,11 +83,57 @@ class NavBar extends Component<PropsType, State> {
                 <LinkContainer to="/signup">
                     <Nav.Link>Signup</Nav.Link>
                 </LinkContainer>
+            </>;
+        }
 
+        if (redirect) {
+            return <Redirect to={redirect} />;
+        }
+
+        return <Navbar bg="primary" variant="light">
+            <LinkContainer to="/">
+                <Navbar.Brand>
+                    <img
+                        alt=""
+                        src={leaf}
+                        width="30"
+                        height="30"
+                        className="d-inline-block align-top"
+                    />{' '}
+                    Garden Planner
+                </Navbar.Brand>
+            </LinkContainer>
+
+            <Navbar.Text>
+                {time.toLocaleTimeString()}
+            </Navbar.Text>
+            <Nav className="ml-auto">
+                {/*<Nav.Link>*/}
+                {/*    <FontAwesomeIcon icon={faBell} size="2x" color="#fff"/>*/}
+                {/*</Nav.Link>*/}
+
+                {/*<Nav.Link>*/}
+                {/*    <FontAwesomeIcon icon={faComment} size="2x" color="#fff"/>*/}
+                {/*</Nav.Link>*/}
+
+                {/*<Nav.Link>*/}
+                {/*    <FontAwesomeIcon icon={faUser} size="2x" color="#fff"/>*/}
+                {/*</Nav.Link>*/}
+
+                {/*<Nav.Link>*/}
+                {/*    <FontAwesomeIcon icon={faEnvelope} size="2x" color="#fff"/>*/}
+                {/*</Nav.Link>*/}
+
+
+                <LinkContainer to="/browse">
+                    <Nav.Link>Browse</Nav.Link>
+                </LinkContainer>
+
+                {guestOptions}
                 {userPanel}
             </Nav>
         </Navbar>;
     }
 }
 
-export default NavBar;
+export default withRouter(NavBar);// as React.ComponentClass<PropsType>;
