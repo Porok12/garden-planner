@@ -2,39 +2,62 @@ import React, {Component, createRef} from "react";
 import {Button, Col, Form} from "react-bootstrap";
 import AuthService from "../services/AuthService";
 import {config, Spring} from "react-spring/renderprops";
+import {Redirect} from "react-router-dom";
 
-class SignUpPage extends Component {
-    state = {
+type StateType = {
+    login: string;
+    email: string;
+    password: string;
+    repeated: string;
+    agreed: boolean;
+    redirect?: string;
+}
+
+class SignUpPage extends Component<any, StateType> {
+    state: StateType = {
         login: '',
         email: '',
         password: '',
-        repeated: ''
+        repeated: '',
+        agreed: false
     }
 
     submit(e: any) {
         e.preventDefault();
 
-        const {login, email, password, repeated} = this.state;
+        const {login, email, password, repeated, agreed} = this.state;
 
         if (password !== repeated) {
             return;
         }
 
-        AuthService.register(login, email, password)
-            .then(response => console.log(response))
+        AuthService.register(login, email, password, agreed)
+            .then(response => {
+                console.log(response);
+                this.setState({redirect: "/account"});
+            })
             .catch(err => console.log(err.response));
     }
 
     change(e: any) {
-        this.setState({[e.target.name]: e.target.value});
+        this.setState({[e.target.name]: e.target.value} as StateType);
+    }
+
+    checkboxChange(e: any) {
+        this.setState(({agreed}: StateType) => ({agreed: !agreed}));
     }
 
     render() {
-        const {login, email, password, repeated} = this.state;
+        const {login, email, password, repeated, agreed, redirect} = this.state;
         const change = this.change.bind(this);
+        const checkboxChange = this.checkboxChange.bind(this);
         const submit = this.submit.bind(this);
 
         const spring = createRef<any>();
+
+        if (redirect) {
+            return <Redirect to={redirect} />;
+        }
 
         return <Spring ref={spring}
                        from={{opacity: 0, margin: -50}}
@@ -45,7 +68,8 @@ class SignUpPage extends Component {
             {
                 ({opacity, margin}) => (
                     <Form className="form"
-                          style={{opacity: opacity, marginTop: margin, width: '450px', margin: 'auto'}} onSubmit={submit}>
+                          style={{opacity: opacity, marginTop: margin, width: '450px', margin: 'auto'}}
+                          onSubmit={submit}>
                         <Form.Group controlId="formLogin">
                             <Form.Control type="text" placeholder="" name="login" value={login} onChange={change} />
                             <Form.Label className="form-label">Login</Form.Label>
@@ -73,10 +97,19 @@ class SignUpPage extends Component {
                         {/*    <Form.Switch type="checkbox" label="I agree to the terms of service" />*/}
                         {/*</Form.Group>*/}
                         <Form.Group controlId="formCheckbox" className="text-left">
-                            <Form.Check type="checkbox" label="I agree to the terms of service" className="primary" />
+                            <Form.Check type="checkbox"
+                                        name="agreed"
+                                        label="I agree to the terms of service"
+                                        className="primary"
+                                        checked={agreed}
+                                        onChange={checkboxChange}
+                            />
                         </Form.Group>
 
-                        <Button variant="outline-primary" type="submit" block>
+                        <Button variant={`outline-${agreed ? "primary" : "secondary"}`}
+                                type="submit"
+                                disabled={!agreed}
+                                block>
                             Submit
                         </Button>
                     </Form>

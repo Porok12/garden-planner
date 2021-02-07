@@ -2,6 +2,14 @@ import axios, {AxiosResponse} from 'axios';
 
 const API_URL = '/auth/';
 
+type UserType = {
+    id: number;
+    username: string;
+    email: string;
+    roles: Array<string>;
+    accessToken: string;
+};
+
 class AuthService {
     login(username: string, password: string): Promise<AxiosResponse> {
         return axios
@@ -22,16 +30,19 @@ class AuthService {
         localStorage.removeItem("user");
     }
 
-    register(username: string, email: string, password: string): Promise<AxiosResponse> {
-        return axios.post(API_URL + "signup", {
-            username,
-            email,
-            password
+    register(username: string, email: string, password: string, agreed: boolean): Promise<AxiosResponse> {
+        return axios
+            .post(API_URL + "signup", {
+                username,
+                email,
+                password,
+                agreed
         });
     }
 
-    getCurrentUser(): object {
-        return JSON.parse(localStorage.getItem('user') || '');
+    getCurrentUser(): UserType {
+        const userJson = localStorage.getItem('user');
+        return userJson ? JSON.parse(userJson) : null;
     }
 }
 
