@@ -2,6 +2,7 @@ import React from "react";
 import {Component} from "react";
 import {Button, Form, Table} from "react-bootstrap";
 import AccountService from "../services/AccountService";
+import {FormattedMessage} from "react-intl";
 
 
 class ResetPasswordPage extends Component<any, any> {
@@ -25,9 +26,11 @@ class ResetPasswordPage extends Component<any, any> {
                 onSubmit={submit}>
                 <Form.Group controlId="formEmail">
                     <Form.Control type="email" placeholder="" name="email" value={email} onChange={change} />
-                    <Form.Label>Email address</Form.Label>
+                    <Form.Label>
+                        <FormattedMessage id="app.request-reset.email" />
+                    </Form.Label>
                     <Form.Text className="text-muted">
-                        We'll send you an email that allow you to reset your password.
+                        <FormattedMessage id="app.request-reset.email.subtext" />
                     </Form.Text>
                 </Form.Group>
 
@@ -35,7 +38,7 @@ class ResetPasswordPage extends Component<any, any> {
                         type="submit"
                         disabled={!enableBtn}
                         block>
-                    Submit
+                    <FormattedMessage id="app.request-reset.submit" />
                 </Button>
             </Form>
         </>;

@@ -15,6 +15,7 @@ import AuthHeader from "../services/AuthHeader";
 import axios from "axios";
 import {config, useTransition, animated, useChain, useSpring} from "react-spring";
 import MultiSelect from "react-multi-select-component";
+import {FormattedMessage} from "react-intl";
 
 interface BrowsePageProps {}
 
@@ -144,10 +145,14 @@ class BrowsePage extends Component<BrowsePageProps, BrowsePageState>{
                             aria-label="Username"
                             aria-describedby="basic-addon1"
                         />
-                        <FormLabel>Search plants</FormLabel>
+                        <FormLabel>
+                            <FormattedMessage id="app.browse.search.prompt" />
+                        </FormLabel>
                     </div>
                     <InputGroup.Append>
-                        <Button variant="outline-primary" onClick={this.search.bind(this)}>Search</Button>
+                        <Button variant="outline-primary" onClick={this.search.bind(this)}>
+                            <FormattedMessage id="app.browse.search" />
+                        </Button>
                     </InputGroup.Append>
                 </InputGroup>
             </div>

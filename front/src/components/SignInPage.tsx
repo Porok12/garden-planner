@@ -5,6 +5,7 @@ import {useSpring, animated} from "react-spring";
 import { Spring, config, interpolate } from "react-spring/renderprops";
 import {Redirect, RouteComponentProps,} from "react-router-dom";
 import {withRouter}from "react-router";
+import {FormattedMessage} from "react-intl";
 
 type LocationState = {
     from: string;
@@ -72,28 +73,38 @@ class SignInPage extends Component<PropsType, StateType> {
                     <Form.Group controlId="formLogin">
                         <Form.Control type="text" placeholder="" name="login"
                                       value={login} onChange={change} />
-                        <Form.Label className="form__label">Login</Form.Label>
+                        <Form.Label className="form__label">
+                            <FormattedMessage id="app.signin.login" />
+                        </Form.Label>
                     </Form.Group>
 
                     <Form.Group controlId="formPassword">
                         <Form.Control type="password" placeholder="" name="password"
                                       value={password} onChange={change} />
-                        <Form.Label className="form-label">Password</Form.Label>
+                        <Form.Label className="form-label">
+                            <FormattedMessage id="app.signin.password" />
+                        </Form.Label>
                     </Form.Group>
 
                     <Form.Group controlId="formCheckbox" className="text-left">
-                        <Form.Check type="checkbox" label="Remember me" className="primary" />
+                        <FormattedMessage id="app.signin.rememberme">
+                        {
+                            (msg) =>
+                                <Form.Check type="checkbox" label={msg} className="primary" />
+                        }
+                        </FormattedMessage>
+
                     </Form.Group>
 
                     <Form.Text as="a" className="text-left" style={{cursor: 'pointer'}} onClick={()=>{this.setState({redirect: "/reset"})}}>
-                        Forgot your password?
+                        <FormattedMessage id="app.signin.forgotpassword" />
                     </Form.Text>
 
                     <Button variant={`outline-${enableBtn ? "primary" : "secondary"}`}
                             type="submit"
                             disabled={!enableBtn}
                             block>
-                        Submit
+                        <FormattedMessage id="app.signin.submit" />
                     </Button>
                 </Form>
                 )}

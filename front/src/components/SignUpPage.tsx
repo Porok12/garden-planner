@@ -3,6 +3,7 @@ import {Button, Col, Form} from "react-bootstrap";
 import AuthService from "../services/AuthService";
 import {config, Spring} from "react-spring/renderprops";
 import {Redirect} from "react-router-dom";
+import {FormattedMessage} from "react-intl";
 
 type StateType = {
     login: string;
@@ -73,24 +74,32 @@ class SignUpPage extends Component<any, StateType> {
                           onSubmit={submit}>
                         <Form.Group controlId="formLogin">
                             <Form.Control type="text" placeholder="" name="login" value={login} onChange={change} />
-                            <Form.Label className="form-label">Login</Form.Label>
+                            <Form.Label className="form-label">
+                                <FormattedMessage id="app.signup.login" />
+                            </Form.Label>
                         </Form.Group>
                         <Form.Group controlId="formEmail">
                             <Form.Control type="email" placeholder="" name="email" value={email} onChange={change} />
-                            <Form.Label className="form-label">Email address</Form.Label>
+                            <Form.Label className="form-label">
+                                <FormattedMessage id="app.signup.email" />
+                            </Form.Label>
                             <Form.Text className="text-muted">
-                                We'll never share your email with anyone else.
+                                <FormattedMessage id="app.signup.email.subtext" />
                             </Form.Text>
                         </Form.Group>
 
                         <Form.Row>
                             <Form.Group as={Col} controlId="formPassword">
                                 <Form.Control type="password" placeholder="" name="password" value={password} onChange={change} />
-                                <Form.Label className="form-label">Password</Form.Label>
+                                <Form.Label className="form-label">
+                                    <FormattedMessage id="app.signup.password" />
+                                </Form.Label>
                             </Form.Group>
                             <Form.Group as={Col} controlId="formRepeatPassword">
                                 <Form.Control type="password" placeholder="" name="repeated" value={repeated} onChange={change} />
-                                <Form.Label className="form-label">Repeat password</Form.Label>
+                                <Form.Label className="form-label">
+                                    <FormattedMessage id="app.signup.repeat" />
+                                </Form.Label>
                             </Form.Group>
                         </Form.Row>
 
@@ -98,20 +107,25 @@ class SignUpPage extends Component<any, StateType> {
                         {/*    <Form.Switch type="checkbox" label="I agree to the terms of service" />*/}
                         {/*</Form.Group>*/}
                         <Form.Group controlId="formCheckbox" className="text-left">
-                            <Form.Check type="checkbox"
-                                        name="agreed"
-                                        label="I agree to the terms of service"
-                                        className="primary"
-                                        checked={agreed}
-                                        onChange={checkboxChange}
-                            />
+                            <FormattedMessage id="app.signup.terms">
+                                {
+                                    (msg) =>
+                                        <Form.Check type="checkbox"
+                                                    name="agreed"
+                                                    label={msg}
+                                                    className="primary"
+                                                    checked={agreed}
+                                                    onChange={checkboxChange}
+                                        />
+                                }
+                            </FormattedMessage>
                         </Form.Group>
 
                         <Button variant={`outline-${enableBtn ? "primary" : "secondary"}`}
                                 type="submit"
                                 disabled={!enableBtn}
                                 block>
-                            Submit
+                            <FormattedMessage id="app.signup.submit" />
                         </Button>
                     </Form>
                 )

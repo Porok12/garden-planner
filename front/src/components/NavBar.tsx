@@ -8,6 +8,7 @@ import {Redirect, RouteComponentProps, withRouter} from "react-router-dom";
 import IdleTimer from 'react-idle-timer';
 import { IdleTimerProps } from 'react-idle-timer';
 import leaf from "../assets/leaf.svg";
+import {FormattedMessage} from "react-intl";
 
 interface PropsType extends RouteComponentProps<any>, React.Props<any> {
 
@@ -48,7 +49,7 @@ class NavBar extends Component<PropsType, State> {
         if (user) {
             userPanel = <div>
                 <NavDropdown id="navProfile" title={<b>
-                    Profile
+                    <FormattedMessage id="app.nav.profile" />
                     <FontAwesomeIcon icon={faCaretDown} color="#000"/>
                 </b>} alignRight
                              // show
@@ -56,11 +57,11 @@ class NavBar extends Component<PropsType, State> {
                              // onMouseLeave={() => console.log('2')}
                 >
                     <NavDropdown.Item>
-                        Projects
+                        <FormattedMessage id="app.nav.profile.projects" />
                         <FontAwesomeIcon icon={faFolder} color="#000" className="float-right" />
                     </NavDropdown.Item>
                     <NavDropdown.Item>
-                        Account Settings
+                        <FormattedMessage id="app.nav.profile.settings" />
                         <FontAwesomeIcon icon={faCog} color="#000" className="float-right" />
                     </NavDropdown.Item>
                     <NavDropdown.Divider />
@@ -69,7 +70,7 @@ class NavBar extends Component<PropsType, State> {
                             this.props.history.push("/");
                             // this.setState({redirect: "/"});
                         }}>
-                        Logout
+                            <FormattedMessage id="app.nav.profile.logout" />
                         <FontAwesomeIcon icon={faSignOutAlt} size="1x" color="#000" className="float-right" />
                     </NavDropdown.Item>
                 </NavDropdown>
@@ -77,11 +78,15 @@ class NavBar extends Component<PropsType, State> {
         } else {
             guestOptions = <>
                 <LinkContainer to="/signin">
-                    <Nav.Link>Signin</Nav.Link>
+                    <Nav.Link>
+                        <FormattedMessage id="app.nav.signin" />
+                    </Nav.Link>
                 </LinkContainer>
 
                 <LinkContainer to="/signup">
-                    <Nav.Link>Signup</Nav.Link>
+                    <Nav.Link>
+                        <FormattedMessage id="app.nav.signup" />
+                    </Nav.Link>
                 </LinkContainer>
             </>;
         }
@@ -126,7 +131,9 @@ class NavBar extends Component<PropsType, State> {
 
 
                 <LinkContainer to="/browse">
-                    <Nav.Link>Browse</Nav.Link>
+                    <Nav.Link>
+                        <FormattedMessage id="app.nav.browse" />
+                    </Nav.Link>
                 </LinkContainer>
 
                 {guestOptions}

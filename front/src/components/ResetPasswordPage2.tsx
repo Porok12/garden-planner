@@ -3,6 +3,7 @@ import {Component} from "react";
 import {Button, Form, InputGroup, Table} from "react-bootstrap";
 import { faEye, faEyeSlash } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import {FormattedMessage} from "react-intl";
 
 type StateType = {
     password: string;
@@ -39,7 +40,9 @@ class ResetPasswordPage extends Component<any, StateType> {
                             name="password"
                             value={password}
                             onChange={change} />
-                        <Form.Label>Password</Form.Label>
+                        <Form.Label>
+                            <FormattedMessage id="app.reset-password.password" />
+                        </Form.Label>
                         <InputGroup.Append className="underline">
                             {showPass ? <FontAwesomeIcon icon={faEye} onClick={togglePass}/>
                                 : <FontAwesomeIcon icon={faEyeSlash} onClick={togglePass}/>}
@@ -55,7 +58,9 @@ class ResetPasswordPage extends Component<any, StateType> {
                             name="repeated"
                             value={repeated}
                             onChange={change} />
-                        <Form.Label>Repeat password</Form.Label>
+                        <Form.Label>
+                            <FormattedMessage id="app.reset-password.repeat" />
+                        </Form.Label>
                         {/*<InputGroup.Append className="underline">*/}
                         {/*    {showRep ? <FontAwesomeIcon icon={faEye} size="2x" color="#777" onClick={toggleRep}/>*/}
                         {/*    : <FontAwesomeIcon icon={faEyeSlash} size="2x" color="#777" onClick={toggleRep}/>}*/}
@@ -67,7 +72,7 @@ class ResetPasswordPage extends Component<any, StateType> {
                         type="submit"
                         disabled={!enableBtn}
                         block>
-                    Submit
+                    <FormattedMessage id="app.reset-password.submit" />
                 </Button>
             </Form>
         </>;
