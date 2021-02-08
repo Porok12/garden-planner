@@ -1,7 +1,10 @@
+$primary: theme-color("primary");
+$secondary: lighten($primary, 30%);
+
 .search-box {
-  padding: 20px 10px;
+  padding: 20px 20px 5px 20px;
   margin-bottom: 20px;
-  background-color: #f6f6f6;
+  background-color: $primary;
   box-shadow: 0 0 4px #9b9b9b;
   position: relative;
   display: flex;
@@ -11,9 +14,13 @@
 
   .form-control {
     background-color: transparent;
+    border: 0;
   }
 
   .form-group {
+    background-color: #ffffff;
+    border: 2px solid $secondary;
+
     position: relative; // For focus state's z-index
     flex: 1 1 auto;
     width: 1%;
@@ -33,11 +40,36 @@
       border: none;
     }
   }
+
+  .btn-link {
+    font-size: 0.8em;
+
+    span {
+      margin: auto;
+    }
+
+    svg {
+      margin-left: 0.5em;
+      transition: all 0.5s ease;
+
+      &.rot180 {
+        transform: rotate(180deg);
+      }
+
+      //display: block;
+      //margin: auto;
+    }
+  }
 }
 
 .advanced-search {
   box-shadow: 0 0 4px rgba(0, 0, 0, 0.5);
   margin: 20px 0;
+  padding: 20px;
+}
+
+.table th, .table td {
+  border-top: none
 }
 
 ///*main side bar*/

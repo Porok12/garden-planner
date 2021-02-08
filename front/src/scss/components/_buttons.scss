@@ -8,3 +8,13 @@
   outline: none !important;
   box-shadow: none
 }
+
+.btn-svg {
+  display: inline-flex;
+  align-self: center;
+
+  svg {
+    height:1em;
+    width:1em;
+  }
+}

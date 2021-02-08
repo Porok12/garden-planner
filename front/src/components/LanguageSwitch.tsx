@@ -9,8 +9,9 @@ class LanguageSwitch extends Component<any, any> {
         return <IntlContext.Consumer>
             {({locale, switchToPolish, switchToEnglish}) => (
                 <ul className="text-left">
-                    { locale === "pl" ? null : <Li onClick={switchToPolish}>Polski</Li>}
-                    { locale === "en" ? null : <Li onClick={switchToEnglish}>English</Li>}
+                    { locale === "pl" ? null : <Li onClick={switchToPolish}>🇵🇱 Polski</Li>}
+                    { locale === "en" ? null : <Li onClick={switchToEnglish}>🇺🇸 English</Li>}
+                    { locale === "ru" ? null : <Li onClick={switchToEnglish}>🇷🇺 Русский</Li>}
                 </ul>
             )}
         </IntlContext.Consumer>;
