@@ -19,6 +19,7 @@
     "axios": "^0.21.0",
     "bootstrap": "^4.5.3",
     "downshift": "^6.0.7",
+    "drei": "^2.2.21",
     "graphql-request": "^3.4.0",
     "node-sass": "^4.14.1",
     "path": "^0.12.7",
