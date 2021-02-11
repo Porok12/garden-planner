@@ -1,5 +1,5 @@
 import React, { useRef } from "react";
-import { MeshProps, useFrame, useThree } from "react-three-fiber";
+import { MeshProps, useFrame, useLoader, useThree } from "react-three-fiber";
 import {
     Geometry,
     Mesh,
@@ -10,10 +10,15 @@ import {
     Vector2,
     PerspectiveCamera,
     OrthographicCamera,
-    Scene
+    Scene,
+    TextureLoader
 } from "three";
+import * as THREE from 'three'
 import { TessellateModifier } from 'three/examples/jsm/modifiers/TessellateModifier.js';
 import { SubdivisionModifier } from 'three/examples/jsm/modifiers/SubdivisionModifier.js';
+import grid from '../../assets/grid.png';
+import { Plane } from "drei";
+import GroundModel from "./GroundModel";
 
 
 let geometry = new Geometry();
@@ -68,7 +73,7 @@ geometry.faces.push(
 const size = 2;
 geometry = new PlaneGeometry(size, size, 8, 8);
 geometry.rotateX(-Math.PI / 2);
-geometry.vertices.forEach(v => v.add(new Vector3(0, Math.random() * 0.12 - 0.12, 0)));
+// geometry.vertices.forEach(v => v.add(new Vector3(0, Math.random() * 0.12 - 0.12, 0)));
 // geometry.vertices = geometry.vertices.map(v => {
 //     v.add(new Vector3(0, Math.random() * 2, 0));
 //     return v;
@@ -82,7 +87,7 @@ const subdivisionModifier = new SubdivisionModifier(2);
 // geometry = subdivisionModifier.modify( geometry );
 
 // geometry.computeFaceNormals();
-geometry.computeFlatVertexNormals();
+// geometry.computeFlatVertexNormals();
 
 
 const leftGeom = new Geometry();
@@ -238,29 +243,66 @@ function Ground(props: MeshProps & GroundProps) {
         }
     });
 
+    const texture = useLoader(TextureLoader, grid);
+
+    // if (texture) {
+        // texture.wrapS = texture.wrapT = THREE.RepeatWrapping;
+    //     texture.repeat.set(1500, 1500);
+    //     texture.anisotropy = 16;
+    // }
+
     return (
             <>
-                <mesh
+                <GroundModel args={[10, 5]}/>
+                <Plane
                     ref={groundMesh}
                     name="groundMesh"
-                    position={[0, -0.2, 0]}
-                    onDoubleClick={(e:any) => {
-                        if (gCam.type === 'OrthographicCamera') {
-                            gCam = new PerspectiveCamera();
-                        } else {
-                            gCam = new OrthographicCamera(-1, 1, 1, -1);
-                        }
-
-                        gCam.position.set(0, 2, 0);
-                        gCam.lookAt(0, 0, 0);
-                    }}
+                    args={[size, size, 8, 8]}
+                    position={[0, -.2, 0]}
+                    rotation={[- Math.PI / 2, 0, 0]}
+                    // onDoubleClick={(e: any) => {
+                    //     if (gCam.type === 'OrthographicCamera') {
+                    //         gCam = new PerspectiveCamera();
+                    //     } else {
+                    //         gCam = new OrthographicCamera(-1, 1, 1, -1);
+                    //     }
+                    //
+                    //     gCam.position.set(0, 2, 0);
+                    //     gCam.lookAt(0, 0, 0);
+                    // }}
                 >
-                    {/*<octahedronGeometry name="geometry" />*/}
-                    <geometry vertices={geometry.vertices} faces={geometry.faces} />
-                    {/*<meshLambertMaterial name="material" color={'#fff'} wireframe/>*/}
-                    <meshLambertMaterial name="material" color={'#355e0a'} wireframe={wireframe}/>
-                    {/*<meshStandardMaterial attach="material" color={"#fff"} />*/}
-                </mesh>
+                    <meshLambertMaterial attach="material" map={texture} />
+                </Plane>
+                {/*<mesh*/}
+                {/*    ref={groundMesh}*/}
+                {/*    name="groundMesh"*/}
+                {/*    position={[0, -0.2, 0]}*/}
+                {/*    // rotation={[- Math.PI / 2, 0, 0]}*/}
+                {/*    onDoubleClick={(e:any) => {*/}
+                {/*        if (gCam.type === 'OrthographicCamera') {*/}
+                {/*            gCam = new PerspectiveCamera();*/}
+                {/*        } else {*/}
+                {/*            gCam = new OrthographicCamera(-1, 1, 1, -1);*/}
+                {/*        }*/}
+
+                {/*        gCam.position.set(0, 2, 0);*/}
+                {/*        gCam.lookAt(0, 0, 0);*/}
+                {/*    }}*/}
+                {/*>*/}
+                {/*    /!*<octahedronGeometry name="geometry" />*!/*/}
+                {/*    /!*<geometry vertices={geometry.vertices} faces={geometry.faces} />*!/*/}
+                {/*    /!*<planeGeometry args={[size, size, 8, 8]} />*!/*/}
+                {/*    <geometry vertices={geometry.vertices} faces={geometry.faces} />*/}
+                {/*    /!*<meshLambertMaterial name="material" color={'#fff'} wireframe/>*!/*/}
+                {/*    <meshLambertMaterial attach="material" map={texture} />*/}
+                {/*    /!*{*!/*/}
+                {/*    /!*    texture ?*!/*/}
+                {/*    /!*        <meshPhongMaterial attach="material" map={texture} />*!/*/}
+                {/*    /!*            :*!/*/}
+                {/*    /!*        <meshLambertMaterial attach="material" color={'#355e0a'} wireframe={wireframe} />*!/*/}
+                {/*    /!*}*!/*/}
+                {/*    /!*<meshStandardMaterial attach="material" color={"#fff"} />*!/*/}
+                {/*</mesh>*/}
 
                 <mesh
                     name="groundSidesMesh"

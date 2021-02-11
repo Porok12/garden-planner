@@ -1,11 +1,16 @@
 import React, { Component, createRef, useRef } from 'react';
-import {Button, ButtonGroup, Container, Modal, Nav, OverlayTrigger, Form, Row}
+import {Button, ButtonGroup, Container, Modal, Nav, OverlayTrigger, Form, Row, NavDropdown}
     from "react-bootstrap";
 import SecCanvas from "./threejs/SecCanvas";
+import compass from "../assets/compass.svg";
+import {faPlus} from "@fortawesome/free-solid-svg-icons";
+import MainCanvas from "./threejs/MainCanvas";
+import TemplateCanvas from "./threejs/TemplateCanvas";
 
 class HomePage extends Component<any, any> {
     state = {
-        modal : false
+        modal : false,
+        fullscreen: false
     }
 
     render() {
@@ -31,6 +36,7 @@ class HomePage extends Component<any, any> {
                 </Modal.Body>
                 <Modal.Footer>
                     <Button onClick={()=>this.setState({modal: false})}>Close</Button>
+                    <Button onClick={()=>this.setState({modal: false})}>Next</Button>
                 </Modal.Footer>
             </Modal.Dialog>
         }
@@ -38,33 +44,33 @@ class HomePage extends Component<any, any> {
         // @ts-ignore
         return <>
             {modalBox}
-            <OverlayTrigger
-                trigger='click'
-                key='bottom'
-                placement='bottom'
-                overlay={
-                    <div id={`tooltip-bottom`} style={{height: '80%', width: '80%', margin: '5px',backgroundColor: '#eee'}}>
-                        <Nav variant="tabs">
-                            <Nav.Item>
-                                <Nav.Link>Option 1</Nav.Link>
-                            </Nav.Item>
-                            <Nav.Item>
-                                <Nav.Link>Option 2</Nav.Link>
-                            </Nav.Item>
-                            <Nav.Item>
-                                <Nav.Link>Option 3</Nav.Link>
-                            </Nav.Item>
-                        </Nav>
-                    </div>
-                }
-            >
-                <Button variant="secondary">Tooltip</Button>
-            </OverlayTrigger>
-            <Button onClick={()=>{this.setState({modal: !this.state.modal})}}>
-                Create project
-            </Button>
 
-            <SecCanvas />
+            <div className={this.state.fullscreen ? "div-expand" : ""}>
+                <Nav variant="pills" activeKey="1">
+                    <NavDropdown title="Dropdown" id="nav-dropdown">
+                        <NavDropdown.Item eventKey="4.1">Action</NavDropdown.Item>
+                        <NavDropdown.Item eventKey="4.2">Another action</NavDropdown.Item>
+                        <NavDropdown.Item eventKey="4.3">Something else here</NavDropdown.Item>
+                        <NavDropdown.Item eventKey="4.4">Separated link</NavDropdown.Item>
+                    </NavDropdown>
+                    <Nav.Item>
+                        {
+                            this.state.fullscreen ?
+                                <Button onClick={() => this.setState({fullscreen: false})}>Exit</Button>
+                                :
+                                <Button onClick={()=>{this.setState({fullscreen: true})}}>Fullscreen</Button>
+                        }
+                    </Nav.Item>
+                    <Nav.Item>
+                        <Button onClick={() => this.setState({modal: true})}>New project</Button>
+                    </Nav.Item>
+                </Nav>
+
+                {/*<SecCanvas />*/}
+                <MainCanvas />
+                {/*<TemplateCanvas />*/}
+
+            </div>
         </>;
     }
 }

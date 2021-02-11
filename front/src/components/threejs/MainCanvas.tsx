@@ -2,12 +2,14 @@ import MySky from "./MySky";
 import Camera from "./Camera";
 import CameraControls from "./CameraControls";
 import Ground from "./Ground";
-import {Scene, Sprite, SpriteMaterial, Vector2, WebGLRenderTarget, SpriteMaterialParameters} from "three";
+import {Scene, Sprite, SpriteMaterial, Vector2, WebGLRenderTarget, SpriteMaterialParameters, Vector3} from "three";
+// import * as THREE from "three";
 import {Html} from "@react-three/drei";
-import {Button, ButtonGroup} from "react-bootstrap";
+import {Button, ButtonGroup, Nav} from "react-bootstrap";
 import {Canvas, useFrame, useThree} from "react-three-fiber";
-import React, {createRef, useEffect, useRef, useState} from "react";
+import React, {createRef, useEffect, useRef, useState, Suspense } from "react";
 import MySprite from "./MySprite";
+import compass from "../../assets/compass.svg";
 
 const renderTarget = new WebGLRenderTarget(800, 800);
 
@@ -27,8 +29,11 @@ function MainCanvas() {
             <CameraControls />
             <ambientLight color={'#ffffff'} intensity={0.2}/>
             <pointLight color={'#ffffff'} position={[2, 2, 2]} intensity={2.0}/>
-            <Ground testScene={testScene} wireframe={wireframe} sceneRef={sceneRef}/>
+            <Suspense fallback={null}>
+                <Ground testScene={testScene} wireframe={wireframe} sceneRef={sceneRef}/>
+            </Suspense>
         </scene>
+
         <scene ref={hudScene}>
             <sprite name="sprite"
                     ref={spriteRef}
