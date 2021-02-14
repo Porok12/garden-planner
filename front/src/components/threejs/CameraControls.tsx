@@ -10,7 +10,9 @@ function CameraControls(props: any) {
 
     //React.RefObject<OrbitControls>
     const ref: any = useRef<MapControls>();
-    useFrame(() => ref.current.update());
+    useFrame(() => {if (ref.current) {
+        ref.current.update();
+    }});
     useEffect(() => {
         if (ref.current) {
             ref.current.removeEventListener('change', invalidate);

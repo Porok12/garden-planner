@@ -1,15 +1,13 @@
-import {BufferGeometry, Geometry} from "three";
-import * as THREE from "three";
 import React, {Suspense} from "react";
-import {Plane} from "drei";
-import {useFrame, useLoader} from "react-three-fiber";
-import grid from '../../assets/grid.png';
+import * as THREE from "three";
+import {BufferGeometry, Geometry} from "three";
+// import cube from "../../../assets/cube.dae";
 
 type Args = {
 
 }
 
-const make = (array: ArrayLike<number>, index: number, prev: number, f: number = 1) => {
+const make = (array: ArrayLike<number>, index: number, prev: number, f: number = 2) => {
     return [
         [
             array[prev+0],
@@ -51,7 +49,9 @@ const make2 = (array: ArrayLike<number>, index: number, prev: number, f: number 
     ];
 }
 
-const sides = ({attributes}: BufferGeometry, texture?: THREE.Texture) => {
+type ParamsType = { args: [number, number]; rotation: [number, number, number] | undefined; scale: [number, number, number] | undefined; position: [number, number, number] | undefined }
+
+const sides = ({attributes}: BufferGeometry, texture: THREE.Texture, params: ParamsType) => {
     const {count, itemSize, array} = attributes.position;
     
     let max = [Number.MIN_VALUE, Number.MIN_VALUE];
@@ -69,8 +69,6 @@ const sides = ({attributes}: BufferGeometry, texture?: THREE.Texture) => {
     const precision = 0.001;
 
     for (let i = 0; i < count * itemSize; i += itemSize) {
-
-
         if (Math.abs(array[i] - max[0]) <= precision)
             g1.push(i);
 
@@ -83,8 +81,6 @@ const sides = ({attributes}: BufferGeometry, texture?: THREE.Texture) => {
         if (Math.abs(array[i+1] - min[1]) <= precision)
             g4.push(i);
     }
-
-    // console.log(g1, g2, g3, g4);
 
     const vertices: number[] = [];
     const normals: number[] = [];
@@ -151,9 +147,9 @@ const sides = ({attributes}: BufferGeometry, texture?: THREE.Texture) => {
     }
 
     return <mesh
-        position={[0, 0.5, 0.2]}
-        scale={[0.5, 0.5, 0.5]}
-        rotation={[- Math.PI / 2, 0, 0]}
+        position={params.position}
+        scale={params.scale}
+        rotation={params.rotation}
     >
         <bufferGeometry attach="geometry">
             <bufferAttribute

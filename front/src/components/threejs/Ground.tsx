@@ -253,26 +253,26 @@ function Ground(props: MeshProps & GroundProps) {
 
     return (
             <>
-                <GroundModel args={[10, 5]}/>
-                <Plane
-                    ref={groundMesh}
-                    name="groundMesh"
-                    args={[size, size, 8, 8]}
-                    position={[0, -.2, 0]}
-                    rotation={[- Math.PI / 2, 0, 0]}
-                    // onDoubleClick={(e: any) => {
-                    //     if (gCam.type === 'OrthographicCamera') {
-                    //         gCam = new PerspectiveCamera();
-                    //     } else {
-                    //         gCam = new OrthographicCamera(-1, 1, 1, -1);
-                    //     }
-                    //
-                    //     gCam.position.set(0, 2, 0);
-                    //     gCam.lookAt(0, 0, 0);
-                    // }}
-                >
-                    <meshLambertMaterial attach="material" map={texture} />
-                </Plane>
+                <GroundModel args={[10, 10]} scale={[0.5, 0.5, 0.5]} position={[0, 0, -2]}/>
+                {/*<Plane*/}
+                {/*    ref={groundMesh}*/}
+                {/*    name="groundMesh"*/}
+                {/*    args={[size, size, 8, 8]}*/}
+                {/*    position={[0, -.2, 0]}*/}
+                {/*    rotation={[- Math.PI / 2, 0, 0]}*/}
+                {/*    // onDoubleClick={(e: any) => {*/}
+                {/*    //     if (gCam.type === 'OrthographicCamera') {*/}
+                {/*    //         gCam = new PerspectiveCamera();*/}
+                {/*    //     } else {*/}
+                {/*    //         gCam = new OrthographicCamera(-1, 1, 1, -1);*/}
+                {/*    //     }*/}
+                {/*    //*/}
+                {/*    //     gCam.position.set(0, 2, 0);*/}
+                {/*    //     gCam.lookAt(0, 0, 0);*/}
+                {/*    // }}*/}
+                {/*>*/}
+                {/*    <meshLambertMaterial attach="material" map={texture} />*/}
+                {/*</Plane>*/}
                 {/*<mesh*/}
                 {/*    ref={groundMesh}*/}
                 {/*    name="groundMesh"*/}
@@ -304,18 +304,18 @@ function Ground(props: MeshProps & GroundProps) {
                 {/*    /!*<meshStandardMaterial attach="material" color={"#fff"} />*!/*/}
                 {/*</mesh>*/}
 
-                <mesh
-                    name="groundSidesMesh"
-                    position={[0, -0.2, 0]}
-                >
-                    <geometry vertices={sidesGeom.vertices} faces={sidesGeom.faces} />
-                    <meshLambertMaterial name="material" color={'#503a27'} />
-                </mesh>
+                {/*<mesh*/}
+                {/*    name="groundSidesMesh"*/}
+                {/*    position={[0, -0.2, 0]}*/}
+                {/*>*/}
+                {/*    <geometry vertices={sidesGeom.vertices} faces={sidesGeom.faces} />*/}
+                {/*    <meshLambertMaterial name="material" color={'#503a27'} />*/}
+                {/*</mesh>*/}
 
-                <mesh ref={pointer} position={[0, 0, 0]} scale={[0.05, 0.05, 0.05]}>
-                    <sphereGeometry />
-                    <meshLambertMaterial name="material" color={'#d01a9a'} />
-                </mesh>
+                {/*<mesh ref={pointer} position={[0, 0, 0]} scale={[0.05, 0.05, 0.05]}>*/}
+                {/*    <sphereGeometry />*/}
+                {/*    <meshLambertMaterial name="material" color={'#d01a9a'} />*/}
+                {/*</mesh>*/}
 
                 {/*<mesh name="box" position={[0, 1, 0]} scale={[0.5, 0.5, 0.5]} material={material}>*/}
                 {/*    <boxGeometry />*/}
