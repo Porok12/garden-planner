@@ -6,6 +6,7 @@ import compass from "../assets/compass.svg";
 import {faPlus} from "@fortawesome/free-solid-svg-icons";
 import MainCanvas from "./threejs/MainCanvas";
 import TemplateCanvas from "./threejs/TemplateCanvas";
+import Sidebar from "./Sidebar";
 
 class HomePage extends Component<any, any> {
     state = {
@@ -69,7 +70,7 @@ class HomePage extends Component<any, any> {
                 {/*<SecCanvas />*/}
                 <MainCanvas />
                 {/*<TemplateCanvas />*/}
-
+                <Sidebar />
             </div>
         </>;
     }
