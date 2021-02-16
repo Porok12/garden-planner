@@ -8,8 +8,7 @@ import MainCanvas from "./threejs/MainCanvas";
 import TemplateCanvas from "./threejs/TemplateCanvas";
 import Sidebar from "./Sidebar";
 import {connect, Provider, useSelector} from "react-redux";
-import {disableOrbitControls, disableSky, enableOrbitControls, setBrushOpacity, setBrushSize} from "../store/canvas/actions";
-import {fetchBrowse} from "../store/browser/reducers";
+import {disableOrbitControls, disableSky, enableOrbitControls, setBrushOpacity, setBrushSize, setBrush} from "../store/canvas/actions";
 
 class HomePage extends Component<any, any> {
     state = {
@@ -74,7 +73,7 @@ class HomePage extends Component<any, any> {
                     <Button variant="primary" onClick={() => {}}>Wiremode</Button>
                     <Button variant="primary" onClick={this.props.disableSky}>Sky</Button>
                     {
-                        this.props.enabled ?
+                        this.props.orbitControls.enabled ?
                             <Button variant="primary" onClick={this.props.disableOrbitControls}>Disable OrbitControls</Button>
                             :
                             <Button variant="primary" onClick={this.props.enableOrbitControls}>Enable OrbitControls</Button>
@@ -90,7 +89,7 @@ class HomePage extends Component<any, any> {
                 <Button>
                     <FontAwesomeIcon icon={faLayerGroup} />
                 </Button>
-                <Button>
+                <Button onClick={e => this.props.setBrush(!this.props.brush.enabled)}>
                     <FontAwesomeIcon icon={faPaintBrush} />
                 </Button>
                 <Button>
@@ -109,5 +108,5 @@ class HomePage extends Component<any, any> {
     }
 }
 
-export default connect((state: AppRootState) => state.canvas.orbitControls,
-    {disableOrbitControls, enableOrbitControls, disableSky, setBrushOpacity, setBrushSize})(HomePage);
+export default connect((state: AppRootState) => state.canvas,
+    {disableOrbitControls, enableOrbitControls, disableSky, setBrushOpacity, setBrushSize, setBrush})(HomePage);

@@ -58,7 +58,7 @@ const GroundModel = React.forwardRef<THREE.Mesh, GroundProps>(({
     const {invalidate} = useThree();
     const [{xyz}, set] = useSpring(() => ({xyz: [0, 0.38, 0], config: {mass: 10}}));
     const handlePointerMove = (e: PointerEvent) => {
-        if (paintingEnabled) {
+        if (paintingEnabled && brush.enabled) {
             if (e.uv) {
                 const x = Math.floor(e.uv?.x * 256);
                 const y = 256 - Math.floor(e.uv?.y * 256);

@@ -8,7 +8,7 @@ const Compass = () => {
     const texture = useLoader(TextureLoader, compass);
 
     return <Suspense fallback={null}>
-        <Plane position={[-2.5, 1.1, 0]} scale={[0.5, 0.5, 0.5]}>
+        <Plane position={[-2.5, 1.1, 0]} scale={[0.5, 0.5, 0.5]} rotation={[0, 0, Math.PI / 2]}>
             <meshBasicMaterial map={texture} alphaTest={0.4}/>
         </Plane>
     </Suspense>

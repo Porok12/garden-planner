@@ -15,6 +15,20 @@ const initialState: AppCanvasState = {
     }
 }
 
+type project = {
+    name: string,
+    north: [],
+    size: [],
+    borders: [],
+    heightAboveSeaLevel: any,
+    winds: []
+    layers: {
+        pH: any,
+        groundWater: any,
+        landform: any
+    }
+}
+
 const slice = createSlice({
     name: 'canvas',
     initialState,
@@ -30,6 +44,9 @@ const slice = createSlice({
         },
         disableSky(state, action) {
             state.sky.enabled = false;
+        },
+        setBrush(state, action) {
+            state.brush.enabled = action.payload;
         },
         setBrushSize(state, action) {
             state.brush.size = action.payload;
