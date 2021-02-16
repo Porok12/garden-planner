@@ -1,4 +1,4 @@
-import * as actionTypes from "./types";
+import {createSlice} from "@reduxjs/toolkit";
 
 const initialState: AppCanvasState = {
     orbitControls: {
@@ -9,62 +9,38 @@ const initialState: AppCanvasState = {
     },
     brush: {
         size: 4,
-        opacity: 0.4
+        opacity: 0.4,
+        color: [0, 0, 0]
     }
 }
 
-const reducer = (
-    state: AppCanvasState = initialState,
-    action: AppCanvasAction
-): AppCanvasState => {
-    switch (action.type) {
-        case actionTypes.ENABLE_ORBIT_CONTROLS:
-            return {
-                ...state,
-                orbitControls: {
-                    enabled: true
-                },
-            }
-        case actionTypes.DISABLE_ORBIT_CONTROLS:
-            return {
-                ...state,
-                orbitControls: {
-                    enabled: false
-                },
-            }
-        case actionTypes.ENABLE_SKY:
-            return {
-                ...state,
-                sky: {
-                    enabled: true
-                },
-            }
-        case actionTypes.DISABLE_SKY:
-            return {
-                ...state,
-                sky: {
-                    enabled: false
-                },
-            }
-        case actionTypes.SET_BRUSH_SIZE:
-            return {
-                ...state,
-                brush: {
-                    size: action.payload || 4,
-                    opacity: state.brush.opacity
-                },
-            }
-        case actionTypes.SET_BRUSH_OPACITY:
-            return {
-                ...state,
-                brush: {
-                    size: state.brush.size,
-                    opacity: action.payload || 0.4
-                },
-            }
+const slice = createSlice({
+    name: 'canvas',
+    initialState,
+    reducers: {
+        enableOrbitControls(state, action) {
+            state.orbitControls.enabled = true;
+        },
+        disableOrbitControls(state, action) {
+            state.orbitControls.enabled = false;
+        },
+        enableSky(state, action) {
+            state.sky.enabled = true;
+        },
+        disableSky(state, action) {
+            state.sky.enabled = false;
+        },
+        setBrushSize(state, action) {
+            state.brush.size = action.payload;
+        },
+        setBrushOpacity(state, action) {
+            state.brush.opacity = action.payload;
+        },
+        setBrushColor(state, action) {
+            state.brush.color = action.payload;
+        },
     }
+});
 
-    return state;
-}
-
-export default reducer
+export const { actions } = slice;
+export default slice.reducer;

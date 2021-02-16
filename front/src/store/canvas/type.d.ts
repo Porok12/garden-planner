@@ -7,7 +7,8 @@ type AppCanvasState = {
     },
     brush: {
         size: number,
-        opacity: number
+        opacity: number,
+        color: [number, number, number]
     }
 }
 
