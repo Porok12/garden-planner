@@ -3,8 +3,7 @@ import {Suspense} from "react";
 import * as THREE from "three";
 import {useLoader, useThree} from "react-three-fiber";
 import {Plane} from "drei";
-import {sides} from "./Utils/index.js";
-import {BufferGeometry } from "three";
+import {BufferGeometry} from "three";
 import grid from '../../assets/grid.png';
 // @ts-ignore
 import cube from '../../assets/cube.dae';
@@ -33,11 +32,11 @@ ctx.fillRect(0, 0, 128, 128);
 ctx.fillStyle = '#4a860c';
 ctx.fillRect(128, 128, 256, 256);
 
-const GroundModel = ({
+const GroundModel = React.forwardRef<THREE.Mesh, GroundProps>(({
                          args = [1, 1],
                          position = [0, 0, 0],
                          rotation = [- Math.PI / 2, 0, 0],
-                         scale = [1, 1, 1] }: GroundProps) => {
+                         scale = [1, 1, 1] }, ref) => {
     const texture: THREE.Texture = useLoader(THREE.TextureLoader, grid);
     const model: Collada = useLoader(ColladaLoader, cube);
     // @ts-ignore
@@ -51,7 +50,7 @@ const GroundModel = ({
 
     const canvasTex = useMemo(() => new THREE.CanvasTexture(ctx.canvas), [ctx]);
 
-    const ref = useRef<THREE.Mesh>();
+    // const ref = useRef<THREE.Mesh>();
 
     const {invalidate} = useThree();
     const [{xyz}, set] = useSpring(() => ({xyz: [0, 0.38, 0], config: {mass: 10}}));
@@ -63,7 +62,11 @@ const GroundModel = ({
 
                 ctx.beginPath();
                 ctx.arc(x, y, 4, 0, 2 * Math.PI, false);
-                ctx.fillStyle = '#454545';
+                // ctx.fillStyle = '#454545';
+                const grd = ctx.createRadialGradient(x, y, 0, x, y, 4);
+                grd.addColorStop(0, "rgba(0, 0, 0, 0.25)"); //#454545
+                grd.addColorStop(1, "transparent");
+                ctx.fillStyle = grd;
                 ctx.fill();
                 canvasTex.needsUpdate = true;
                 invalidate();
@@ -136,11 +139,12 @@ const GroundModel = ({
             onPointerMove={handlePointerMove}
             onPointerDown={handlePointerDown}
             onPointerUp={handlePointerUp}
+            onPointerOut={handlePointerUp}
         >
             <meshLambertMaterial attach="material" map={canvasTex} wireframe={false} />
         </Plane>
-        {ref.current && sides(ref.current.geometry as BufferGeometry, texture, {args, position, scale, rotation})}
+        {/*{ref.current && sides(ref.current.geometry as BufferGeometry, texture, {args, position, scale, rotation})}*/}
     </Suspense>;
-}
+})
 
 export default GroundModel;

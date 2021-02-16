@@ -30,9 +30,9 @@ function Camera(props: PerspectiveCameraProps) {
 
     return <>
         <perspectiveCamera ref={ref} {...props} />
-        <Html>
-            <img src={compass} style={{transform: `scale(0.15) rotate(${angle}rad)`}} />
-        </Html>
+        {/*<Html position={[-0.5, 0.5, 0]}>*/}
+        {/*    <img src={compass} style={{transform: `rotate(${angle}rad)`, width: '128px', height: '128px' }} draggable={false} />*/}
+        {/*</Html>*/}
     </>
 }
 

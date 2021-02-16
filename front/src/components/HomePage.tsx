@@ -1,17 +1,19 @@
 import React, { Component, createRef, useRef } from 'react';
-import {Button, ButtonGroup, Container, Modal, Nav, OverlayTrigger, Form, Row, NavDropdown}
+import {Button, ButtonGroup, Container, Modal, Nav, Form, Row, NavDropdown}
     from "react-bootstrap";
 import SecCanvas from "./threejs/SecCanvas";
-import compass from "../assets/compass.svg";
 import {faPlus} from "@fortawesome/free-solid-svg-icons";
 import MainCanvas from "./threejs/MainCanvas";
 import TemplateCanvas from "./threejs/TemplateCanvas";
 import Sidebar from "./Sidebar";
+import {connect, Provider} from "react-redux";
+import {disableOrbitControls, disableSky} from "../store/canvas/actions";
 
 class HomePage extends Component<any, any> {
     state = {
         modal : false,
-        fullscreen: false
+        fullscreen: false,
+        sidebar: true
     }
 
     render() {
@@ -46,7 +48,7 @@ class HomePage extends Component<any, any> {
         return <>
             {modalBox}
 
-            <div className={this.state.fullscreen ? "div-expand" : ""}>
+            <div>
                 <Nav variant="pills" activeKey="1">
                     <NavDropdown title="Dropdown" id="nav-dropdown">
                         <NavDropdown.Item eventKey="4.1">Action</NavDropdown.Item>
@@ -54,20 +56,28 @@ class HomePage extends Component<any, any> {
                         <NavDropdown.Item eventKey="4.3">Something else here</NavDropdown.Item>
                         <NavDropdown.Item eventKey="4.4">Separated link</NavDropdown.Item>
                     </NavDropdown>
-                    <Nav.Item>
-                        {
-                            this.state.fullscreen ?
-                                <Button onClick={() => this.setState({fullscreen: false})}>Exit</Button>
-                                :
-                                <Button onClick={()=>{this.setState({fullscreen: true})}}>Fullscreen</Button>
-                        }
-                    </Nav.Item>
+                    {/*<Nav.Item>*/}
+                    {/*    {*/}
+                    {/*        this.state.fullscreen ?*/}
+                    {/*            <Button onClick={() => this.setState({fullscreen: false})}>Exit</Button>*/}
+                    {/*            :*/}
+                    {/*            <Button onClick={()=>{this.setState({fullscreen: true})}}>Fullscreen</Button>*/}
+                    {/*    }*/}
+                    {/*</Nav.Item>*/}
                     <Nav.Item>
                         <Button onClick={() => this.setState({modal: true})}>New project</Button>
                     </Nav.Item>
                 </Nav>
+                <ButtonGroup aria-label="Basic example">
+                    <Button variant="primary" onClick={() => {}}>Wiremode</Button>
+                    <Button variant="primary" onClick={this.props.disableSky}>Sky</Button>
+                    <Button variant="primary" onClick={this.props.disableOrbitControls}>Disable OrbitControls</Button>
+                </ButtonGroup>
+            </div>
 
-                {/*<SecCanvas />*/}
+            <div className={this.state.fullscreen ? "div-expand" : ""}
+                 style={{ display: 'flex', alignItems: 'stretch'}}
+            >
                 <MainCanvas />
                 {/*<TemplateCanvas />*/}
                 <Sidebar />
@@ -76,4 +86,4 @@ class HomePage extends Component<any, any> {
     }
 }
 
-export default HomePage;
+export default connect(null, {disableOrbitControls, disableSky})(HomePage);

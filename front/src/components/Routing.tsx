@@ -25,7 +25,7 @@ class Routing extends Component<any, any> {
     render() {
         return <Router>
             {this.props.children}
-            <Container id="container" fluid={"md"} className="mx-auto">
+            <Container id="container" fluid className="mx-auto">
                 <Switch>
                     <AnyoneRoute path="/" exact component={HomePage} />
                     <UserRoute path="/profile" component={ProfilePage} />

@@ -7,11 +7,18 @@ class Sidebar extends Component<any, any> {
     constructor(props: any) {
         super(props);
         this.ref = createRef<HTMLDivElement>();
+        this.state = {
+            show: true
+        }
     }
 
     render() {
         return <>
-            <div className="sidebar">
+            <div className={`sidebar ${this.state.show ? "show" : "hidden"}`}
+                 // style={{width: this.state.sidebar ? "300px" : "0"}}
+
+                onClick={e => this.setState((prev: any) => ({show: !prev.show}))}
+            >
                 <div className="sidebar__header">
                     Header
                 </div>
