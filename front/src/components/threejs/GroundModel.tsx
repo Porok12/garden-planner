@@ -12,6 +12,7 @@ import pointer from '../../assets/pointer.dae';
 import {Collada, ColladaLoader} from "three/examples/jsm/loaders/ColladaLoader";
 import {MouseEvent, PointerEvent} from "react-three-fiber/canvas";
 import { a, useSpring, useSprings } from "@react-spring/three";
+import {useSelector} from "react-redux";
 
 
 type GroundProps = {
@@ -52,6 +53,8 @@ const GroundModel = React.forwardRef<THREE.Mesh, GroundProps>(({
 
     // const ref = useRef<THREE.Mesh>();
 
+    const brush = useSelector((state: AppRootState) => state.canvas.brush);
+
     const {invalidate} = useThree();
     const [{xyz}, set] = useSpring(() => ({xyz: [0, 0.38, 0], config: {mass: 10}}));
     const handlePointerMove = (e: PointerEvent) => {
@@ -60,11 +63,15 @@ const GroundModel = React.forwardRef<THREE.Mesh, GroundProps>(({
                 const x = Math.floor(e.uv?.x * 256);
                 const y = 256 - Math.floor(e.uv?.y * 256);
 
+                const [r, g, b] = brush.color;
+                const a = brush.opacity;
+                const s = brush.size;
+
                 ctx.beginPath();
-                ctx.arc(x, y, 4, 0, 2 * Math.PI, false);
+                ctx.arc(x, y, s, 0, 2 * Math.PI, false);
                 // ctx.fillStyle = '#454545';
-                const grd = ctx.createRadialGradient(x, y, 0, x, y, 4);
-                grd.addColorStop(0, "rgba(0, 0, 0, 0.25)"); //#454545
+                const grd = ctx.createRadialGradient(x, y, 0, x, y, s);
+                grd.addColorStop(0, `rgba(${r}, ${g}, ${b}, ${a}`); //#454545
                 grd.addColorStop(1, "transparent");
                 ctx.fillStyle = grd;
                 ctx.fill();

@@ -6,6 +6,7 @@ type AppCanvasState = {
         enabled: boolean;
     },
     brush: {
+        enabled: boolean,
         size: number,
         opacity: number,
         color: [number, number, number]

@@ -6,8 +6,9 @@ import {faPlus} from "@fortawesome/free-solid-svg-icons";
 import MainCanvas from "./threejs/MainCanvas";
 import TemplateCanvas from "./threejs/TemplateCanvas";
 import Sidebar from "./Sidebar";
-import {connect, Provider} from "react-redux";
-import {disableOrbitControls, disableSky} from "../store/canvas/actions";
+import {connect, Provider, useSelector} from "react-redux";
+import {disableOrbitControls, disableSky, enableOrbitControls, setBrushOpacity, setBrushSize} from "../store/canvas/actions";
+import {fetchBrowse} from "../store/browser/reducers";
 
 class HomePage extends Component<any, any> {
     state = {
@@ -71,8 +72,17 @@ class HomePage extends Component<any, any> {
                 <ButtonGroup aria-label="Basic example">
                     <Button variant="primary" onClick={() => {}}>Wiremode</Button>
                     <Button variant="primary" onClick={this.props.disableSky}>Sky</Button>
-                    <Button variant="primary" onClick={this.props.disableOrbitControls}>Disable OrbitControls</Button>
+                    {
+                        this.props.enabled ?
+                            <Button variant="primary" onClick={this.props.disableOrbitControls}>Disable OrbitControls</Button>
+                            :
+                            <Button variant="primary" onClick={this.props.enableOrbitControls}>Enable OrbitControls</Button>
+                    }
                 </ButtonGroup>
+                <input type="number" min={0} max={1} onChange={(e) =>
+                    this.props.setBrushOpacity(e.target.value)} />
+                <input type="number" min={1} max={10} onChange={(e) =>
+                    this.props.setBrushSize(e.target.value)} />
             </div>
 
             <div className={this.state.fullscreen ? "div-expand" : ""}
@@ -86,4 +96,5 @@ class HomePage extends Component<any, any> {
     }
 }
 
-export default connect(null, {disableOrbitControls, disableSky})(HomePage);
+export default connect((state: AppRootState) => state.canvas.orbitControls,
+    {disableOrbitControls, enableOrbitControls, disableSky, setBrushOpacity, setBrushSize})(HomePage);

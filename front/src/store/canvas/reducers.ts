@@ -8,6 +8,7 @@ const initialState: AppCanvasState = {
         enabled: true
     },
     brush: {
+        enabled: true,
         size: 4,
         opacity: 0.4,
         color: [0, 0, 0]

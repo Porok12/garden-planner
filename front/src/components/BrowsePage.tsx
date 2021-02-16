@@ -8,19 +8,19 @@ import {
     FormGroup,
     ButtonGroup,
     Table,
-    Pagination, Spinner, Row, Collapse, Col, Card
+    Pagination, Spinner, Collapse, Col, Card
 } from "react-bootstrap";
 import {gql, GraphQLClient} from "graphql-request";
-import AuthHeader from "../services/AuthHeader";
-import axios from "axios";
 import {config, useTransition, animated, useChain, useSpring} from "react-spring";
 import MultiSelect from "react-multi-select-component";
 import {FormattedMessage} from "react-intl";
 import {faCaretDown, faSearch, faBars, faList, faTh} from "@fortawesome/free-solid-svg-icons";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import leaf from "../assets/leaf.svg";
+import {fetchBrowse} from "../store/browser/reducers";
+import {connect} from "react-redux";
 
-interface BrowsePageProps {}
+// interface BrowsePageProps {}
 
 type Plant = {
     commonName: string;
@@ -95,7 +95,7 @@ const Foo = (props: { list: Array<any> }) => {
     </>;
 }
 
-class BrowsePage extends Component<BrowsePageProps, BrowsePageState>{
+class BrowsePage extends Component<any, BrowsePageState>{
     state = {
         results: [],
         loading: false,
@@ -107,17 +107,6 @@ class BrowsePage extends Component<BrowsePageProps, BrowsePageState>{
     search() {
         this.setState({loading: true});
 
-        // const query = gql`
-        //     {
-        //         plants {
-        //             commonName
-        //             binomialName
-        //             kingdom
-        //             family
-        //             genus
-        //         }
-        //     }
-        // `;
         const query = gql`
             {
                 trefle {
@@ -379,6 +368,7 @@ class BrowsePage extends Component<BrowsePageProps, BrowsePageState>{
         </Card>;
 
         return <>
+            <button onClick={e => this.props.fetchBrowse() }>X</button>
             <div className="search-box">
                 <InputGroup>
                     <div className="form-group">
@@ -523,4 +513,4 @@ class BrowsePage extends Component<BrowsePageProps, BrowsePageState>{
     }
 }
 
-export default BrowsePage;
+export default connect(null, {fetchBrowse})(BrowsePage);
