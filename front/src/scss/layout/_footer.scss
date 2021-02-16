@@ -13,3 +13,14 @@ $primary: theme-color("primary");
     font-weight: bold;
   }
 }
+html,
+body {
+  margin:0;
+  padding:0;
+  height:100%;
+}
+.App {
+  min-height:100%;
+  position:relative;
+  padding-bottom: 1px;
+}
