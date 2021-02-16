@@ -2,7 +2,8 @@ import React, { Component, createRef, useRef } from 'react';
 import {Button, ButtonGroup, Container, Modal, Nav, Form, Row, NavDropdown}
     from "react-bootstrap";
 import SecCanvas from "./threejs/SecCanvas";
-import {faPlus} from "@fortawesome/free-solid-svg-icons";
+import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
+import {faLayerGroup, faPaintBrush, faPlus, faSeedling, faTools} from "@fortawesome/free-solid-svg-icons";
 import MainCanvas from "./threejs/MainCanvas";
 import TemplateCanvas from "./threejs/TemplateCanvas";
 import Sidebar from "./Sidebar";
@@ -83,14 +84,26 @@ class HomePage extends Component<any, any> {
                     this.props.setBrushOpacity(e.target.value)} />
                 <input type="number" min={1} max={10} onChange={(e) =>
                     this.props.setBrushSize(e.target.value)} />
+                    <Button onClick={e => this.setState((prev: any) => ({sidebar: !prev.sidebar}))}>
+                        <FontAwesomeIcon icon={faSeedling} />
+                    </Button>
+                <Button>
+                    <FontAwesomeIcon icon={faLayerGroup} />
+                </Button>
+                <Button>
+                    <FontAwesomeIcon icon={faPaintBrush} />
+                </Button>
+                <Button>
+                    <FontAwesomeIcon icon={faTools} />
+                </Button>
             </div>
 
             <div className={this.state.fullscreen ? "div-expand" : ""}
-                 style={{ display: 'flex', alignItems: 'stretch'}}
+                 style={{ display: 'flex', alignItems: 'stretch', overflow: 'hidden'}}
             >
                 <MainCanvas />
                 {/*<TemplateCanvas />*/}
-                <Sidebar />
+                <Sidebar show={this.state.sidebar} />
             </div>
         </>;
     }
