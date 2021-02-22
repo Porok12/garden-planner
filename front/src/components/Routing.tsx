@@ -33,6 +33,7 @@ class Routing extends Component<any, any> {
                     <AnyoneRoute path="/signin" component={SignInPage} />
                     <AnyoneRoute path="/signup" component={SignUpPage} />
                     <AnyoneRoute path="/browse" component={BrowsePage} />
+                    <AnyoneRoute path="/plants/:plant" component={PlantDetails} />
                     <AnyoneRoute path="/account" component={AccountCreated} />
                     <AnyoneRoute path="/reset" component={ResetPasswordPage} />
                     <AnyoneRoute path="/reset2" component={ResetPasswordPage2} />
