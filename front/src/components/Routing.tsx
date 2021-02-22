@@ -11,6 +11,9 @@ import ProfilePage from "./ProfilePage";
 import AccountCreated from "./AccountCreated";
 import ResetPasswordPage from "./ResetPasswordPage";
 import ResetPasswordPage2 from './ResetPasswordPage2';
+import PlantDetails from "./PlantDetails";
+import NewProjectPage from "./NewProjectPage";
+import ProjectEditorPage from "./ProjectEditorPage";
 
 const loginProps: RouteProps = {
     path: "/signin", component: SignInPage
@@ -25,14 +28,17 @@ class Routing extends Component<any, any> {
     render() {
         return <Router>
             {this.props.children}
-            <Container id="container" fluid={"md"} className="mx-auto">
+            <Container id="container" fluid className="mx-auto">
                 <Switch>
                     <AnyoneRoute path="/" exact component={HomePage} />
                     <UserRoute path="/profile" component={ProfilePage} />
                     <AdminRoute path="/users" component={UsersPanel} />
                     <AnyoneRoute path="/signin" component={SignInPage} />
                     <AnyoneRoute path="/signup" component={SignUpPage} />
-                    <AnyoneRoute path="/browse" component={BrowsePage} />
+                    <AnyoneRoute path="/new" component={NewProjectPage} />
+                    <AnyoneRoute path="/editor" component={ProjectEditorPage} />
+                    <AnyoneRoute path="/plants" exact component={BrowsePage} />
+                    <AnyoneRoute path="/plants/:plant" component={PlantDetails} />
                     <AnyoneRoute path="/account" component={AccountCreated} />
                     <AnyoneRoute path="/reset" component={ResetPasswordPage} />
                     <AnyoneRoute path="/reset2" component={ResetPasswordPage2} />

@@ -1,0 +1,102 @@
+$primary: theme-color("primary");
+$secondary: lighten($primary, 30%);
+$gray: gray("200");
+$green: $green;
+$blue: $primary;
+
+.step-container {
+  box-shadow: 2px 2px 12px rgba(0, 0, 0, 0.15);
+  width: 500px;
+  padding: 1em;
+
+  .step-container__header {
+    display: flex;
+
+    .step {
+      flex-grow: 1;
+      display: inline-block;
+      position: relative;
+
+      .step-circle {
+        width: 20%;
+        //border: 1px solid $gray;
+        background-color: $gray;
+        border-radius: 50%;
+        //box-shadow: 0 0 8px rgba(0, 0, 0, 0.15);
+        transition: background-color 0.35s ease-in-out;
+
+        line-height: 0;
+        position: relative;
+        z-index: 20;
+        margin: 0 auto;
+
+        .step-circle__text {
+          position: absolute;
+          bottom: 50%;
+          width: 100%;
+          text-align: center;
+          font-weight: bold;
+          color: #2d2d2d;
+        }
+      }
+
+      .step-circle::after {
+        content: "";
+        display: block;
+        padding-bottom: 100%;
+      }
+    }
+
+    .step-ok {
+      .step-circle {
+        transition: background-color 0s;
+        background-color: $green;
+      }
+    }
+
+    .step-current {
+      .step-circle {
+        background-color: $blue;
+      }
+    }
+
+    .step::before {
+      content: '';
+      position: absolute;
+      top: 33%;
+      width: 100%;
+      height: .2em;
+      background: #d5d5d5;
+      //box-shadow: 0 0 2px rgba(0, 0, 0, 0.2);
+      z-index: 10;
+
+      background: linear-gradient(to left, $gray 50%, $green 50%) right;
+      background-size: 200%;
+      transition: .5s cubic-bezier(0.15, 0.85, 0.14, 0.84);
+    }
+
+    .step:last-child::before {
+      display: none;
+    }
+  }
+
+  .step-ok {
+    &.step::before {
+      background-position: left;
+    }
+  }
+
+  .step-container__content {
+    padding: 2em 0;
+  }
+
+  .step-container__navigation {
+    display: flex;
+    justify-content: space-between;
+
+    button {
+      border: 1px solid #d7d7d7;
+      box-shadow: 0 0 4px rgba(0, 0, 0, 0.1);
+    }
+  }
+}

@@ -1,0 +1,45 @@
+.mdl-grid {
+  max-width: 600px;
+}
+.mdl-card__media {
+  margin: 0;
+}
+.mdl-card__media > img {
+  max-width: 100%;
+}
+.mdl-card__actions {
+  display: flex;
+  box-sizing:border-box;
+  align-items: center;
+}
+.mdl-card__actions > .mdl-button--icon {
+  margin-right: 3px;
+  margin-left: 3px;
+}
+
+.card {
+  border-radius: 0;
+  box-shadow: 0 0 4px rgba(0, 0, 0, 0.4);
+  text-align: left;
+
+  .card-header {
+  }
+
+  .card-title {
+    font-weight: bold;
+  }
+
+  .card-subtitle {
+    font-style: italic;
+    color: #555555;
+  }
+
+  .card-text {
+    margin-top: 2em;
+    color: #232323;
+  }
+
+  .button--icon {
+    border-radius: 50%;
+  }
+}

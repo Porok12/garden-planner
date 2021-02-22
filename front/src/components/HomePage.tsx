@@ -1,72 +1,44 @@
 import React, { Component, createRef, useRef } from 'react';
-import {Button, ButtonGroup, Container, Modal, Nav, OverlayTrigger, Form, Row}
-    from "react-bootstrap";
 import SecCanvas from "./threejs/SecCanvas";
+import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
+import {faBoxOpen, faLayerGroup, faPaintBrush, faPlus, faSeedling, faTools} from "@fortawesome/free-solid-svg-icons";
+import {connect, Provider, useSelector} from "react-redux";
+import {disableOrbitControls, disableSky, enableOrbitControls, setBrushOpacity, setBrushSize, setBrush} from "../store/canvas/actions";
+import { RootState } from '../store';
+import TileButton from "./TileButton";
+import {FormattedMessage} from "react-intl";
 
 class HomePage extends Component<any, any> {
     state = {
-        modal : false
+        fullscreen: false,
+        sidebar: true
     }
 
     render() {
-        let modalBox;
-        if (this.state.modal) {
-            modalBox = <Modal.Dialog>
-                <Modal.Header>Create project</Modal.Header>
-                <Modal.Body className="show-grid">
-                    <Container>
-                        <Form>
-                            <Form.Group>
-                                <Form.Control type="number" name="width" placeholder=""
-                                              min={10} />
-                                <Form.Label>Width</Form.Label>
-                            </Form.Group>
-                            <Form.Group>
-                                <Form.Control type="number" name="height" placeholder=""
-                                              min={10} />
-                                <Form.Label>Height</Form.Label>
-                            </Form.Group>
-                        </Form>
-                    </Container>
-                </Modal.Body>
-                <Modal.Footer>
-                    <Button onClick={()=>this.setState({modal: false})}>Close</Button>
-                </Modal.Footer>
-            </Modal.Dialog>
-        }
-
-        // @ts-ignore
         return <>
-            {modalBox}
-            <OverlayTrigger
-                trigger='click'
-                key='bottom'
-                placement='bottom'
-                overlay={
-                    <div id={`tooltip-bottom`} style={{height: '80%', width: '80%', margin: '5px',backgroundColor: '#eee'}}>
-                        <Nav variant="tabs">
-                            <Nav.Item>
-                                <Nav.Link>Option 1</Nav.Link>
-                            </Nav.Item>
-                            <Nav.Item>
-                                <Nav.Link>Option 2</Nav.Link>
-                            </Nav.Item>
-                            <Nav.Item>
-                                <Nav.Link>Option 3</Nav.Link>
-                            </Nav.Item>
-                        </Nav>
-                    </div>
-                }
-            >
-                <Button variant="secondary">Tooltip</Button>
-            </OverlayTrigger>
-            <Button onClick={()=>{this.setState({modal: !this.state.modal})}}>
-                Create project
-            </Button>
-
-            <SecCanvas />
+            <div className="d-flex justify-content-center">
+                <div className="m-2">
+                    <TileButton onClick={() => this.props.history.push('new')}>
+                        <FontAwesomeIcon icon={faPlus} />
+                        <br/>
+                        <span>
+                            <FormattedMessage id="app.home.new" />
+                        </span>
+                    </TileButton>
+                </div>
+                <div className="m-2">
+                    <TileButton disabled>
+                        <FontAwesomeIcon icon={faBoxOpen} />
+                        <br/>
+                        <span>
+                            <FormattedMessage id="app.home.open" />
+                        </span>
+                    </TileButton>
+                </div>
+            </div>
         </>;
     }
 }
 
-export default HomePage;
+export default connect((state: RootState) => state.canvas,
+    {disableOrbitControls, enableOrbitControls, disableSky, setBrushOpacity, setBrushSize, setBrush})(HomePage);
