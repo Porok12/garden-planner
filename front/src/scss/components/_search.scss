@@ -1,5 +1,6 @@
 $primary: theme-color("primary");
 $secondary: lighten($primary, 30%);
+$gray: gray("100");
 
 .search-box {
   padding: 20px 20px 5px 20px;
@@ -164,3 +165,161 @@ $secondary: lighten($primary, 30%);
 //
 //  }
 //}
+
+.search-box {
+  input[type="text"] {
+    width: 100%;
+    height: 100%;
+    border: 0;
+    padding: 7px 12px;
+  }
+}
+
+.search-group {
+  //width: 100%;
+  //display: flex;
+  //flex-flow: column;
+
+  input {
+    border: 0;
+    //width: 100%;
+    //flex: 1;
+  }
+  //
+  //button {
+  //  border: 0;
+  //}
+}
+
+.my-multiselect {
+  //max-width: 200px;
+  position: relative;
+
+  .input-wrapper {
+    display: flex;
+    border: 1px #cccccc solid;
+    border-radius: 3px;
+    padding: 6px 8px;
+    //cursor: pointer;
+
+    input {
+      border: 0;
+      max-width: calc(100% - 8px);
+    }
+
+    span {
+      margin-right: auto;
+      color: #b4b4b4;
+    }
+
+    .caret {
+      transition: transform 0.5s ease;
+
+      &.flip {
+        svg {
+          transform: rotate(180deg);
+        }
+      }
+    }
+  }
+
+  .options {
+    position: absolute;
+    z-index: 1;
+    background-color: #fff;
+    width: 100%;
+    border: 1px #cccccc solid;
+    margin-top: 4px;
+    padding: 6px 0;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    transition: height 0.5s ease;
+
+    &.hide {
+      display: none;
+      //height: 0;
+      //overflow: hidden;
+    }
+
+    .item {
+      transition: background-color 0.2s ease;
+
+      &:hover {
+        background-color: #f6f6f6;
+        cursor: pointer;
+      }
+
+
+      .msel-checkbox {
+        opacity: 0;
+        z-index: 1;
+
+        &:focus + .msel-label::before {
+          outline: none;
+        }
+
+        &:hover + .msel-label::before {
+          cursor: pointer;
+        }
+
+        &:hover:not(:checked) + .msel-label::before {
+          box-shadow: inset 0 0 4px 0 lighten($gray, 30%);
+        }
+
+        &:checked + .msel-label::after {
+          font-family: "FontAwesome";
+          content: "\f00c";
+        }
+
+        &:disabled + .msel-label {
+          opacity: 0.65;
+        }
+
+        &:disabled + .msel-label::before {
+          background-color: #eeeeee;
+          cursor: not-allowed;
+        }
+      }
+
+      .msel-label {
+        display: inline-block;
+        vertical-align: middle;
+        position: relative;
+        padding: 6px 0 6px 5px !important;
+        width: calc(100% - 32px);
+        cursor: pointer;
+        margin-bottom: 0;
+
+        &::before {
+          content: "";
+          display: inline-block;
+          position: absolute;
+          width: 17px;
+          height: 17px;
+          left: 0;
+          margin-left: -20px;
+          margin-top: 4px;
+          border: 1px solid #cccccc;
+          border-radius: 3px;
+          background-color: #fff;
+          -webkit-transition: border 0.15s ease-in-out, color 0.15s ease-in-out;
+          -o-transition: border 0.15s ease-in-out, color 0.15s ease-in-out;
+          transition: border 0.15s ease-in-out, color 0.15s ease-in-out;
+        }
+
+        &::after {
+          display: inline-block;
+          position: absolute;
+          width: 16px;
+          height: 16px;
+          left: 0;
+          top: 0;
+          margin-left: -21px;
+          padding-left: 3px;
+          padding-top: 10px;
+          font-size: 11px;
+          color: #555555;
+        }
+      }
+    }
+  }
+}

@@ -130,7 +130,7 @@ class NavBar extends Component<PropsType, State> {
                 {/*</Nav.Link>*/}
 
 
-                <LinkContainer to="/browse">
+                <LinkContainer to="/plants">
                     <Nav.Link>
                         <FormattedMessage id="app.nav.browse" />
                     </Nav.Link>
