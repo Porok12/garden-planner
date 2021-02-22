@@ -13,6 +13,7 @@ import {ReactReduxContext, Provider, useSelector, shallowEqual} from "react-redu
 import Compass from "./Compass";
 import Cubes from "./Cubes";
 import GroundSides from "./GroundSides";
+import { RootState } from "../../store";
 
 const renderTarget = new WebGLRenderTarget(800, 800);
 
@@ -23,7 +24,7 @@ function MainCanvas() {
     const spriteRef = useRef<Sprite>();
     const gRef = useRef<THREE.Mesh>(null);
 
-    const sky = useSelector((state: AppRootState) => state.canvas.sky.enabled, shallowEqual);
+    const sky = useSelector((state: RootState) => state.canvas.sky.enabled, shallowEqual);
 
     return <>
         <ReactReduxContext.Consumer>

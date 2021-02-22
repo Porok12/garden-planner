@@ -1,3 +1,0 @@
-type AppRootState = {
-    canvas: AppCanvasState
-}

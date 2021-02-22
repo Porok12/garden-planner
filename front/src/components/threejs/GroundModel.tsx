@@ -13,6 +13,7 @@ import {Collada, ColladaLoader} from "three/examples/jsm/loaders/ColladaLoader";
 import {MouseEvent, PointerEvent} from "react-three-fiber/canvas";
 import { a, useSpring, useSprings } from "@react-spring/three";
 import {useSelector} from "react-redux";
+import { RootState } from "../../store";
 
 
 type GroundProps = {
@@ -53,7 +54,7 @@ const GroundModel = React.forwardRef<THREE.Mesh, GroundProps>(({
 
     // const ref = useRef<THREE.Mesh>();
 
-    const brush = useSelector((state: AppRootState) => state.canvas.brush);
+    const brush = useSelector((state: RootState) => state.canvas.brush);
 
     const {invalidate} = useThree();
     const [{xyz}, set] = useSpring(() => ({xyz: [0, 0.38, 0], config: {mass: 10}}));
