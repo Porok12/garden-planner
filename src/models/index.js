@@ -38,13 +38,13 @@ db.user.belongsToMany(db.role, { through: "user_roles" });
 
 db.ROLES = ["user", "admin", "moderator"];
 
-db.initial = function () {
+db.init = function () {
     db.sequelize.sync({force: true}).then(() => {
         console.log('Drop and Resync Db');
-        initial();
+        pushData();
     });
 
-    function initial() {
+    function pushData() {
         db.role.create({
             id: 1,
             name: "user"
