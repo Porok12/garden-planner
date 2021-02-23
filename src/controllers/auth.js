@@ -78,8 +78,8 @@ module.exports.signup = (req, res) => {
         password: SHA256(req.body.password).toString()
     }).then(user => {
         user.setRoles([1]).then(() => {
-            mailer.sendActivationCode(user.email);
-            res.status(OK).send({message: "Success"});
+            mailer.sendActivationCode(user.email)
+                .then(() => res.status(OK).send({message: "Success"}));
         });
 
     }).catch(err => {
