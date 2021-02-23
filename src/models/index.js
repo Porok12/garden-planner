@@ -1,6 +1,6 @@
 const config = require("../config/db.config.js");
 
-const Sequelize = require("sequelize");
+const { Sequelize } = require("sequelize");
 const sequelize = new Sequelize(
     config.DB,
     config.USER,
@@ -38,10 +38,12 @@ db.user.belongsToMany(db.role, { through: "user_roles" });
 
 db.ROLES = ["user", "admin", "moderator"];
 
-db.init = function () {
+db.connect = function (then) {
     db.sequelize.sync({force: true}).then(() => {
         console.log('Drop and Resync Db');
         pushData();
+
+        then();
     });
 
     function pushData() {

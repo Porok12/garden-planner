@@ -25,12 +25,16 @@ module.exports.sendActivationCode = (sendToEmail) => {
         }]
     };
 
-    transport.sendMail(mailOptions, (error, info) => {
-        if (error) {
-            return console.log(error, mailOptions);
-        }
+    return new Promise((resolve, reject) => {
+        transport.sendMail(mailOptions, (error, info) => {
+            if (error) {
+                console.log(error, mailOptions);
+                reject(error);
+            }
 
-        console.log('Message sent: %s', info.messageId);
+            console.log('Message sent: %s', info.messageId);
+            resolve(info);
+        });
     });
 }
 
