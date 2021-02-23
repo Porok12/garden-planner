@@ -1,5 +1,5 @@
 # Garden planner
-> Garden planner is aimed to help people to plan their gardens or search suitable plants
+> Garden planner aims to help people plan their gardens or find suitable plants
 
 ![Example screencast](https://github.com/Porok12/garden-planner/blob/main/front/docs/screencast.gif)
 
@@ -32,15 +32,17 @@ After installing project you can use `npm run dev` to run client & server
 ## Features
 - Spawning cubes by double clicking
 - Painting mesh
+- Basic auth
 
 ### To Do
 - Modify ground height
 - Finish register process
 - Prettier look
 - Backend logic
+- And much more
 
 ## Status
-Work in progress. There is much to do.
+Work in progress. There is much to be done here.
 
 ## License
 >You can check out the full license [here](https://github.com/Porok12/garden-planner/blob/main/LICENCE.md)
