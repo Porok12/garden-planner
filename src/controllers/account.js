@@ -2,7 +2,7 @@ const db = require("../models");
 const User = db.user;
 const StatusCodes = require("http-status-codes");
 const {INTERNAL_SERVER_ERROR, OK, BAD_REQUEST} = StatusCodes;
-const mailer = require('./nodemailer');
+const mailer = require('../mails');
 const Joi = require('joi');
 
 module.exports.requestReset = (req, res) => {
