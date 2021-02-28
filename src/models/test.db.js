@@ -28,6 +28,26 @@ module.exports = function pushData(db) {
         });
     });
 
+    db.user.create({
+        id: 2,
+        username: 'test2',
+        email: '2@test.pl',
+        password: 'A665A45920422F9D417E4867EFDC4FB8A04A1F3FFF1FA07E998E86F7F7A27AE3'.toLowerCase(),
+        activated: '0',
+        token: 'ACTIVATION',
+        tokenExpire: Date.now() + 24 * 3600 * 1000
+    });
+
+    db.user.create({
+        id: 3,
+        username: 'test3',
+        email: '3@test.pl',
+        password: 'A665A45920422F9D417E4867EFDC4FB8A04A1F3FFF1FA07E998E86F7F7A27AE3'.toLowerCase(),
+        activated: '1',
+        token: 'PASSWORD',
+        tokenExpire: Date.now() + 24 * 3600 * 1000
+    });
+
     db.plant.create({
         commonName: 'siberian pine',
         binomialName: 'pinus sibirica',

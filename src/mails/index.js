@@ -2,6 +2,9 @@ const index = require('nodemailer');
 const config = require('../config/nodemailer.config');
 const fs = require('fs');
 const path = require('path');
+const logger = require('winston');
+
+const ACCOUNT_API = 'http://locolhost:3000/account/';
 
 const transport = index.createTransport({
     host: config.host,
@@ -10,7 +13,7 @@ const transport = index.createTransport({
 });
 
 module.exports.sendActivationCode = (sendToEmail, token) => {
-    const link = 'http://locolhost:3000/account/active/' + token;
+    const link = ACCOUNT_API + 'active/' + token;
 
     const htmlSignUp = fs.readFileSync(path.join(__dirname, 'signup.html'), 'utf-8')
         .split('%%LINK%%').join(link);
@@ -31,18 +34,18 @@ module.exports.sendActivationCode = (sendToEmail, token) => {
     return new Promise((resolve, reject) => {
         transport.sendMail(mailOptions, (error, info) => {
             if (error) {
-                console.log(error, mailOptions);
+                logger.error(error, mailOptions);
                 reject(error);
             }
 
-            console.log('Message sent: %s', info.messageId);
+            logger.verbose('Message sent: %s', info.messageId);
             resolve(info);
         });
     });
 }
 
 module.exports.sendResetPassword = (sendToEmail, token) => {
-    const link = 'http://locolhost:3000/reset-password/' + token;
+    const link = ACCOUNT_API + 'reset/' + token;
 
     const htmlResetPassword = fs.readFileSync(path.join(__dirname, 'resetpassword.html'), 'utf-8')
         .split('%%LINK%%').join(link);
@@ -57,9 +60,9 @@ module.exports.sendResetPassword = (sendToEmail, token) => {
 
     transport.sendMail(mailOptions, (error, info) => {
         if (error) {
-            return console.log(error, mailOptions);
+            return logger.error(error, mailOptions);
         }
 
-        console.log('Message sent: %s', info.messageId);
+        logger.verbose('Message sent: %s', info.messageId);
     });
 }

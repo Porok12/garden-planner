@@ -9,7 +9,6 @@ const {INTERNAL_SERVER_ERROR, OK, UNAUTHORIZED, NOT_FOUND, BAD_REQUEST} = Status
 
 const jwt = require("jsonwebtoken");
 const SHA256 = require("crypto-js/sha256");
-const AES = require("crypto-js/aes");
 const {signinSchema, signupSchema} = require("../schemas");
 const mailer = require('../mails');
 
