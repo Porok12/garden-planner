@@ -24,7 +24,9 @@ module.exports = function(app) {
         [
             authJwt.verifyToken,
         ],
-        (req, res) => {res.status(200).send({message: ":)"})}
+        (req, res) => {
+            res.status(200).send({message: "Token is valid"})
+        }
     );
 
     app.post("/auth/signin", controller.signin);

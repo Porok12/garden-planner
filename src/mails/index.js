@@ -1,23 +1,29 @@
-const nodeMailer = require('nodemailer');
+const index = require('nodemailer');
 const config = require('../config/nodemailer.config');
+const fs = require('fs');
 const path = require('path');
+const logger = require('winston');
 
-const transport = nodeMailer.createTransport({
+const ACCOUNT_API = 'http://locolhost:3000/account/';
+
+const transport = index.createTransport({
     host: config.host,
     port: config.port,
     auth: config.auth
 });
 
-module.exports.sendActivationCode = (sendToEmail) => {
-    const token = Date.now().toString(36);
-    const link = 'http://locolhost:3000/account/active/' + token;
+module.exports.sendActivationCode = (sendToEmail, token) => {
+    const link = ACCOUNT_API + 'active/' + token;
+
+    const htmlSignUp = fs.readFileSync(path.join(__dirname, 'signup.html'), 'utf-8')
+        .split('%%LINK%%').join(link);
 
     const mailOptions = {
         from: '"Garden Planner" <garden.planner@yandex.com>',
         to: sendToEmail,
         subject: 'Activation mail',
         text: 'Please open "' + link + '" to activate your account.',
-        html: 'Please open <a href="' + link + '"> link </a> to activate your account. <br/> <img src="cid:logo"/>',
+        html: htmlSignUp,
         attachments: [{
             filename: 'mail.svg',
             path: __dirname + '/mail.svg',
@@ -28,33 +34,35 @@ module.exports.sendActivationCode = (sendToEmail) => {
     return new Promise((resolve, reject) => {
         transport.sendMail(mailOptions, (error, info) => {
             if (error) {
-                console.log(error, mailOptions);
+                logger.error(error, mailOptions);
                 reject(error);
             }
 
-            console.log('Message sent: %s', info.messageId);
+            logger.verbose('Message sent: %s', info.messageId);
             resolve(info);
         });
     });
 }
 
-module.exports.sendResetPassword = (sendToEmail) => {
-    const token = Date.now().toString(36);
-    const link = 'http://locolhost:3000/reset2/' + token;
+module.exports.sendResetPassword = (sendToEmail, token) => {
+    const link = ACCOUNT_API + 'reset/' + token;
+
+    const htmlResetPassword = fs.readFileSync(path.join(__dirname, 'resetpassword.html'), 'utf-8')
+        .split('%%LINK%%').join(link);
 
     const mailOptions = {
         from: '"Garden Planner" <garden.planner@yandex.com>',
         to: sendToEmail,
         subject: 'Reset your password',
         text: 'Please open "' + link + '" to reset your password.',
-        html: 'Please open <a href="' + link + '"> link </a> to reset your password.',
+        html: htmlResetPassword,
     };
 
     transport.sendMail(mailOptions, (error, info) => {
         if (error) {
-            return console.log(error, mailOptions);
+            return logger.error(error, mailOptions);
         }
 
-        console.log('Message sent: %s', info.messageId);
+        logger.verbose('Message sent: %s', info.messageId);
     });
 }

@@ -13,8 +13,8 @@ afterAll((done) => {
 
 const app = createApp();
 
-describe('Post Endpoints', () => {
-    it('should signin', async () => {
+describe('Auth endpoints', () => {
+    it('POST signin', async () => {
         const res = await request(app)
             .post('/auth/signin')
             .send({
@@ -26,8 +26,8 @@ describe('Post Endpoints', () => {
     });
 });
 
-describe('Post Endpoints', () => {
-    it('should signup', async () => {
+describe('Auth endpoints', () => {
+    it('POST signup', async () => {
         const res = await request(app)
             .post('/auth/signup')
             .send({
@@ -39,3 +39,44 @@ describe('Post Endpoints', () => {
         expect(res.statusCode).toEqual(200);
     });
 })
+
+describe('Account endpoints', () => {
+    it('GET projects', async () => {
+        let res = await request(app)
+            .post('/auth/signin')
+            .send({
+                username: 'agata',
+                password: '123'
+            });
+
+        expect(res.statusCode).toEqual(200);
+
+        res = await request(app)
+            .get('/account/projects')
+            .set({'x-access-token': res.body.accessToken})
+            .send();
+        expect(res.statusCode).toEqual(200);
+        expect(res.body.projects).toHaveLength(1);
+        expect(res.body.projects[0]).toHaveProperty('id', );
+        expect(res.body.projects[0]).toHaveProperty('name');
+        expect(res.body.projects[0]).toHaveProperty('description');
+    });
+
+    it('POST activation', async () => {
+        let res = await request(app)
+            .post('/account/active/ACTIVATION')
+            .send();
+
+        expect(res.statusCode).toEqual(200);
+    });
+
+    it('POST reset', async () => {
+        let res = await request(app)
+            .post('/account/reset/PASSWORD')
+            .send({
+                password: 'NewPassword'
+            });
+
+        expect(res.statusCode).toEqual(200);
+    });
+});

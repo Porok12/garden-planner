@@ -6,6 +6,10 @@ const StatusCodes = require("http-status-codes");
 const {BAD_REQUEST} = StatusCodes;
 
 const checkDuplicateUsernameOrEmail = (req, res, next) => {
+    if (req.body && (!req.body.username || !req.body.email)) {
+        return next();
+    }
+
     // Username
     User.findOne({
         where: {

@@ -2,7 +2,9 @@ module.exports = {
     host: "smtp.mailtrap.io",
     port: 2525,
     auth: {
-        user: "03b9d99efa5f71",
-        pass: "91d4e6cffe8884"
+        user: "42de4035bb192c",
+        pass: "5c0a5d50bd59b5"
     }
 };
+
+// fvqyprmxwydnidfewl@kiabws.com
