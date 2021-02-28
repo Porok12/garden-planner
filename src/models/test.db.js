@@ -19,7 +19,7 @@ module.exports = function pushData(db) {
         username: 'agata',
         email: 'aga@best.pl',
         password: 'A665A45920422F9D417E4867EFDC4FB8A04A1F3FFF1FA07E998E86F7F7A27AE3'.toLowerCase(),
-        activated: true
+        activated: '1'
     }).then(user => {
         user.addRole(1);
         user.createProject({

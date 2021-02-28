@@ -9,8 +9,7 @@ const transport = index.createTransport({
     auth: config.auth
 });
 
-module.exports.sendActivationCode = (sendToEmail) => {
-    const token = Date.now().toString(36);
+module.exports.sendActivationCode = (sendToEmail, token) => {
     const link = 'http://locolhost:3000/account/active/' + token;
 
     const htmlSignUp = fs.readFileSync(path.join(__dirname, 'signup.html'), 'utf-8')
@@ -42,9 +41,8 @@ module.exports.sendActivationCode = (sendToEmail) => {
     });
 }
 
-module.exports.sendResetPassword = (sendToEmail) => {
-    const token = Date.now().toString(36);
-    const link = 'http://locolhost:3000/reset2/' + token;
+module.exports.sendResetPassword = (sendToEmail, token) => {
+    const link = 'http://locolhost:3000/reset-password/' + token;
 
     const htmlResetPassword = fs.readFileSync(path.join(__dirname, 'resetpassword.html'), 'utf-8')
         .split('%%LINK%%').join(link);

@@ -1,5 +1,6 @@
 const config = require("../config/db.config.js");
 const pushData = require('./test.db');
+const logger = require('winston');
 
 const { Sequelize } = require("sequelize");
 const sequelize = new Sequelize(
@@ -9,8 +10,7 @@ const sequelize = new Sequelize(
     {
         host: config.HOST,
         dialect: config.dialect,
-        operatorsAliases: false,
-        logging: false,
+        logging: msg => logger.debug(msg),
         define: {
             freezeTableName: true,
             timestamps: false,
