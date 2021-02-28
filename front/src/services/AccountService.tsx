@@ -5,9 +5,21 @@ const API_URL = '/account/';
 class AccountService {
     requestReset(email: string) {
         return axios
-            .post(API_URL + "reset-password", {
+            .post(API_URL + "reset", {
                 email
             });
+    }
+
+    resetPassword(password: string, token: string) {
+        return axios
+            .post(API_URL + "reset/" + token, {
+                password
+            });
+    }
+
+    activateAccount(token: string) {
+        return axios
+            .post(API_URL + "active/" + token);
     }
 }
 

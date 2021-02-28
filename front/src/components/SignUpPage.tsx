@@ -35,7 +35,7 @@ class SignUpPage extends Component<any, StateType> {
         AuthService.register(login, email, password, agreed)
             .then(response => {
                 console.log(response);
-                this.setState({redirect: "/account"});
+                this.setState({redirect: "/account/active"});
             })
             .catch(err => console.log(err.response));
     }

@@ -39,9 +39,10 @@ class Routing extends Component<any, any> {
                     <AnyoneRoute path="/editor" component={ProjectEditorPage} />
                     <AnyoneRoute path="/plants" exact component={BrowsePage} />
                     <AnyoneRoute path="/plants/:plant" component={PlantDetails} />
-                    <AnyoneRoute path="/account" component={AccountCreated} />
-                    <AnyoneRoute path="/reset" component={ResetPasswordPage} />
-                    <AnyoneRoute path="/reset2" component={ResetPasswordPage2} />
+                    <AnyoneRoute path="/account/reset/:token" exact component={ResetPasswordPage2} />
+                    <AnyoneRoute path="/account/reset" component={ResetPasswordPage} />
+                    <AnyoneRoute path="/account/active/:token" exact component={AccountCreated} />
+                    <AnyoneRoute path="/account/active" component={AccountCreated} />
                     <AnyoneRoute render={() => (<h1>Path not matched!</h1>)} />
                 </Switch>
             </Container>

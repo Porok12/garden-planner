@@ -4,6 +4,7 @@ import {Button, Form, InputGroup, Table} from "react-bootstrap";
 import { faEye, faEyeSlash } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {FormattedMessage} from "react-intl";
+import AccountService from "../services/AccountService";
 
 type StateType = {
     password: string;
@@ -23,7 +24,14 @@ class ResetPasswordPage extends Component<any, StateType> {
     render() {
         const {password, repeated, showPass, showRep} = this.state;
         const change = (e: any) => { this.setState({[e.target.name]: e.target.value} as StateType); };
-        const submit = (e: any) => { e.preventDefault(); };
+        const submit = (e: any) => {
+            e.preventDefault();
+
+            const token = this.props.match.params.token;
+            const password = this.state.password;
+
+            AccountService.resetPassword(password, token).then((res) => console.log(res));
+        };
         const togglePass = () => { this.setState(({showPass}: StateType) => ({showPass: !showPass}))}
         const toggleRep = () => { this.setState(({showRep}: StateType) => ({showRep: !showRep}))}
         const enableBtn = password != "" && repeated != "";

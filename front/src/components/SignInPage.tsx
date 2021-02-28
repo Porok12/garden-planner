@@ -96,7 +96,7 @@ class SignInPage extends Component<PropsType, StateType> {
 
                     </Form.Group>
 
-                    <Form.Text as="a" className="text-left" style={{cursor: 'pointer'}} onClick={()=>{this.setState({redirect: "/reset"})}}>
+                    <Form.Text as="a" className="text-left" style={{cursor: 'pointer'}} onClick={()=>{this.setState({redirect: "/account/reset"})}}>
                         <FormattedMessage id="app.signin.forgotpassword" />
                     </Form.Text>
 
