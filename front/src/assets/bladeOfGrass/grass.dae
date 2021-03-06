@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="utf-8"?>
+<COLLADA xmlns="http://www.collada.org/2005/11/COLLADASchema" version="1.4.1" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <asset>
+    <contributor>
+      <author>Blender User</author>
+      <authoring_tool>Blender 2.92.0 commit date:2021-02-24, commit time:16:25, hash:02948a2cab44</authoring_tool>
+    </contributor>
+    <created>2021-02-28T20:06:35</created>
+    <modified>2021-02-28T20:06:35</modified>
+    <unit name="meter" meter="1"/>
+    <up_axis>Z_UP</up_axis>
+  </asset>
+  <library_effects>
+    <effect id="grass-effect">
+      <profile_COMMON>
+        <newparam sid="Color_jpg-surface">
+          <surface type="2D">
+            <init_from>Color_jpg</init_from>
+          </surface>
+        </newparam>
+        <newparam sid="Color_jpg-sampler">
+          <sampler2D>
+            <source>Color_jpg-surface</source>
+          </sampler2D>
+        </newparam>
+        <technique sid="common">
+          <lambert>
+            <emission>
+              <color sid="emission">0 0 0 1</color>
+            </emission>
+            <diffuse>
+              <texture texture="Color_jpg-sampler" texcoord="UVMap"/>
+            </diffuse>
+            <index_of_refraction>
+              <float sid="ior">1.45</float>
+            </index_of_refraction>
+          </lambert>
+        </technique>
+      </profile_COMMON>
+    </effect>
+  </library_effects>
+  <library_images>
+    <image id="Color_jpg" name="Color_jpg">
+      <init_from>Color.jpg</init_from>
+    </image>
+  </library_images>
+  <library_materials>
+    <material id="grass-material" name="grass">
+      <instance_effect url="#grass-effect"/>
+    </material>
+  </library_materials>
+  <library_geometries>
+    <geometry id="Grass-mesh" name="Grass">
+      <mesh>
+        <source id="Grass-mesh-positions">
+          <float_array id="Grass-mesh-positions-array" count="24">-0.3131107 -0.01759332 -0.1314361 -0.3131107 -0.01759326 0.5106461 0.3131107 -0.01759332 -0.1314361 0.3131107 -0.01759326 0.5106461 -0.1260353 0.3860455 -0.1314361 -0.1260352 0.3860456 0.5106461 0.1546532 -0.1737464 -0.1314361 0.1546533 -0.1737464 0.5106461</float_array>
+          <technique_common>
+            <accessor source="#Grass-mesh-positions-array" count="8" stride="3">
+              <param name="X" type="float"/>
+              <param name="Y" type="float"/>
+              <param name="Z" type="float"/>
+            </accessor>
+          </technique_common>
+        </source>
+        <source id="Grass-mesh-normals">
+          <float_array id="Grass-mesh-normals-array" count="9">0 -1 0 -0.8939204 -0.4482259 1.29709e-7 -0.8939204 -0.4482259 1.23719e-7</float_array>
+          <technique_common>
+            <accessor source="#Grass-mesh-normals-array" count="3" stride="3">
+              <param name="X" type="float"/>
+              <param name="Y" type="float"/>
+              <param name="Z" type="float"/>
+            </accessor>
+          </technique_common>
+        </source>
+        <source id="Grass-mesh-map-0">
+          <float_array id="Grass-mesh-map-0-array" count="24">0.6091505 0.5281862 0.9819219 0.02236407 0.9844303 0.4508485 0.9922428 0.9664735 0.6065673 0.5645679 0.9897344 0.5458015 0.6091505 0.5281862 0.618286 0.009880423 0.9819219 0.02236407 0.9922428 0.9664735 0.6091505 0.9813111 0.6065673 0.5645679</float_array>
+          <technique_common>
+            <accessor source="#Grass-mesh-map-0-array" count="12" stride="2">
+              <param name="S" type="float"/>
+              <param name="T" type="float"/>
+            </accessor>
+          </technique_common>
+        </source>
+        <vertices id="Grass-mesh-vertices">
+          <input semantic="POSITION" source="#Grass-mesh-positions"/>
+        </vertices>
+        <triangles material="grass-material" count="4">
+          <input semantic="VERTEX" source="#Grass-mesh-vertices" offset="0"/>
+          <input semantic="NORMAL" source="#Grass-mesh-normals" offset="1"/>
+          <input semantic="TEXCOORD" source="#Grass-mesh-map-0" offset="2" set="0"/>
+          <p>1 0 0 2 0 1 3 0 2 7 1 3 4 1 4 6 1 5 1 0 6 0 0 7 2 0 8 7 2 9 5 2 10 4 2 11</p>
+        </triangles>
+      </mesh>
+    </geometry>
+  </library_geometries>
+  <library_visual_scenes>
+    <visual_scene id="Scene" name="Scene">
+      <node id="Grass" name="Grass" type="NODE">
+        <matrix sid="transform">1 0 0 0.001900434 0 1 0 0.01729655 0 0 1 0.1289587 0 0 0 1</matrix>
+        <instance_geometry url="#Grass-mesh" name="Grass">
+          <bind_material>
+            <technique_common>
+              <instance_material symbol="grass-material" target="#grass-material">
+                <bind_vertex_input semantic="UVMap" input_semantic="TEXCOORD" input_set="0"/>
+              </instance_material>
+            </technique_common>
+          </bind_material>
+        </instance_geometry>
+      </node>
+    </visual_scene>
+  </library_visual_scenes>
+  <scene>
+    <instance_visual_scene url="#Scene"/>
+  </scene>
+</COLLADA>
