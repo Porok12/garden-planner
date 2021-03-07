@@ -14,7 +14,8 @@ import ResetPasswordPage2 from './ResetPasswordPage2';
 import PlantDetails from "./PlantDetails";
 import NewProjectPage from "./NewProjectPage";
 import ProjectEditorPage from "./ProjectEditorPage";
-import PageForTesting from "./PageForTesting";
+import PlainEditorPage from "./PlainEditorPage";
+import AboutPage from "./AboutPage";
 
 const loginProps: RouteProps = {
     path: "/signin", component: SignInPage
@@ -37,6 +38,7 @@ class Routing extends Component<any, any> {
                     <AnyoneRoute path="/signin" component={SignInPage} />
                     <AnyoneRoute path="/signup" component={SignUpPage} />
                     <AnyoneRoute path="/new" component={NewProjectPage} />
+                    <AnyoneRoute path="/editor2" component={PlainEditorPage} />
                     <AnyoneRoute path="/editor" component={ProjectEditorPage} />
                     <AnyoneRoute path="/plants" exact component={BrowsePage} />
                     <AnyoneRoute path="/plants/:plant" component={PlantDetails} />
