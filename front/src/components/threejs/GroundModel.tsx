@@ -3,7 +3,6 @@ import {Suspense} from "react";
 import * as THREE from "three";
 import {useLoader, useThree} from "react-three-fiber";
 import {Plane} from "drei";
-import {BufferGeometry} from "three";
 import grid from '../../assets/grid.png';
 // @ts-ignore
 import cube from '../../assets/cube.dae';
