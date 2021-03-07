@@ -30,19 +30,28 @@ function MainCanvas() {
         <ReactReduxContext.Consumer>
             {({store}) => (
                 <Canvas id="canvas" invalidateFrameloop={true}
-                        onDrop={e => console.log(e)}
+                        onDrop={e => {
+                            e.preventDefault();
+
+                            const data = e.dataTransfer.getData("text");
+                            console.log(data);
+                            //e.dataTransfer.clearData();
+                        }}
                         onDragOver={e => {
                             e.preventDefault();
                             return false;
                         }}
+                        // colorManagement={true}
+                    shadowMap={true}
                 >
                     <Provider store={store}>
                         <scene ref={sceneRef}>
                             {!sky ? null : <MySky />}
                             <Camera position={[0, 0, 3]}/>
                             <CameraControls />
-                            <ambientLight color={'#ffffff'} intensity={0.2}/>
-                            <pointLight color={'#ffffff'} position={[2, 2, 2]} intensity={2.0}/>
+                            <ambientLight color={'#ffffff'} intensity={0.3}/>
+                            {/*<pointLight color={'#ffffff'} position={[2, 2, 2]} intensity={2.0}/>*/}
+                            <directionalLight color={'#ffffff'} position={[20, 20, 20]} intensity={0.7} />
                             <Suspense fallback={null}>
                                 <GroundModel ref={gRef} args={[10, 10]} scale={[0.5, 0.5, 0.5]} position={[0, 0, -2]} />
                                 {

@@ -15,6 +15,20 @@ import { a, useSpring, useSprings } from "@react-spring/three";
 import {useSelector} from "react-redux";
 import { RootState } from "../../store";
 
+import color from '../../assets/grass/Color.jpg';
+import normal from '../../assets/grass/Normal.jpg';
+import displacement from '../../assets/grass/Displacement.jpg';
+import roughness from '../../assets/grass/Roughness.jpg';
+import ambientOcclusion from '../../assets/grass/AmbientOcclusion.jpg';
+
+import nx from '../../assets/envMap/nx.jpg';
+import ny from '../../assets/envMap/ny.jpg';
+import nz from '../../assets/envMap/nz.jpg';
+import px from '../../assets/envMap/px.jpg';
+import py from '../../assets/envMap/py.jpg';
+import pz from '../../assets/envMap/pz.jpg';
+import {Box, Environment, Sphere, useCubeTexture } from "@react-three/drei";
+import BladeOfGrass from "./BladeOfGrass";
 
 type GroundProps = {
     args: [number, number]
@@ -39,7 +53,12 @@ const GroundModel = React.forwardRef<THREE.Mesh, GroundProps>(({
                          position = [0, 0, 0],
                          rotation = [- Math.PI / 2, 0, 0],
                          scale = [1, 1, 1] }, ref) => {
-    const texture: THREE.Texture = useLoader(THREE.TextureLoader, grid);
+    const colorTex: THREE.Texture = useLoader(THREE.TextureLoader, color);
+    const normalTex: THREE.Texture = useLoader(THREE.TextureLoader, normal);
+    const displacementTex: THREE.Texture = useLoader(THREE.TextureLoader, displacement);
+    const roughnessTex: THREE.Texture = useLoader(THREE.TextureLoader, roughness);
+    const ambientOcclusionTex: THREE.Texture = useLoader(THREE.TextureLoader, ambientOcclusion);
+    const envMap: THREE.CubeTexture = useCubeTexture([px, nx, py, ny, pz, nz], { path: '' });
     const model: Collada = useLoader(ColladaLoader, cube);
     // @ts-ignore
     const cubeGeom = model.nodes.Cube.geometry;
@@ -148,9 +167,37 @@ const GroundModel = React.forwardRef<THREE.Mesh, GroundProps>(({
             onPointerDown={handlePointerDown}
             onPointerUp={handlePointerUp}
             onPointerOut={handlePointerUp}
+            receiveShadow
         >
-            <meshLambertMaterial attach="material" map={canvasTex} wireframe={false} />
+            <meshStandardMaterial attach="material"
+                                  map={colorTex}
+                                  normalMap={normalTex}
+                                  // displacementMap={displacementTex}
+                                  roughnessMap={roughnessTex}
+                                  roughness={0.75}
+                                  metalness={0.05}
+                                  aoMap={ambientOcclusionTex}
+                                  envMap={envMap}
+                                  emissive={new THREE.Color(0, 0.05, 0)}
+                                  toneMapped={true}
+                                  wireframe={false} />
         </Plane>
+        <Sphere args={[1, 12, 12]} scale={[0.5, 0.5, 0.5]} position={[0, 1, -2]} castShadow>
+            <meshStandardMaterial
+                attach="material"
+                metalness={1}
+                roughness={0.25}
+                envMap={envMap}
+            />
+        </Sphere>
+        <BladeOfGrass args={[12, 12]} rotation={[0, 0, Math.PI / 2]} scale={[0.1, 0.1, 0.1]} position={[0, 1, 0]}/>
+        {/*<Environment*/}
+        {/*    background={false} // Whether to affect scene.background*/}
+        {/*    files={[px, nx, py, ny, pz, nz]} // Array of cubemap files OR single equirectangular file*/}
+        {/*    path={''} // Path to the above file(s)*/}
+        {/*    // preset={null} // Preset string (overrides files and path)*/}
+        {/*    // scene={undefined} // adds the ability to pass a custom THREE.Scene*/}
+        {/*/>*/}
         {/*{ref.current && sides(ref.current.geometry as BufferGeometry, texture, {args, position, scale, rotation})}*/}
     </Suspense>;
 })
