@@ -32,7 +32,13 @@ class Sidebar extends Component<any, any> {
                     <div className="sidebar__body__items">
                         {
                             ['Item 1', 'Item 2', 'Item 3', 'Item 4', 'Item 5'].map(desc => (
-                                <div className="item" draggable onPointerOver={e => void {}}>
+                                <div className="item"
+                                     draggable
+                                     onPointerOver={e => void {}}
+                                     onDragStart={(e) => {
+                                         e.dataTransfer.setData("text/plain", desc);
+                                     }}
+                                >
                                     <div className="item-image">
                                         <img src={leaf} draggable={false}/>
                                     </div>

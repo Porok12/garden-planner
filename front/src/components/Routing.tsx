@@ -14,6 +14,7 @@ import ResetPasswordPage2 from './ResetPasswordPage2';
 import PlantDetails from "./PlantDetails";
 import NewProjectPage from "./NewProjectPage";
 import ProjectEditorPage from "./ProjectEditorPage";
+import PageForTesting from "./PageForTesting";
 
 const loginProps: RouteProps = {
     path: "/signin", component: SignInPage
@@ -43,6 +44,7 @@ class Routing extends Component<any, any> {
                     <AnyoneRoute path="/account/reset" component={ResetPasswordPage} />
                     <AnyoneRoute path="/account/active/:token" exact component={AccountCreated} />
                     <AnyoneRoute path="/account/active" component={AccountCreated} />
+                    <AnyoneRoute path="/test" component={PageForTesting} />
                     <AnyoneRoute render={() => (<h1>Path not matched!</h1>)} />
                 </Switch>
             </Container>
