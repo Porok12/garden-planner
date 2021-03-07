@@ -1,7 +1,8 @@
 const express = require('express');
+const cors = require('cors');
+const helmet = require('helmet');
 const morgan = require('morgan');
 const split = require('split');
-const cors = require('cors');
 const logger = require('./logger');
 
 const winstonStream = split().on('data', (line) => {
@@ -17,6 +18,7 @@ function createApp() {
     const app = express();
 
     // middlewares
+    app.use(helmet());
     app.use(cors());
     app.use(express.json());
     app.use(morganMiddleware);

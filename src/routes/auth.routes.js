@@ -1,5 +1,18 @@
 const { signUpUtils, authJwt } = require("../middleware");
+const rateLimit = require("express-rate-limit");
 const controller = require("../controllers/auth");
+
+const signInLimiter = rateLimit({
+    skipSuccessfulRequests: true,
+    windowMs: 15 * 60 * 1000,
+    max: 10
+});
+
+const signUpLimiter = rateLimit({
+    windowMs: 60 * 60 * 1000,
+    max: 3,
+    message: "Too many accounts created from this IP, please try again after an hour"
+});
 
 module.exports = function(app) {
     app.use(function(req, res, next) {
@@ -13,6 +26,7 @@ module.exports = function(app) {
     app.post(
         "/auth/signup",
         [
+            signUpLimiter,
             signUpUtils.checkDuplicateUsernameOrEmail,
             signUpUtils.checkRolesExisted
         ],
@@ -29,5 +43,5 @@ module.exports = function(app) {
         }
     );
 
-    app.post("/auth/signin", controller.signin);
+    app.post("/auth/signin", signInLimiter, controller.signin);
 };
