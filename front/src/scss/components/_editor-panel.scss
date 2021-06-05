@@ -1,0 +1,38 @@
+.layer-panel {
+  position: absolute;
+  top: 60%;
+  left: -10px;
+  width: 200px;
+  height: 300px;
+  background-color: #efefef;
+  text-align: center;
+  border: 1px solid #c4c4c4;
+  box-shadow: 0 0 1px #c4c4c4;
+
+  &__layer {
+    $layer-color: hsl(113, 13%, 87%);
+    margin: 4px;
+    display: flex;
+    flex-direction: row;
+    align-content: space-between;
+    text-align: center;
+    background-color: $layer-color;
+    width: 100%;
+
+    &:hover {
+      background-color: darken($layer-color, 10%);
+    }
+
+    &__name {
+      width: 50%;
+    }
+
+    &__options {
+      width: 50%;
+
+      svg {
+        margin: 0 3px;
+      }
+    }
+  }
+}
