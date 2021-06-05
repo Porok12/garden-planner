@@ -4,12 +4,139 @@ import React, {
     useState
 } from "react";
 import Konva from 'konva';
-import { Stage, Layer, Rect, Text, Image, Line, Circle } from "react-konva";
+import {Stage, Layer, Rect, Text, Image, Line, Circle, Arc, Shape} from "react-konva";
 import leaf from "../assets/leaf.svg";
 import tree from "../assets/tree.svg";
 import useImage from 'use-image';
 import {Button} from "react-bootstrap";
 import Plant from "./Plant";
+import ItemSidebar from "./ItemSidebar";
+import {Vector3} from "three";
+// import {faFont} from "@fortawesome/free-solid-svg-icons";
+import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
+import {
+    faLock,
+    faLockOpen,
+    faEye,
+    faEyeSlash,
+    faPlus,
+    faQuestionCircle,
+    faExclamationCircle, faExclamationTriangle, faCheckCircle, faHammer
+} from '@fortawesome/free-solid-svg-icons';
+import {getMaxListeners} from "cluster";
+import GardenConsole from "./GardenConsole";
+import EditorPanel from "./EditorPanel";
+
+
+type Point = {
+    x: number;
+    y: number;
+}
+
+const find_angle = (A: Point, B: Point, C: Point): any => {
+    // let AB = Math.sqrt(Math.pow(B.x - A.x, 2) + Math.pow(B.y - A.y, 2));
+    // let BC = Math.sqrt(Math.pow(B.x - C.x, 2) + Math.pow(B.y - C.y, 2));
+    // let AC = Math.sqrt(Math.pow(C.x - A.x, 2) + Math.pow(C.y - A.y, 2));
+    // return Math.acos((BC * BC + AB * AB - AC * AC) / (2 * BC * AB)) * 180 / Math.PI;
+
+    const v1 = new Vector3(B.x - A.x, B.y - A.y, 0);
+    const v2 = new Vector3(B.x - C.x, B.y - C.y, 0);
+    const v3 = (new Vector3()).crossVectors(v1, v2);
+    // return v1.angleTo(v2) * 180 / Math.PI;
+    return {
+        angle: (v1.angleTo(v2)), //  * 180 / Math.PI
+        direction: (v3.z > 0 ? 1 : -1)
+    };
+}
+
+const find_rotation = (A: Point, B: Point, C: Point): number => {
+    const {angle, direction} = find_angle(
+        A,
+        B,
+        C
+    );
+
+    let T = direction > 0 ? A : C;
+    // if (direction > 0)
+    //     T = A.x < C.x ? A : C;
+    // else
+    //     T = A.x > C.x ? A : C;
+
+    let F: Point = {
+        x: B.x + 1,
+        y: B.y + 0
+    }
+
+    const tmp = find_angle(
+        F,
+        B,
+        T
+    );
+
+    console.log(direction, tmp.direction)
+    console.log(Math.round(angle), Math.round(tmp.angle))
+    //tmp.angle += tmp.direction > 0 ? 0 : 180;
+    if (direction < 0)
+        tmp.angle = 180 + tmp.angle;
+
+    return 30;
+    //return (180 / Math.PI * Math.atan2(B.y - C.y, B.x - C.x));
+
+    if (direction > 0)
+        return 360 - tmp.angle;
+    else
+        return tmp.angle;
+
+    // return tmp.angle + (direction > 0 ? 180 : 0);
+}
+
+const foo = (arr: number[], i: number): any => {
+    let A: Point = {
+        x: arr[i - 2],
+        y: arr[i - 1]
+    }
+    let B: Point = {
+        x: arr[i - 0],
+        y: arr[i + 1]
+    }
+    let C: Point = {
+        x: arr[i + 2],
+        y: arr[i + 3]
+    }
+    let R: Point = {
+        x: arr[i - 0] + 10,
+        y: arr[i + 1] + 0
+    }
+
+    let fa1: any = find_angle(R, B, A);
+    let fa2: any = find_angle(R, B, C);
+
+    if (fa2.direction < 0)
+        fa2.angle = 2 * Math.PI - fa2.angle;
+
+    if (fa1.direction < 0)
+        fa1.angle = 2 * Math.PI - fa1.angle;
+
+    // console.log(fa1.angle, fa1.direction);
+    // console.log(fa2.angle, fa2.direction);
+
+    // let min = fa1.angle > fa2.angle ? fa2.angle : fa1.angle;
+    // let max = fa1.angle > fa2.angle ? fa1.angle : fa2.angle;
+    //
+    // console.log(max - min > Math.PI);
+    //
+    // if (max - min > Math.PI) {
+    //     console.log((max - min) * 180 / Math.PI, min * 180 / Math.PI, max * 180 / Math.PI);
+    //     let tmp = min;
+    //     min = max;
+    //     max = 2 * Math.PI + tmp;
+    // }
+
+    return {
+        start: fa1.angle,
+        end: fa2.angle
+    }
+}
 
 const PlainEditor = () => {
     const [image] = useImage(tree);
@@ -185,12 +312,68 @@ const PlainEditor = () => {
             </Layer>
             <Layer>
                 {/*@ts-ignore*/}
+                {/*<Line ref={lineRef}*/}
+                {/*      points={points}*/}
+                {/*      stroke={'#650425'}*/}
+                {/*      strokeWidth={5}*/}
+                {/*/>*/}
+
+                {/*@ts-ignore*/}
                 <Line ref={lineRef}
-                    points={points}
-                    stroke={'#650425'}
-                    strokeWidth={5}
-                    //tension={0.01}
+                      points={points}
+                      stroke={'#650425'}
+                      strokeWidth={5}
+                      closed={true}
+                      fill={'hsl(120,60%,86%)'}
                 />
+                {/*{*/}
+                {/*    Array.from({length: points.length / 2 - 1 - 1}, (v, k) => k + 2)*/}
+                {/*        .map(k => <Arc*/}
+                {/*            x={points[k]} y={points[k + 1]}*/}
+                {/*            clockwise={false}*/}
+                {/*            angle={find_angle({*/}
+                {/*                x: points[k - 2],*/}
+                {/*                y: points[k - 1]*/}
+                {/*            }, {*/}
+                {/*                x: points[k - 0],*/}
+                {/*                y: points[k + 1]*/}
+                {/*            }, {*/}
+                {/*                x: points[k + 2],*/}
+                {/*                y: points[k + 3]*/}
+                {/*            }).angle}*/}
+                {/*            rotation={find_rotation({*/}
+                {/*                x: points[k - 2],*/}
+                {/*                y: points[k - 1]*/}
+                {/*            }, {*/}
+                {/*                x: points[k - 0],*/}
+                {/*                y: points[k + 1]*/}
+                {/*            }, {*/}
+                {/*                x: points[k + 2],*/}
+                {/*                y: points[k + 3]*/}
+                {/*            })}*/}
+                {/*            innerRadius={0}*/}
+                {/*            outerRadius={50}*/}
+                {/*            stroke="color"*/}
+                {/*            strokeWidth={2}*/}
+                {/*        />)*/}
+                {/*}*/}
+                {
+                    Array.from({length: points.length / 2}, (v, k) => k * 2)
+                        .map(k => <Shape
+                            sceneFunc={(context, shape) => {
+                                context.beginPath();
+                                context.arc(0, 0, 50,
+                                    foo(points, k).start,
+                                    foo(points, k).end,
+                                    false);
+                                context.stroke();
+                            }}
+                            x={points[k]} y={points[k + 1]}
+                            fill="red"
+                            stroke="black"
+                            strokeWidth={5}
+                        />)
+                }
             </Layer>
             <Layer>
                 {
@@ -212,9 +395,12 @@ class PlainEditorPage extends Component<any, any>{
     }
 
     render() {
-        return <>
-            <PlainEditor />
-        </>
+        return <div style={{position: 'relative'}}>
+            <PlainEditor/>
+            <ItemSidebar/>
+            <EditorPanel/>
+            <GardenConsole/>
+        </div>
     }
 }
 
