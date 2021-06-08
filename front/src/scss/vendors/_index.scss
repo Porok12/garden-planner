@@ -1,0 +1,7 @@
+@use '../themes' as theme;
+
+@use '~bootstrap/scss/bootstrap' with (
+  $theme-colors: theme.$colors
+);
+@use "~font-awesome/scss/font-awesome";
+//@forward "~animate.css/animate.min.css";

@@ -1,8 +1,4 @@
-$primary: theme-color("primary");
-$secondary: lighten($primary, 30%);
-$white: #ffffff;
-$gray: #9b9b9b;
-$black: #000000;
+@use "../themes" as *;
 
 .form-control {
   border-radius: 0;

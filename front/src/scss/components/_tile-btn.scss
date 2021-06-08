@@ -1,5 +1,4 @@
-$primary: theme-color("primary");
-$gray: darken(gray("200"), 25%);
+@use "../themes" as *;
 
 .tile-btn {
   border-radius: 0;

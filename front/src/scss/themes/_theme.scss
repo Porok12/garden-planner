@@ -1,0 +1,18 @@
+$primary: #e75b0f; //#e75b0f;
+$secondary: lighten($primary, 30%);
+$white: #ffffff;
+$gray: #9b9b9b;
+$black: #000000;
+$green: green;
+$blue: $primary;
+
+$colors: (
+        "primary": $primary,
+        "secondary": $secondary,
+  //"success":    $success,
+  //"info":       $info,
+  //"warning":    $warning,
+  //"danger":     $danger,
+  //"light":      $light,
+  //"dark":       $dark
+)

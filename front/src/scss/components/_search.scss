@@ -1,6 +1,4 @@
-$primary: theme-color("primary");
-$secondary: lighten($primary, 30%);
-$gray: gray("100");
+@use "../themes" as *;
 
 .search-box {
   padding: 20px 20px 5px 20px;

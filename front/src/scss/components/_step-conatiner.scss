@@ -1,8 +1,4 @@
-$primary: theme-color("primary");
-$secondary: lighten($primary, 30%);
-$gray: gray("200");
-$green: $green;
-$blue: $primary;
+@use "../themes" as *;
 
 .step-container {
   box-shadow: 2px 2px 12px rgba(0, 0, 0, 0.15);

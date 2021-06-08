@@ -1,10 +1,13 @@
+@use "../themes" as *;
+
 #navProfile {
+  background-color: $primary;
 
   &::after {
     content: none;
   }
 
-  +.dropdown-menu {
+  + .dropdown-menu {
     margin-top: 8px !important;
     width: 240px;
     //opacity: 0;
