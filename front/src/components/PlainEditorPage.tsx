@@ -274,10 +274,17 @@ const areas = [
 ]
 
 //FIXME
-const zoomFun = (setPoints: Dispatch<Point2D[]>, points: Point2D[]) => {
+const zoomFun = (setScale: Dispatch<number>, scale: number) => {
     return (e: Konva.KonvaEventObject<WheelEvent>) => {
         e.evt.preventDefault();
 
+        const oldScale: { x: number, y: number } = {x: scale, y: scale};
+        const scaleBy = 1.01;
+        const newScale = e.evt.deltaY > 0 ? oldScale.x * scaleBy : oldScale.x / scaleBy;
+        const snapedScale = Math.round(newScale * 100) / 100;
+        setScale(snapedScale);
+
+        /*
         const stage = e.currentTarget;
         // const stage = this.stageRef.getStage();
         // const stage = e.target.getStage();
@@ -304,6 +311,7 @@ const zoomFun = (setPoints: Dispatch<Point2D[]>, points: Point2D[]) => {
 
         stage.position(newPos);
         setPoints(points.map(p => p));
+        */
     }
 }
 
@@ -319,6 +327,7 @@ const PlainEditor = () => {
     const [mousePoint, setPoint] = useState(-1);
     const [startSide, setStartSide] = useState<Point2D | undefined>(undefined);
     const [activeSide, setActiveSide] = useState<number>(-1);
+    const [scale, setScale] = useState<number>(1);
 
     const lineRef: React.RefObject<typeof Line | undefined> = useRef<typeof Line>();
 
@@ -427,6 +436,10 @@ const PlainEditor = () => {
         <Button onClick={() => setMode("move")}>Move</Button>
         <Button onClick={() => setMode("del")}>Remove</Button>
         <Button onClick={() => setSnap(!snap)}>Snap</Button>
+        <div>
+            1 : {Math.round(100 / scale)}
+            <Button onClick={() => setScale(1)}>reset</Button>
+        </div>
         <Stage
             onMouseUp={(e: Konva.KonvaEventObject<MouseEvent>) => {
                 setActiveSide(-1);
@@ -437,10 +450,12 @@ const PlainEditor = () => {
             onMouseMove={stageMouseMoveCurr()}
             onMouseDown={checkDeselect}
             onTouchStart={checkDeselect}
-            onWheel={zoomFun(setPoints, points)}
+            onWheel={zoomFun(setScale, scale)}
             width={width}
             height={height}
-            onClick={addPointMode(mode)}>
+            onClick={addPointMode(mode)}
+            scale={{x: scale, y: scale}}
+        >
             <Layer>
                 {
                     grids.map(grid => grid)
@@ -517,9 +532,6 @@ class PlainEditorPage extends Component<any, any> {
 
     render() {
         return <div style={{position: 'relative'}}>
-            <div>
-                1 : 100 + - v^
-            </div>
             <PlainEditor/>
             <ItemSidebar/>
             <EditorPanel/>
