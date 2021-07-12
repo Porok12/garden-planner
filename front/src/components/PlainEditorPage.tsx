@@ -1,12 +1,14 @@
 import React, {
+    ClassAttributes,
     Component, Dispatch,
     useRef,
     useState
 } from "react";
 import Konva from 'konva';
-import {Stage, Layer, Rect, Text, Image, Line, Circle, Arc, Shape} from "react-konva";
+import {Stage, Layer, Rect, Text, Image, Line, Circle, Arc, Shape, StageProps} from "react-konva";
 import leaf from "../assets/leaf.svg";
 import tree from "../assets/tree.svg";
+import TreeSVG from "../assets/tree.svg";
 import useImage from 'use-image';
 import {Button} from "react-bootstrap";
 import Plant from "./Plant";
@@ -14,6 +16,15 @@ import ItemSidebar from "./ItemSidebar";
 import {Vector3} from "three";
 import GardenConsole from "./GardenConsole";
 import EditorPanel from "./EditorPanel";
+import projects from "../projects.json";
+import Grid from "./Grid";
+import TestingSVG from "./TestingSVG";
+
+
+// var width = window.innerWidth;
+// var height = window.innerHeight;
+// var GUIDELINE_OFFSET = 5;
+
 
 type Point2D = {
     x: number;
@@ -110,7 +121,10 @@ const stageMouseMove = (
     points: Point2D[],
     setStartSide: Dispatch<Point2D | undefined>,
     startSide: Point2D | undefined,
-    activeSide: number
+    activeSide: number,
+    setStagePosition: Dispatch<Point2D>,
+    stagePosition: Point2D,
+    dragPoint: Point2D | undefined,
 ) => {
     return (e: Konva.KonvaEventObject<MouseEvent>) => {
         const x = e.evt.clientX;
@@ -171,6 +185,19 @@ const stageMouseMove = (
             );
         }
         setStartSide({x, y});
+
+        // // @ts-ignore
+        // const pointer = e.currentTarget.getStage().getPointerPosition();
+        // if (pointer && dragPoint) {
+        //     const newStagePosition = {
+        //         x: (pointer.x - dragPoint.x),
+        //         y: (pointer.y - dragPoint.y)
+        //     };
+        //     console.log(newStagePosition);
+        //     setStagePosition(newStagePosition);
+        // }
+
+        //console.log(e.currentTarget.getStage()?.position());
     }
 }
 
@@ -273,8 +300,8 @@ const areas = [
     }
 ]
 
-//FIXME
-const zoomFun = (setScale: Dispatch<number>, scale: number) => {
+const zoomFun = (setScale: Dispatch<number>, scale: number,
+                 setStagePoint: Dispatch<Point2D>, stagePoint: Point2D) => {
     return (e: Konva.KonvaEventObject<WheelEvent>) => {
         e.evt.preventDefault();
 
@@ -284,34 +311,19 @@ const zoomFun = (setScale: Dispatch<number>, scale: number) => {
         const snapedScale = Math.round(newScale * 100) / 100;
         setScale(snapedScale);
 
-        /*
         const stage = e.currentTarget;
-        // const stage = this.stageRef.getStage();
-        // const stage = e.target.getStage();
-
-        const oldScale = stage.scale() || 1;
         // @ts-ignore
         const pointer = stage.getPointerPosition();
-
         const mousePointTo = {
-            x: (pointer.x - stage.x()),
-            y: (pointer.y - stage.y()),
+            x: (pointer.x - stage.position().x) / oldScale.x,
+            y: (pointer.y - stage.position().y) / oldScale.y,
         };
-
-        const scaleBy = 1.01;
-        const newScale = e.evt.deltaY > 0 ? oldScale.x * scaleBy : oldScale.x / scaleBy;
-
-        stage.scaleX(newScale);
-        stage.scaleY(newScale);
-
         const newPos = {
             x: pointer.x - mousePointTo.x * newScale,
             y: pointer.y - mousePointTo.y * newScale,
         }
 
-        stage.position(newPos);
-        setPoints(points.map(p => p));
-        */
+        setStagePoint(newPos);
     }
 }
 
@@ -328,8 +340,13 @@ const PlainEditor = () => {
     const [startSide, setStartSide] = useState<Point2D | undefined>(undefined);
     const [activeSide, setActiveSide] = useState<number>(-1);
     const [scale, setScale] = useState<number>(1);
+    const [dragPoint, setDragPoint] = useState<Point2D | undefined>(undefined);
+    const [stagePosition, setStagePosition] = React.useState<Point2D>({x: 0, y: 0});
 
     const lineRef: React.RefObject<typeof Line | undefined> = useRef<typeof Line>();
+    //string | ((instance: Stage | null) => void) | React.RefObject<Stage> | null | undefined
+    const stageRef: React.RefObject<Konva.Stage | undefined> = useRef<Konva.Stage>();
+
 
     const removePointsIndex = (index: number) => removePoint(setPoints, points, mode, index);
     const movePointIndex = (index: number) => movePoint(setPoints, points, snap, index);
@@ -340,7 +357,8 @@ const PlainEditor = () => {
     // const enterSideIndex = (index: number) => enterSide(setEnter, points, index);
     const downSideIndex = (index: number) => downSide(setActiveSide, activeSide, index);
     const upSideIndex = (index: number) => upSide(setStartSide, index);
-    const stageMouseMoveCurr = () => stageMouseMove(setPoints, points, setStartSide, startSide, activeSide);
+    const stageMouseMoveCurr = () => stageMouseMove(setPoints, points, setStartSide, startSide, activeSide,
+        setStagePosition, stagePosition, dragPoint);
 
     const circles = points
         .map((point, index) =>
@@ -404,31 +422,53 @@ const PlainEditor = () => {
     const height = 500;
 
     const grids = [];
-    for (let r = 0; r < width / 100; r++) {
-        for (let c = 0; c < height / 100; c++) {
-            grids.push(<Rect x={r * 100} y={c * 100} width={100} height={100} strokeWidth={0.5}
-                             stroke={"gray"}/>);
+    for (let r = 0; r < 10; r++) {
+        for (let c = 0; c < 10; c++) {
+            grids.push(<Line points={[r * 100, 0, r * 100, 800]}
+                             strokeWidth={2} stroke={"black"}/>);
+            grids.push(<Line points={[0, c * 100, 800, c * 100]}
+                             strokeWidth={2} stroke={"black"}/>);
+
+            // for (let r = 0; r < 10; r++) {
+            //     grids.push(<Line points={[r * 100 + r * 10, c * 100, r * 100 + r * 10, c * 100 + 100]}
+            //                      strokeWidth={2} stroke={"black"}/>);
+            // }
         }
     }
+    // for (let r = 0; r < width / 100; r++) {
+    //     for (let c = 0; c < height / 100; c++) {
+    //         grids.push(<Rect x={r * 100} y={c * 100} width={100} height={100} strokeWidth={0.5}
+    //                          stroke={"black"} perfectDrawEnabled={false}/>);
+    //
+    //         const subGridSize = 10;
+    //         const subTileSize = 100 / subGridSize;
+    //         for (let l = 0; l < subGridSize; l++) {
+    //             for (let k = 0; k < subGridSize; k++) {
+    //                 grids.push(<Rect x={r * 100 + l * subTileSize} y={c * 100 + k * subTileSize} width={subTileSize}
+    //                                  height={subTileSize} strokeWidth={0.35}
+    //                                  stroke={"gray"}/>);
+    //             }
+    //         }
+    //     }
+    // }
 
-    const plant = {
-        x: 150,
-        y: 150,
-        width: 100,
-        height: 100,
-        id: 'rect2',
-    };
-
-    const [plants, setPlants] = React.useState([
-        plant
-    ]);
+    const [plants, setPlants] = React.useState(projects[0].plants);
     const [selectedId, selectPlant] = React.useState<any>(null);
 
-    const checkDeselect = (e: any) => {
-        const clickedOnEmpty = e.target.getLayer().attrs.name !== 'plants';
-        if (clickedOnEmpty) {
-            selectPlant(null);
-        }
+    const checkDeselect = (e: Konva.KonvaEventObject<MouseEvent>) => {
+        // const clickedOnEmpty = e.target.getLayer().attrs.name !== 'plants';
+        // if (clickedOnEmpty) {
+        //     selectPlant(null);
+        // }
+
+        // // @ts-ignore
+        // const pointer = e.currentTarget.getStage().getPointerPosition(); //
+        // if (pointer) {
+        //     setDragPoint({
+        //         x: pointer.x,
+        //         y: pointer.y
+        //     });
+        // }
     };
 
     return <>
@@ -438,10 +478,24 @@ const PlainEditor = () => {
         <Button onClick={() => setSnap(!snap)}>Snap</Button>
         <div>
             1 : {Math.round(100 / scale)}
-            <Button onClick={() => setScale(1)}>reset</Button>
+        </div>
+        {/*{dragPoint && dragPoint.x}*/}
+        {/*{JSON.stringify(stagePosition)}*/}
+        <div>
+            <Button onClick={() => setScale(scale + 0.05)}>+</Button>
+            <Button onClick={() => setScale(scale - 0.05)}>-</Button>
+            <Button onClick={() => setScale(1)}>r</Button>
+            <Button onClick={() => setStagePosition({x: stagePosition.x + 10, y: stagePosition.y})}>{"<"}</Button>
+            <Button onClick={() => setStagePosition({x: stagePosition.x - 10, y: stagePosition.y})}>{">"}</Button>
+            <Button onClick={() => setStagePosition({x: stagePosition.x, y: stagePosition.y + 10})}>{"^"}</Button>
+            <Button onClick={() => setStagePosition({x: stagePosition.x, y: stagePosition.y - 10})}>{"v"}</Button>
+            <Button onClick={() => setStagePosition({x: 0, y: 0})}>r</Button>
         </div>
         <Stage
+            // @ts-ignore
+            ref={stageRef}
             onMouseUp={(e: Konva.KonvaEventObject<MouseEvent>) => {
+                setDragPoint(undefined);
                 setActiveSide(-1);
                 // @ts-ignore
                 const container = e.target.getStage().container();
@@ -449,16 +503,20 @@ const PlainEditor = () => {
             }}
             onMouseMove={stageMouseMoveCurr()}
             onMouseDown={checkDeselect}
-            onTouchStart={checkDeselect}
-            onWheel={zoomFun(setScale, scale)}
+            onWheel={zoomFun(setScale, scale, setStagePosition, stagePosition)}
+            onClick={addPointMode(mode)}
             width={width}
             height={height}
-            onClick={addPointMode(mode)}
             scale={{x: scale, y: scale}}
+            position={stagePosition}
+            draggable
         >
             <Layer>
+                <Grid
+                    stagePosition={stagePosition}
+                />
                 {
-                    grids.map(grid => grid)
+                    // grids.map(grid => grid)
                 }
             </Layer>
             <Layer name="plants">
@@ -526,15 +584,26 @@ const PlainEditor = () => {
 }
 
 class PlainEditorPage extends Component<any, any> {
+    state = {
+        useSvg: false
+    }
+
     constructor(props: any) {
         super(props);
     }
 
     render() {
         return <div style={{position: 'relative'}}>
-            <PlainEditor/>
-            <ItemSidebar/>
-            <EditorPanel/>
+            <Button onClick={() => this.setState({useSvg: true})}>SVG</Button>
+            <Button onClick={() => this.setState({useSvg: false})}>CANVAS</Button>
+            <br/>
+            {
+                this.state.useSvg ?
+                    <TestingSVG/> :
+                    <PlainEditor/>
+            }
+            {/*<ItemSidebar/>*/}
+            {/*<EditorPanel/>*/}
             <GardenConsole/>
         </div>
     }

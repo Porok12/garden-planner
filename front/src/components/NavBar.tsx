@@ -49,29 +49,29 @@ class NavBar extends Component<PropsType, State> {
         if (user) {
             userPanel = <div>
                 <NavDropdown id="navProfile" title={<b>
-                    <FormattedMessage id="app.nav.profile" />
+                    <FormattedMessage id="app.nav.profile"/>
                     <FontAwesomeIcon icon={faCaretDown} color="#000"/>
                 </b>} alignRight
-                             // show
-                             // onMouseOver={() => console.log('1')}
-                             // onMouseLeave={() => console.log('2')}
+                    // show
+                    // onMouseOver={() => console.log('1')}
+                    // onMouseLeave={() => console.log('2')}
                 >
                     <NavDropdown.Item>
-                        <FormattedMessage id="app.nav.profile.projects" />
-                        <FontAwesomeIcon icon={faFolder} color="#000" className="float-right" />
+                        <FormattedMessage id="app.nav.profile.projects"/>
+                        <FontAwesomeIcon icon={faFolder} color="#000" className="float-right"/>
                     </NavDropdown.Item>
                     <NavDropdown.Item>
-                        <FormattedMessage id="app.nav.profile.settings" />
-                        <FontAwesomeIcon icon={faCog} color="#000" className="float-right" />
+                        <FormattedMessage id="app.nav.profile.settings"/>
+                        <FontAwesomeIcon icon={faCog} color="#000" className="float-right"/>
                     </NavDropdown.Item>
-                    <NavDropdown.Divider />
+                    <NavDropdown.Divider/>
                     <NavDropdown.Item as={Button} onClick={() => {
-                            AuthService.logout();
-                            this.props.history.push("/");
-                            // this.setState({redirect: "/"});
-                        }}>
-                            <FormattedMessage id="app.nav.profile.logout" />
-                        <FontAwesomeIcon icon={faSignOutAlt} size="1x" color="#000" className="float-right" />
+                        AuthService.logout();
+                        this.props.history.push("/");
+                        // this.setState({redirect: "/"});
+                    }}>
+                        <FormattedMessage id="app.nav.profile.logout"/>
+                        <FontAwesomeIcon icon={faSignOutAlt} size="1x" color="#000" className="float-right"/>
                     </NavDropdown.Item>
                 </NavDropdown>
             </div>;

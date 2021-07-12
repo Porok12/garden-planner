@@ -1,0 +1,50 @@
+[
+  {
+    "name": "My garden",
+    "description": "Blablah",
+    "last-edited": "2020-02-02",
+    "dimension": {
+      "width": 100,
+      "height": 100
+    },
+    "areas": [
+      {
+        "type": "water",
+        "points": [
+          {
+            "x": 0,
+            "y": 0
+          }
+        ]
+      }
+    ],
+    "wind-rose": {
+      "N": 0,
+      "NE": 0,
+      "E": 0,
+      "SE": 0,
+      "S": 0,
+      "SW": 0,
+      "W": 0,
+      "NW": 0
+    },
+    "plants": [
+      {
+        "id": "rect2",
+        "code": "uniqueCode",
+        "x": 150,
+        "y": 150,
+        "width": 100,
+        "height": 100
+      },
+      {
+        "id": "rect3",
+        "code": "uniqueCode2",
+        "x": 500,
+        "y": 400,
+        "width": 80,
+        "height": 80
+      }
+    ]
+  }
+]
